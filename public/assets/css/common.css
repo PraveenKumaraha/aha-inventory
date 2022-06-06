@@ -1,0 +1,14 @@
+.firstListBox {
+    float: left;
+    width: 33%;
+}
+
+.activeBox {
+    float: left;
+    width: 33%;
+}
+
+.inactiveBox {
+    float: left;
+    width: 33%;
+}
