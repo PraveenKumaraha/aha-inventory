@@ -65,7 +65,7 @@
         <div class="card">
             <div class="row">
                 <div class="col-8">
-                    <h4 class="card-title" style="text-align: center;padding: 10px;margin-left: 550px;">Unit Management
+                    <h4 class="card-title" style="text-align: center;padding: 10px;margin-left: 550px;">Unit Management Chavc
                     </h4>
                 </div>
             </div>
@@ -104,7 +104,7 @@
                         <h4 class="card-title"></h4>
                     </div>
                     <div class="col-4 text-right">
-                        <a href="{{ route('brand.create') }}" class="btn btn-sm btn-primary">New Brand</a>
+                        <a href="{{ route('brand.create') }}" class="btn btn-sm btn-primary">New Brand check</a>
                     </div>
                 </div>
             </div>
