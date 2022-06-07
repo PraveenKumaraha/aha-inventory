@@ -19,7 +19,14 @@ class InventoryItemController extends Controller
      */
     public function index()
     {
-        return view('inventory.InventoryItem.index');
+        $models = InventoryItem::select('inventory_items.*', 'categories.category_name as categoryName', 'brands.brand_name as brandName', 'units.name as unitName')
+        ->leftjoin('units', 'units.id','=','inventory_items.unit_id')
+        ->leftjoin('brands', 'brands.id','=','inventory_items.brand_id')
+        ->leftjoin('categories', 'categories.id','=','inventory_items.category_id')
+        ->whereNull('inventory_items.deleted_at')->orderby('inventory_items.id', 'desc')
+        ->get();
+
+        return view('inventory.InventoryItem.index', compact('models'));
     }
 
     /**
@@ -30,7 +37,7 @@ class InventoryItemController extends Controller
     public function create()
     {
         $pdtBrands = Brand::select('brand_name', 'id')->get();
-        $pdtCategorys = Category::select('name','id')->get();
+        $pdtCategorys = Category::select('category_name', 'id')->where('category_status', 1)->get();
         $pdtUnits = Unit::select('name', 'id')->where('status', 1)->get();
 
         return view('inventory.InventoryItem.create',compact('pdtBrands','pdtCategorys','pdtUnits'));
@@ -80,9 +87,14 @@ class InventoryItemController extends Controller
      * @param  \App\StockProduct  $stockProduct
      * @return \Illuminate\Http\Response
      */
-    public function edit()
+    public function edit($id)
     {
-        //
+        $model = InventoryItem::where('id', $id)->first();
+        $pdtBrands = Brand::select('brand_name','id')->where('brand_status',1)->get();
+       $pdtCategorys   =Category::select('category_name','id')->where('category_status',1)->get();
+       $pdtUnits = Unit::select('name','id')->where('status',1)->get();
+
+        return view('inventory.InventoryItem.edit', compact('model','pdtBrands','pdtCategorys','pdtUnits'));
     }
 
     /**
@@ -92,9 +104,23 @@ class InventoryItemController extends Controller
      * @param  \App\StockProduct  $stockProduct
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        //
+        $model = InventoryItem::where('id', $id)->first();
+        $model->product_name = $request->input('product_name');
+        $model->product_id = $request->input('product_id');
+        $model->brand_id = $request->input('brand_id');
+        $model->category_id = $request->input('category_id');
+        $model->unit_id = $request->input('unit_id');
+        $model->a_price = $request->input('a_price');
+        $model->s_price = $request->input('s_price');
+        $model->gst = $request->input('gst');
+        $model->limt = $request->input('limt');
+
+        $model->save();
+        return redirect()
+            ->route('inventoryItem.index')
+            ->withStatus('Product Successfully Created.');
     }
 
     /**
@@ -103,8 +129,12 @@ class InventoryItemController extends Controller
      * @param  \App\StockProduct  $stockProduct
      * @return \Illuminate\Http\Response
      */
-    public function destroy( )
+    public function destroy($id)
     {
-        //
+        $model = InventoryItem::where('id', $id)->first();
+        $model->deleted_at = date('Y-m-d H:i:s');
+
+        $model->save();
+        return redirect()->route('inventoryItem.index');
     }
 }

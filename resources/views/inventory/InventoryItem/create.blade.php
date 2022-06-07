@@ -51,7 +51,7 @@
                                 <select name="category_id" id="catgory" class="form-control category" required>
                                     <option value="">Select Category</option>
                                     @foreach($pdtCategorys as $pdtCategory)
-                                    <option value="<?php echo $pdtCategory->id; ?>"><?php echo $pdtCategory->name; ?></option>
+                                    <option value="<?php echo $pdtCategory->id; ?>"><?php echo $pdtCategory->category_name; ?></option>
                                     @endforeach
                                 </select>
                             </div>

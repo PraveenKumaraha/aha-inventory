@@ -27,7 +27,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('Country', 'CountryController');/**Master -> Brand& Category */
     Route::resource('category', 'CategoryController');
     Route::resource('unit', 'UnitController');
-    Route::resource('product','Product\ProductController');
     Route::resource('supplier','SupplierController');
 
 //inventory Item
