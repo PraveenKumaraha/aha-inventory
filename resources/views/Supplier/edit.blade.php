@@ -1,4 +1,4 @@
-@extends('layouts.app', ['page' => 'Edit Bloodgroup', 'pageSlug' => 'products', 'section' => 'inventory'])
+@extends('layouts.app', ['page' => 'Edit Supplier', 'pageSlug' => 'products', 'section' => 'inventory'])
 
 @section('content')
 <div class="container-fluid mt--7">
@@ -16,59 +16,57 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form method="post" action="{{ route('supplier.update', $Supplier->id) }}" autocomplete="off">
+                    <form method="post" action="{{ route('supplier.update', $model->id) }}" autocomplete="off">
                         @csrf
                         @method('put')
 
                         <h6 class="heading-small text-muted mb-4">Supplier Information</h6>
                         <div class="pl-lg-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input-name">Supplier Name</label>
-                                <input type="text" name="supplier_name" id="input-name" 
-                                class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" 
-                                placeholder="{{ __('Name') }}" value="{{ old('name', $Supplier->supplier_name) }}" required autofocus>
-                                @include('alerts.feedback', ['field' => 'Supplier_name'])
-                            </div>
-                        </div>
-                        <div class="pl-lg-4">
-                            <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input-name">Supplier ID</label>
-                                <input type="text" name="supplier_id" id="input-name" 
-                                class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" 
-                                placeholder="{{ __('Name') }}" value="{{ old('name', $Supplier->supplier_id) }}" required autofocus>
-                                @include('alerts.feedback', ['field' => 'supplier_id'])
-                            </div>
-                        </div>
-                        <div class="pl-lg-4">
-                            <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input-name">Supplier Email</label>
-                                <input type="email" name="supplier_email" id="input-name" 
-                                class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" 
-                                placeholder="{{ __('Name') }}" value="{{ old('name',$Supplier->supplier_email) }}" required autofocus>
+                                <label class="form-control-label" for="input-name">Supplier_ID</label>
+                                <input type="text" name="supplier_id" id="input-name"
+                                    class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}"
+                                    placeholder="{{ __('Name') }}" value="{{ old('name', $model->supplier_id) }}" required
+                                    autofocus>
                                 @include('alerts.feedback', ['field' => 'name'])
                             </div>
-                        </div>
-                        <div class="pl-lg-4">
+
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input-name">Supplier Phone</label>
-                                <input type="number" name="supplier_phone" id="input-name" 
-                                class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" 
-                                placeholder="{{ __('Name') }}" value="{{ old('name',$Supplier->supplier_phone) }}" required autofocus>
+                                <label class="form-control-label" for="input-name">Supplier_Name</label>
+                                <input type="text" name="supplier_name" id="input-name"
+                                    class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}"
+                                    placeholder="{{ __('Name') }}" value="{{ old('name', $model->supplier_name) }}" required
+                                    autofocus>
                                 @include('alerts.feedback', ['field' => 'name'])
                             </div>
-                        </div>
-                        <div class="pl-lg-4">
+
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input-name">Supplier Adders</label>
-                                <input type="testarea" name="supplier_adders" id="input-name" 
-                                class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" 
-                                placeholder="{{ __('Name') }}" value="{{ old('name',$Supplier->supplier_adders) }}" required autofocus>
+                                <label class="form-control-label" for="input-name">Supplier_Email</label>
+                                <input type="text" name="supplier_email" id="input-name"
+                                    class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}"
+                                    placeholder="{{ __('Name') }}" value="{{ old('name', $model->supplier_email) }}" required
+                                    autofocus>
                                 @include('alerts.feedback', ['field' => 'name'])
                             </div>
-                        </div>
+                            <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
+                                <label class="form-control-label" for="input-name">Supplier_Contact</label>
+                                <input type="text" name="supplier_contact" id="input-name"
+                                    class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}"
+                                    placeholder="{{ __('Name') }}" value="{{ old('name', $model->supplier_contact) }}" required
+                                    autofocus>
+                                @include('alerts.feedback', ['field' => 'name'])
+                            </div>
 
 
 
+                            <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
+                                <label class="form-control-label" for="input-name">Supplier_Address</label>
+                                <input type="text" name="supplier_address" id="input-name"
+                                    class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}"
+                                    placeholder="{{ __('Name') }}" value="{{ old('name', $model->supplier_address) }}" required
+                                    autofocus>
+                                @include('alerts.feedback', ['field' => 'name'])
+                            </div>
 
                             <div class="text-center">
                                 <button type="submit" class="btn btn-success mt-4">Save</button>

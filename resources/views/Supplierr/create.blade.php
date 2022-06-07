@@ -1,4 +1,4 @@
-@extends('layouts.app', ['page' => 'New Product', 'pageSlug' => 'products', 'section' => 'inventory'])
+@extends('layouts.app', ['page' => 'New supplier', 'pageSlug' => 'products', 'section' => 'inventory'])
 
 @section('content')
 <div class="container-fluid mt--7">
@@ -18,48 +18,42 @@
                 <div class="card-body">
                     <form method="post" action="{{ route('supplier.store') }}" autocomplete="off">
                         @csrf
-
-                        <div class="pl-lg-4">
-                            <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input-name">Supplier ID</label>
-                                <input type="text" name="supplier_id" id="input-name" class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="Supplier ID" value="{{ old('name') }}" required autofocus>
-                                @include('alerts.feedback', ['field' => 'supplier_id'])
-                            </div>
-                        </div>
-
                         <div class="pl-lg-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                 <label class="form-control-label" for="input-name">Supplier Name</label>
-                                <input type="text" name="supplier_name" id="input-name" class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="Supplier Name" value="{{ old('name') }}" required autofocus>
+                                <input type="text" name="supplier_name" id="input-name" class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="supplier Name" value="{{ old('name') }}" required autofocus>
                                 @include('alerts.feedback', ['field' => 'supplier_name'])
                             </div>
                         </div>
-
+                        <div class="pl-lg-4">
+                            <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
+                                <label class="form-control-label" for="input-name">Supplier ID</label>
+                                <input type="text" name="supplier_id" id="input-name" class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="supplier ID" value="{{ old('name') }}" required autofocus>
+                                @include('alerts.feedback', ['field' => 'supplier_id'])
+                            </div>
+                        </div>
                         <div class="pl-lg-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                 <label class="form-control-label" for="input-name">Supplier Email</label>
-                                <input type="text" name="supplier_email" id="input-name" class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="Supplier Email" value="{{ old('name') }}" required autofocus>
-                                @include('alerts.feedback', ['field' => 'supplier_email'])
+                                <input type="email" name="supplier_email" id="input-name" class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="supplier Email" value="{{ old('name') }}" required autofocus>
+                                @include('alerts.feedback', ['field' => 'name'])
                             </div>
                         </div>
-
                         <div class="pl-lg-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input-name">Supplier Contact</label>
-                                <input type="text" name="supplier_contact" id="input-name" class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="Supplier Contact" value="{{ old('name') }}" required autofocus>
-                                @include('alerts.feedback', ['field' => 'supplier_contact'])
+                                <label class="form-control-label" for="input-name">Supplier Phone</label>
+                                <input type="number" name="supplier_phone" id="input-name" class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="supplier Phone" value="{{ old('name') }}" required autofocus>
+                                @include('alerts.feedback', ['field' => 'name'])
                             </div>
                         </div>
-
                         <div class="pl-lg-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input-name">Supplier Address</label>
-                                <input type="text" name="supplier_address" id="input-name" class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="Supplier Address" value="{{ old('name') }}" required autofocus>
-                                @include('alerts.feedback', ['field' => 'supplier_address'])
+                                <label class="form-control-label" for="input-name">Supplier Adders</label>
+                                <input type="testarea" name="supplier_adders" id="input-name" class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="supplier adders" value="{{ old('name') }}" required autofocus>
+                                @include('alerts.feedback', ['field' => 'name'])
                             </div>
                         </div>
-
-
+                        
 
                         <div class="text-center">
                             <button type="submit" class="btn btn-success mt-4">Save</button>

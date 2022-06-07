@@ -34,7 +34,7 @@
                                 <p>Country</p>
                             </a>
                         </li>
-                        
+
                         <li @if ($pageSlug == 'State') class="active " @endif>
                             <a href="">
                                 <i class="tim-icons icon-world"></i>
