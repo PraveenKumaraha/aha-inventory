@@ -1,4 +1,4 @@
-@extends('layouts.app', ['page' => 'List of Supplier', 'pageSlug' => 'supplier', 'section' => 'BasicMaster'])
+@extends('layouts.app', ['page' => 'List of Category', 'pageSlug' => 'category', 'section' => 'BasicMaster'])
 
 @section('content')
 <style>
@@ -24,7 +24,7 @@
 </style>
 <div class="card">
     <div class="card-header text-center font-weight-bold text-white" style="background-color: #5e72e4;">
-        Supplier
+        Category
     </div>
     <div class="card-body">
 
@@ -33,8 +33,8 @@
                 <div class="h-100 d-flex align-items-center justify-content-center">
                     <div style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
                 font-size: 20px;text-align: center;">
-                        <img src="assets/img/hotel-supplier.png" alt="" style="width: 50px;margin-top:10px;">
-                        <div class="tee" style="font-size: 20px;color: #fff;">Total Supplier</div>
+                        <img src="assets/img/options-lines.png" alt="" style="width: 50px;margin-top:10px;">
+                        <div class="tee" style="font-size: 20px;color: #fff;">Total Category</div>
                     </div>
                 </div>
             </div>
@@ -65,15 +65,15 @@
         <div class="card">
             <div class="row">
                 <div class="col-8">
-                    <h4 class="card-title" style="text-align: center;padding: 10px;margin-left: 550px;">Supplier Management
+                    <h4 class="card-title" style="text-align: center;padding: 10px;margin-left: 550px;">Category Management
                     </h4>
                 </div>
             </div>
             <div class="row inline">
                 <div class="square" style="height: 120px;width:150px;background-color:#265362;margin-left: 30px;border-radius: 20px;
                 font-size: 20px;text-align: center;">
-                    <img src="assets/img/hotel-supplier.png" alt="" style="width: 70px;margin-top: 20px;">
-                    <div class="tee" style="font-size: 20px;color: #fff;">Total Supplier</div>
+                    <img src="assets/img/options-lines.png" alt="" style="width: 70px;margin-top: 20px;">
+                    <div class="tee" style="font-size: 20px;color: #fff;">Total Category</div>
                 </div>
 
                 <div class="square" style="height:120px;width:150px;background-color:#265362;margin-left: 250px;border-radius: 20px;margin-bottom: 10px;
@@ -104,7 +104,7 @@
                         <h4 class="card-title"></h4>
                     </div>
                     <div class="col-4 text-right">
-                        <a href="{{ route('supplier.create') }}" class="btn btn-sm btn-primary">New Supplier</a>
+                        <a href="{{ route('category.create') }}" class="btn btn-sm btn-primary">New Category</a>
                     </div>
                 </div>
             </div>
@@ -115,12 +115,7 @@
                     <table class="table tablesorter " id="">
                         <thead class=" text-primary">
                             <th scope="col">#</th>
-                            <th scope="col">ID</th>
                             <th scope="col">Name</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Contact</th>
-                            <th scope="col">Address</th>
-                            {{-- <th scope="col">Status</th> --}}
                             <th scope="col">Actions</th>
 
                         </thead>
@@ -128,18 +123,13 @@
                             @foreach ($models as $model)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
-                                <td>{{ $model->supplier_id }}</td>
-                                <td>{{ $model->supplier_name }}</td>
-                                <td>{{ $model->supplier_email }}</td>
-                                <td>{{ $model->supplier_contact}}</td>
-                                <td>{{ $model->supplier_address }}</td>
-
+                                <td>{{ $model->category_name }}</td>
                                 <td class="td-actions">
 
-                                    <a href="{{ route('supplier.edit', $model->id) }}" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit Product">
+                                    <a href="{{ route('category.edit', $model->id) }}" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit Product">
                                         <i class="tim-icons icon-pencil"></i>
                                     </a>
-                                    <form action="{{ route('supplier.destroy', $model->id) }}" method="post" class="d-inline">
+                                    <form action="{{ route('category.destroy', $model->id) }}" method="post" class="d-inline">
                                         @csrf
                                         @method('delete')
                                         <button type="button" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Delete Product" onclick="confirm('Are you sure you want to remove this product? The records that contain it will continue to exist.') ? this.parentElement.submit() : ''">

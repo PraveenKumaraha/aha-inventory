@@ -1,5 +1,7 @@
 <?php
 
+
+
 namespace App\Http\Controllers;
 
 use App\Category;
@@ -14,8 +16,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $models = Category::whereNull('deleted_at')->orderby('id', 'desc')->get();
-        return view('Masters.Category.index', compact('models'));
+        $models = Category::whereNull('deleted_at')->orderby('id','desc')->get();
+        return view('Category.index',compact('models'));    
     }
 
     /**
@@ -25,7 +27,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('Masters.Category.create');
+        return view('Category.create');
     }
 
     /**
@@ -36,28 +38,23 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-
-            'category_name' => 'required|unique:categories|max:255',
-
-        ]);
         $model = new Category();
-        $model->category_name = $request->category_name;
-        $model->category_status = "1";
-        $model->category_active = "1";
+        $model->name =$request->name;
+        $model->status="1";
         $model->save();
         return redirect()
-            ->route('category.index')
-            ->withStatus('Category successfully created.');
+        ->route('category.index')
+        ->withStatus('Category Successfully Created.');
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Category  $category
+     * @param  \App\CategoryController  $categoryController
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show(CategoryController $categoryController)
     {
         //
     }
@@ -65,45 +62,45 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Category  $category
+     * @param  \App\CategoryController  $categoryController
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $model = Category::where('id', $id)->first();
-
-        return view('Masters.Category.edit', compact('model'));
+        $Category = Category::where('id',$id)->first();
+       
+        return view('Category.edit', compact('Category'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Category  $category
+     * @param  \App\CategoryController  $categoryController
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $model = Category::where('id', $id)->first();
-        $model->category_name = $request->category_name;
-        $model->save();
+        $model = Category::where('id',$id)->first();
+        $model->name =$request->name;
+        $model->update();
         return redirect()
-            ->route('category.index')
-            ->withStatus('Category successfully Updated.');
+        ->route('category.index')
+        ->withStatus('Category Successfully Upated.');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Category  $category
+     * @param  \App\CategoryController  $categoryController
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $mod = Category::where('id', $id)->first();
-        $mod->deleted_at = date('Y-m-d H:i:s');
+        $model=Category::where('id' ,$id)->first();
+        $model->deleted_at=date('Y-m-d H:i:s');
 
-        $mod->save();
+        $model->save();
         return redirect()->route('category.index');
     }
 }
