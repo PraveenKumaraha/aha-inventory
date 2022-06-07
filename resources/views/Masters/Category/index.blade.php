@@ -34,7 +34,7 @@
                     <div style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
                 font-size: 20px;text-align: center;">
                         <img src="assets/img/options-lines.png" alt="" style="width: 50px;margin-top:10px;">
-                        <div class="tee" style="font-size: 20px;color: #fff;">Total Category</div>
+                        <div class="tee" style="font-size: 20px;color: #fff;">Total</div>
                     </div>
                 </div>
             </div>
@@ -102,6 +102,7 @@
                 <div class="row">
                     <div class="col-8">
                         <h4 class="card-title"></h4>
+                        <input type="text" id="search" placeholder="Type to search" autocomplete="off">
                     </div>
                     <div class="col-4 text-right">
                         <a href="{{ route('category.create') }}" class="btn btn-sm btn-primary">New Category</a>
@@ -151,4 +152,19 @@
         </div>
     </div>
 </div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+
+    });
+    var $rows = $('.table tbody tr');
+    $('#search').keyup(function() {
+        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+
+        $rows.show().filter(function() {
+            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+            return !~text.indexOf(val);
+        }).hide();
+    });
+</script>
 @endsection
