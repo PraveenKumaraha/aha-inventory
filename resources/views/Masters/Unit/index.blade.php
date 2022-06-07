@@ -61,39 +61,7 @@
         </div>
     </div>
 </div>
-<div class="row" style="display: none;">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="row">
-                <div class="col-8">
-                    <h4 class="card-title" style="text-align: center;padding: 10px;margin-left: 550px;">Unit Management 1
-                    </h4>
-                </div>
-            </div>
-            <div class="row inline">
-                <div class="square" style="height: 120px;width:150px;background-color:#265362;margin-left: 30px;border-radius: 20px;
-                font-size: 20px;text-align: center;">
-                    <img src="assets/img/hotel-supplier.png" alt="" style="width: 70px;margin-top: 20px;">
-                    <div class="tee" style="font-size: 20px;color: #fff;">Total</div>
-                </div>
 
-                <div class="square" style="height:120px;width:150px;background-color:#265362;margin-left: 250px;border-radius: 20px;margin-bottom: 10px;
-                font-size: 20px;text-align: center;">
-                    <img src="assets/img/active.png" alt="" style="width: 70px;margin-top: 20px;">
-                    <div class="tee" style="font-size: 20px;color: #fff;">Active</div>
-                </div>
-
-                <div class="square" style="height: 120px;width:150px;background-color:#265362;margin-left: 250px;border-radius: 20px;margin-bottom: 10px;
-                font-size: 20px;text-align: center;">
-                    <img src="assets/img/inactive.png" alt="" style="width: 70px;margin-top: 20px;">
-                    <div class="tee" style="font-size: 20px;color: #fff;">InActive</div>
-                </div>
-
-
-            </div>
-        </div>
-    </div>
-</div>
 
 
 <div class="row">
@@ -121,7 +89,7 @@
 
                         </thead>
                         <tbody>
-                         @foreach ($models as $model) 
+                         @foreach ($models as $model)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $model->name }}</td>
