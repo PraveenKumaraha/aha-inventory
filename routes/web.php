@@ -21,7 +21,7 @@ Route::get('/', 'HomeController@index')->name('home')->middleware('auth');
 Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('brand', 'BrandController');
-    
+
     Route::resource('gender', 'GenderController');
     Route::resource('bloodGroup', 'BloodGroupController');
     Route::resource('Country', 'CountryController');/**Master -> Brand& Category */
@@ -33,7 +33,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('inventoryItem', 'Inventory\InventoryItemController');
 
     Route::resource('pass', 'PassController');
-
+    Route::resource('supplier', 'SupplierController');
 
 
     Route::resources([
@@ -45,7 +45,7 @@ Route::group(['middleware' => 'auth'], function () {
         'transactions/transfer' => 'TransferController',
         'methods' => 'MethodController',
     ]);
-    
+
     Route::resource('transactions', 'TransactionController')->except(['create', 'show']);
     Route::get('transactions/stats/{year?}/{month?}/{day?}', ['as' => 'transactions.stats', 'uses' => 'TransactionController@stats']);
     Route::get('transactions/{type}', ['as' => 'transactions.type', 'uses' => 'TransactionController@type']);
