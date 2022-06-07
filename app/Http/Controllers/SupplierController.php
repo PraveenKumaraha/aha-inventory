@@ -14,9 +14,8 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        $models = Supplier::whereNull('deleted_at')->orderby('id','desc')->get();
-
-        return view('Supplier.index',compact('models'));
+        $models = Supplier::whereNull('deleted_at')->orderby('supplier_id', 'desc')->get();
+        return view('Supplier.index', compact('models'));
     }
 
     /**
@@ -37,17 +36,22 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
-       
+        $validatedData = $request->validate([
+
+            'supplier_name' => 'required|unique:suppliers|max:255',
+
+        ]);
         $model = new Supplier();
-        $model->supplier_name=$request->supplier_name;
-        $model->supplier_id=$request->supplier_id;
-        $model->supplier_email=$request->supplier_email;
-        $model->supplier_phone=$request->supplier_phone;
-        $model->supplier_adders=$request->supplier_adders;
+        $model->supplier_id = $request->supplier_id;
+        $model->supplier_name = $request->supplier_name;
+        $model->supplier_email = $request->supplier_email;
+        $model->supplier_contact = $request->supplier_contact;
+        $model->supplier_address = $request->supplier_address;
+        $model->supplier_status = "1";
         $model->save();
         return redirect()
-        ->route('supplier.index')
-        ->withStatus('Supplier Successfully Created');
+            ->route('supplier.index')
+            ->withStatus('supplier successfully created.');
     }
 
     /**
@@ -69,9 +73,9 @@ class SupplierController extends Controller
      */
     public function edit($id)
     {
-        $Supplier = Supplier::where('id',$id)->first();
+        $model = Supplier::where('id', $id)->first();
 
-        return view('Supplier.edit', compact('Supplier'));
+        return view('Supplier.edit', compact('model'));
     }
 
     /**
@@ -81,18 +85,19 @@ class SupplierController extends Controller
      * @param  \App\Supplier  $supplier
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
-        $model = Supplier::where('id',$id)->first();
-        $model->supplier_name=$request->supplier_name;
-        $model->supplier_id=$request->supplier_id;
-        $model->supplier_email=$request->supplier_email;
-        $model->supplier_phone=$request->supplier_phone;
-        $model->supplier_adders=$request->supplier_adders;
+        $model = Supplier::where('id', $id)->first();
+        $model->supplier_id = $request->supplier_id;
+        $model->supplier_name = $request->supplier_name;
+        $model->supplier_email = $request->supplier_email;
+        $model->supplier_contact = $request->supplier_contact;
+        $model->supplier_address = $request->supplier_address;
+        $model->supplier_status = "1";
         $model->save();
         return redirect()
-        ->route('supplier.index')
-        ->withStatus('Supplier Successfully Updated');
+            ->route('supplier.index')
+            ->withStatus('supplier successfully created.');
     }
 
     /**
@@ -103,10 +108,10 @@ class SupplierController extends Controller
      */
     public function destroy($id)
     {
-        $model = Supplier::where('id',$id)->first();
-        $model->deleted_at=date('Y-m-d H:i:s');
+        $mod = Supplier::where('id', $id)->first();
+        $mod->deleted_at = date('Y-m-d H:i:s');
 
-        $model->save();
+        $mod->save();
         return redirect()->route('supplier.index');
     }
 }
