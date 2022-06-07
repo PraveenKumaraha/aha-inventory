@@ -128,7 +128,36 @@
                             <th scope="col">Actions</th>
 
                         </thead>
-                        
+                        <tbody>
+                            @foreach($models as $model)
+                            <tr>
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{ $model->product_name }}</td>
+                                <td>{{ $model->product_id }}</td>                             
+                                <td>{{ $model->categoryName }}</td>
+                                <td>{{ $model->brandName }}</td>
+                                <td>{{ $model->unitName }}</td>
+                                <td>{{ $model->a_price }}</td>
+                                <td>{{ $model->s_price }}</td>
+                                <td>{{ $model->gst }}</td>
+                                <td>{{ $model->limt }}</td>
+
+
+                                <td class="td-actions">
+                                    <a href="{{ route('inventoryItem.edit', $model->id) }}" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit Product">
+                                        <i class="tim-icons icon-pencil"></i>
+                                    </a>
+                                    <form action="{{ route('inventoryItem.destroy', $model->id) }}" method="post" class="d-inline">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="button" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Delete Product" onclick="confirm('Are you sure you want to remove this product? The records that contain it will continue to exist.') ? this.parentElement.submit() : ''">
+                                            <i class="tim-icons icon-simple-remove"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
 
                     </table>
                 </div>

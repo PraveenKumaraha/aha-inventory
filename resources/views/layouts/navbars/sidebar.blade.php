@@ -44,12 +44,6 @@
                         <li @if ($pageSlug=='brand' ) class="active " @endif>
                             <a href="{{ route('brand.index')  }}">
                                 <i class="tim-icons icon-world"></i>
-                                <p>New Brand</p>
-                            </a>
-                        </li>
-                        <li @if ($pageSlug=='pass' ) class="active " @endif>
-                            <a href="{{ route('pass.index')  }}">
-                                <i class="tim-icons icon-world"></i>
                                 <p>Brand</p>
                             </a>
                         </li>
@@ -65,12 +59,7 @@
                                 <p>Unit</p>
                             </a>
                         </li>
-                        <li @if ($pageSlug=='stockproduct' ) class="active " @endif>
-                            <a href="{{ route('product.index')  }}">
-                                <i class="tim-icons icon-world"></i>
-                                <p>Product</p>
-                            </a>
-                        </li>
+                        
 
                         <!-- <li @if ($pageSlug == 'transactions') class="active " @endif>
                             <a href="{{ route('transactions.index')  }}">
