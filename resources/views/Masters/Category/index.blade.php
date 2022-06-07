@@ -73,7 +73,7 @@
                 <div class="square" style="height: 120px;width:150px;background-color:#265362;margin-left: 30px;border-radius: 20px;
                 font-size: 20px;text-align: center;">
                     <img src="assets/img/options-lines.png" alt="" style="width: 70px;margin-top: 20px;">
-                    <div class="tee" style="font-size: 20px;color: #fff;">Total Category</div>
+                    <div class="tee" style="font-size: 20px;color: #fff;">Total </div>
                 </div>
 
                 <div class="square" style="height:120px;width:150px;background-color:#265362;margin-left: 250px;border-radius: 20px;margin-bottom: 10px;
