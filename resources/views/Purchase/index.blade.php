@@ -1,4 +1,4 @@
-@extends('layouts.app', ['page' => 'List of Category', 'pageSlug' => 'category', 'section' => 'BasicMaster'])
+@extends('layouts.app', ['page' => 'List of Purchase', 'pageSlug' => 'purchase', 'section' => 'Purchase'])
 
 @section('content')
 <style>
@@ -24,21 +24,21 @@
 </style>
 <div class="card">
     <div class="card-header text-center font-weight-bold text-white" style="background-color: #5e72e4;">
-        Category
+        Purchase
     </div>
     <div class="card-body">
 
         <div class="row">
-            <div class="first col-md-3 col-sm-3 col-md-pull-3 SplitData" data-value="AllData">
+            <div class="first col-md-3 col-sm-3 col-md-pull-3">
                 <div class="h-100 d-flex align-items-center justify-content-center">
                     <div style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
                 font-size: 20px;text-align: center;">
-                        <img src="assets/img/options-lines.png" alt="" style="width: 50px;margin-top:10px;">
+                        <img src="assets/img/hotel-supplier.png" alt="" style="width: 50px;margin-top:10px;">
                         <div class="tee" style="font-size: 20px;color: #fff;">Total</div>
                     </div>
                 </div>
             </div>
-            <div class="middle col-md-3 col-md-push-3 col-sm-3  SplitData" data-value="activeData">
+            <div class="middle col-md-3 col-md-push-3 col-sm-3">
                 <div class="h-100 d-flex align-items-center justify-content-center">
                     <div style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
                 font-size: 20px;text-align: center;">
@@ -47,7 +47,7 @@
                     </div>
                 </div>
             </div>
-            <div class="last col-md-3 col-sm-3 SplitData" data-value="inActiveData">
+            <div class="last col-md-3 col-sm-3">
                 <div class="h-100 d-flex align-items-center justify-content-center">
                     <div style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
                 font-size: 20px;text-align: center;">
@@ -60,20 +60,20 @@
         </div>
     </div>
 </div>
-<div class="row" style="display: none;">
+<!-- <div class="row" style="display: none;">
     <div class="col-md-12">
         <div class="card">
             <div class="row">
                 <div class="col-8">
-                    <h4 class="card-title" style="text-align: center;padding: 10px;margin-left: 550px;">Category Management
+                    <h4 class="card-title" style="text-align: center;padding: 10px;margin-left: 550px;">Purchase Management
                     </h4>
                 </div>
             </div>
             <div class="row inline">
                 <div class="square" style="height: 120px;width:150px;background-color:#265362;margin-left: 30px;border-radius: 20px;
                 font-size: 20px;text-align: center;">
-                    <img src="assets/img/options-lines.png" alt="" style="width: 70px;margin-top: 20px;">
-                    <div class="tee" style="font-size: 20px;color: #fff;">Total </div>
+                    <img src="assets/img/hotel-supplier.png" alt="" style="width: 70px;margin-top: 20px;">
+                    <div class="tee" style="font-size: 20px;color: #fff;">Total</div>
                 </div>
 
                 <div class="square" style="height:120px;width:150px;background-color:#265362;margin-left: 250px;border-radius: 20px;margin-bottom: 10px;
@@ -92,7 +92,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 
 <div class="row" style="margin-top: -15px;">
@@ -105,7 +105,7 @@
                         <input type="text" id="search" placeholder="Type to search" autocomplete="off">
                     </div>
                     <div class="col-4 text-right">
-                        <a href="{{ route('category.create') }}" class="btn btn-sm btn-primary">New Category</a>
+                        <a href="{{ route('purchase.create') }}" class="btn btn-sm btn-primary">New Add Purchase</a>
                     </div>
                 </div>
             </div>
@@ -116,21 +116,27 @@
                     <table class="table tablesorter " id="">
                         <thead class=" text-primary">
                             <th scope="col">#</th>
-                            <th scope="col">Name</th>
+                            <th scope="col">Supplier ID</th>
+                            <th scope="col">Product ID</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Barcode</th>
                             <th scope="col">Actions</th>
 
                         </thead>
                         <tbody>
-                            @foreach ($models as $model)
+                            @foreach($models as $model)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
-                                <td>{{ $model->category_name }}</td>
-                                <td class="td-actions">
+                                <td>{{ $model->supplierId }}</td>
+                                <td>{{ $model->item_id }}</td>
+                                <td>{{ $model->quantity }}</td>
+                                <td>{{ $model->barcode }}</td>
 
-                                    <a href="{{ route('category.edit', $model->id) }}" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit Product">
+                                <td class="td-actions">
+                                    <a href="{{ route('purchase.edit', $model->id) }}" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit Product">
                                         <i class="tim-icons icon-pencil"></i>
                                     </a>
-                                    <form action="{{ route('category.destroy', $model->id) }}" method="post" class="d-inline">
+                                    <form action="{{ route('purchase.destroy', $model->id) }}" method="post" class="d-inline">
                                         @csrf
                                         @method('delete')
                                         <button type="button" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Delete Product" onclick="confirm('Are you sure you want to remove this product? The records that contain it will continue to exist.') ? this.parentElement.submit() : ''">
@@ -153,7 +159,6 @@
     </div>
 </div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
 
@@ -167,50 +172,5 @@
             return !~text.indexOf(val);
         }).hide();
     });
-
-    var type = null;
-    $('.SplitData').click(function(e) {
-        type = $(this).attr('data-value');
-        splitData(type);
-    });
-
-    function splitData(type) {
-
-        $.ajax({
-            url: "{{ route('getCategorySplitedData') }}",
-            type: "post",
-            data: type,
-            data: {
-                _token: '{{ csrf_token() }}',
-                type: type,
-
-            },
-            success: function(response) {
-                console.log(response);
-                var Result = response.data;
-                $(".table tbody").html("");
-                $.each(Result, function(key, value) {
-                    var editurl = '{{ route("category.edit", ":id") }}';
-                    editurl = editurl.replace(':id', value.id);
-
-                    var deleteurl = '{{ route("category.destroy", ":id") }}';
-                    deleteurl = deleteurl.replace(':id', value.id);
-
-                    var row = `<tr role="row" class="odd"><td>` + (key + 1) + `</td><td>` + value
-                        .category_name + `</td><td class="td-actions"><a href ="` + editurl +
-                        `" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit"> <i class="tim-icons icon-pencil"></i></a><form id="deleteStudentForm" action="` + deleteurl + `" method="post" class="d-inline"> @csrf @method('DELETE') <button type="submit" class="btn btn-link" data-toggle="tooltip"
-                                            data-placement="bottom" title="Delete Product" onclick="return confirm('Are you sure?')">
-                                            <i class="tim-icons icon-simple-remove"></i>
-                                        </button></form></td></tr>`;
-                    //$('.table tbody').append('<tr> <td>' + (key + 1) + '</td><td>' + value.brand_name + '</td><td><a href ="" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit"> <i class="tim-icons icon-pencil"></i></a><form action="" method="post" class="d-inline">@csrf @method("delete")<button type="button" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Delete Product" onclick="confirm("Are you sure you want to remove this product? The records that contain it will continue to exist.") ? this.parentElement.submit() : ' + " " + '"> <i class="tim-icons icon-simple-remove"></i></button></form></td></tr>');
-                    $('.table tbody').append(row);
-                })
-                // You will get response from your PHP page (what you echo or print)
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log(textStatus, errorThrown);
-            }
-        });
-    }
 </script>
 @endsection

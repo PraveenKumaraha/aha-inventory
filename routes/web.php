@@ -28,7 +28,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('category', 'CategoryController');
     Route::resource('unit', 'UnitController');
     Route::resource('supplier','SupplierController');
-
+    Route::resource('purchase','PurchaseController');
 //inventory Item
     Route::resource('inventoryItem', 'Inventory\InventoryItemController');
 
@@ -36,6 +36,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('supplier', 'SupplierController');
 
     Route::post('/getBrandSplitedData', 'BrandController@getBrandSplitedData')->name('getBrandSplitedData');
+    Route::post('/getCategorySplitedData', 'CategoryController@getCategorySplitedData')->name('getCategorySplitedData');
 
     Route::resources([
         'users' => 'UserController',

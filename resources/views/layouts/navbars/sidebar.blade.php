@@ -204,6 +204,13 @@
                 </a>
             </li>
 
+            <li @if ($pageSlug=='purchase' ) class="active " @endif>
+                <a href="{{ route('purchase.index') }}">
+                    <i class="tim-icons icon-single-02"></i>
+                    <p>Purchase</p>
+                </a>
+            </li>
+
             <!-- <li @if ($pageSlug == 'clients') class="active " @endif>
                 <a href="{{ route('clients.index') }}">
                     <i class="tim-icons icon-single-02"></i>
