@@ -70,7 +70,12 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-8">
+<<<<<<< HEAD
                         <h4 class="card-title">Unit Check By dhanaraj</h4>
+=======
+                        <h4 class="card-title"></h4>
+                        <input type="text" id="search" placeholder="Type to search" autocomplete="off">
+>>>>>>> 11d98fdce94df41c7cef8c3eac601c5ac27c476d
                     </div>
                     <div class="col-4 text-right">
                         <a href="{{ route('unit.create') }}" class="btn btn-sm btn-primary">New Unit</a>
@@ -123,4 +128,19 @@
         </div>
     </div>
 </div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+
+    });
+    var $rows = $('.table tbody tr');
+    $('#search').keyup(function() {
+        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+
+        $rows.show().filter(function() {
+            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+            return !~text.indexOf(val);
+        }).hide();
+    });
+</script>
 @endsection

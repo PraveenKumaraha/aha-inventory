@@ -102,6 +102,7 @@
                 <div class="row">
                     <div class="col-8">
                         <h4 class="card-title"></h4>
+                        <input type="text" id="search" placeholder="Type to search" autocomplete="off">
                     </div>
                     <div class="col-4 text-right">
                         <a href="{{ route('brand.create') }}" class="btn btn-sm btn-primary">New Brand check</a>
@@ -111,7 +112,7 @@
             <div class="card-body">
                 @include('alerts.success')
 
-                <div class="">
+                <div class="">                                                                                                                            
                     <table class="table tablesorter " id="">
                         <thead class=" text-primary">
                             <th scope="col">#</th>
@@ -151,4 +152,19 @@
         </div>
     </div>
 </div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+
+    });
+    var $rows = $('.table tbody tr');
+    $('#search').keyup(function() {
+        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+
+        $rows.show().filter(function() {
+            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+            return !~text.indexOf(val);
+        }).hide();
+    });
+</script>
 @endsection
