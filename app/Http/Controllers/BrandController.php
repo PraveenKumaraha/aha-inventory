@@ -107,10 +107,25 @@ class BrandController extends Controller
      */
     public function destroy($id)
     {
+
         $model = Brand::where('id', $id)->first();
         $model->deleted_at = date('Y-m-d H:i:s');
 
         $model->save();
         return redirect()->route('brand.index');
+    }
+
+    public function getBrandSplitedData(Request $request)
+    {
+
+        $models = Brand::select('*')->whereNull('deleted_at')->orderby('id', 'desc');
+        if ($request->type == "activeData") {
+            $models->where('brand_status', 1);
+        } else if ($request->type == "inActiveData") {
+            $models->where('brand_status', 0);
+        }
+        $datas = $models->get();
+
+        return response()->json(array('result' => "success", 'data' => $datas));
     }
 }
