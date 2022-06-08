@@ -165,12 +165,11 @@
                     deleteurl = deleteurl.replace(':id', value.id);
 
                     var row = `<tr role="row" class="odd"><td>` + (key + 1) + `</td><td>` + value
-                        .brand_name + `</td><td><form id="deleteStudentForm" action="` + deleteurl + `" method="post"> @csrf @method('DELETE') <button type="submit" class="btn btn-link" data-toggle="tooltip"
+                        .brand_name + `</td><td class="td-actions"><a href ="` + editurl +
+                        `" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit"> <i class="tim-icons icon-pencil"></i></a><form id="deleteStudentForm" action="` + deleteurl + `" method="post" class="d-inline"> @csrf @method('DELETE') <button type="submit" class="btn btn-link" data-toggle="tooltip"
                                             data-placement="bottom" title="Delete Product" onclick="return confirm('Are you sure?')">
                                             <i class="tim-icons icon-simple-remove"></i>
-                                        </button></form><a href ="` + editurl +
-                        `" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit"> <i class="tim-icons icon-pencil"></i></a><a href ="` + editurl +
-                        `" onclick="return confirm('Are you sure?')" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Delete"> <i class="tim-icons icon-simple-remove"></i></a></td></tr>`;
+                                        </button></form></td></tr>`;
                     //$('.table tbody').append('<tr> <td>' + (key + 1) + '</td><td>' + value.brand_name + '</td><td><a href ="" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit"> <i class="tim-icons icon-pencil"></i></a><form action="" method="post" class="d-inline">@csrf @method("delete")<button type="button" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Delete Product" onclick="confirm("Are you sure you want to remove this product? The records that contain it will continue to exist.") ? this.parentElement.submit() : ' + " " + '"> <i class="tim-icons icon-simple-remove"></i></button></form></td></tr>');
                     $('.table tbody').append(row);
                 })
