@@ -31,7 +31,7 @@ class PurchaseController extends Controller
      */
     public function create()
     {
-        $pdtproductIds = InventoryItem::select('product_id', 'id')->get();
+        $pdtproductIds = InventoryItem::select('product_name', 'id')->get();
         $pdtsupplierIds = Supplier::select('supplier_id','id')->get();
 
         return view('Purchase.create', compact('pdtproductIds','pdtsupplierIds'));
@@ -79,7 +79,7 @@ class PurchaseController extends Controller
     {
 
         $model = Purchase::where('id', $id)->first();
-        $pdtproductIds = InventoryItem::select('product_id', 'id')->where('status', 1)->get();
+        $pdtproductIds = InventoryItem::select('product_name', 'id')->where('status', 1)->get();
         $pdtsupplierIds = Supplier::select('supplier_id','id')->where('supplier_status', 1)->get();
 
         return view('Purchase.edit', compact('model','pdtproductIds', 'pdtsupplierIds'));

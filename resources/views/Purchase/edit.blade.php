@@ -39,7 +39,7 @@
                                 <select name="item_id" id="catgory" class="form-control unit" required>
                                     <option value="">Select Product ID</option>
                                     @foreach($pdtproductIds as $pdtproductId)
-                                    <option value="<?php echo $pdtproductId->id; ?>"<?php echo($pdtproductId->id == $model->item_id)?'Selected="selected"':"";?>><?php echo $pdtproductId->product_id; ?></option>
+                                    <option value="<?php echo $pdtproductId->id; ?>"<?php echo($pdtproductId->id == $model->item_id)?'Selected="selected"':"";?>><?php echo $pdtproductId->product_name; ?></option>
                                     @endforeach
                                 </select>
                             </div>

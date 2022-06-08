@@ -103,4 +103,17 @@ class CategoryController extends Controller
         $model->save();
         return redirect()->route('category.index');
     }
+    public function getCategorySplitedData(Request $request)
+    {
+
+        $models = Category::select('*')->whereNull('deleted_at')->orderby('id', 'desc');
+        if ($request->type == "activeData") {
+            $models->where('category_status', 1);
+        } else if ($request->type == "inActiveData") {
+            $models->where('category_status', 0);
+        }
+        $datas = $models->get();
+
+        return response()->json(array('result' => "success", 'data' => $datas));
+    }
 }

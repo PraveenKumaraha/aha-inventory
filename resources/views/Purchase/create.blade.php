@@ -33,11 +33,11 @@
 
                         <div class="pl-lg-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input-name">Product ID</label>
+                                <label class="form-control-label" for="input-name">Product Name</label>
                                 <select name="item_id" id="catgory" class="form-control unit" required>
-                                    <option value="">Select Product ID</option>
+                                    <option value="">Select Product Name</option>
                                     @foreach($pdtproductIds as $pdtproductId)
-                                    <option value="<?php echo $pdtproductId->id; ?>"><?php echo $pdtproductId->product_id; ?></option>
+                                    <option value="<?php echo $pdtproductId->id; ?>"><?php echo $pdtproductId->product_name; ?></option>
                                     @endforeach
                                 </select>
                             </div>
