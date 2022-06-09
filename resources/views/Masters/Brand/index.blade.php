@@ -37,7 +37,7 @@
                 <div class="first col-md-3 col-sm-3 col-md-pull-3">
                     <div class="h-100 d-flex align-items-center justify-content-center ">
                         <div class="SplitData activeSplitterDiv" data-value="AllData" style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
-                        font-size: 20px;text-align: center;border-bottom: 10px; ">
+                        font-size: 20px;text-align: center;">
                             <img src="assets/img/hotel-supplier.png" alt="" style="width: 50px;margin-top:10px;">
                             <div class="tee" style="font-size: 20px;color: #fff;">Total</div>
                         </div>

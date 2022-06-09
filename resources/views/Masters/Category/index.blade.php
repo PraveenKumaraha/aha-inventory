@@ -21,6 +21,10 @@
         max-width: 100%;
         overflow-x: hidden !important;
     }
+
+    .activeSplitterDiv {
+            border: 2px solid blue !important;
+        }
 </style>
 <div class="card">
     <div class="card-header text-center font-weight-bold text-white" style="background-color: #5e72e4;">
@@ -29,27 +33,27 @@
     <div class="card-body">
 
         <div class="row">
-            <div class="first col-md-3 col-sm-3 col-md-pull-3 SplitData" data-value="AllData">
+            <div class="first col-md-3 col-sm-3 col-md-pull-3">
                 <div class="h-100 d-flex align-items-center justify-content-center">
-                    <div style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
+                    <div class="SplitData activeSplitterDiv" data-value="AllData" style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
                 font-size: 20px;text-align: center;">
                         <img src="assets/img/options-lines.png" alt="" style="width: 50px;margin-top:10px;">
                         <div class="tee" style="font-size: 20px;color: #fff;">Total</div>
                     </div>
                 </div>
             </div>
-            <div class="middle col-md-3 col-md-push-3 col-sm-3  SplitData" data-value="activeData">
+            <div class="middle col-md-3 col-md-push-3 col-sm-3">
                 <div class="h-100 d-flex align-items-center justify-content-center">
-                    <div style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
+                    <div class="SplitData" data-value="activeData" style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
                 font-size: 20px;text-align: center;">
                         <img src="assets/img/active.png" alt="" style="width: 50px;margin-top:10px;">
                         <div class="tee" style="font-size: 20px;color: #fff;">Active</div>
                     </div>
                 </div>
             </div>
-            <div class="last col-md-3 col-sm-3 SplitData" data-value="inActiveData">
+            <div class="last col-md-3 col-sm-3">
                 <div class="h-100 d-flex align-items-center justify-content-center">
-                    <div style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
+                    <div class="SplitData" data-value="inActiveData" class="activeSplitterDiv" style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
                 font-size: 20px;text-align: center;">
                         <img src="assets/img/inactive.png" alt="" style="width: 50px;margin-top:10px;">
                         <div class="tee" style="font-size: 20px;color: #fff;">In-Active</div>
@@ -170,6 +174,9 @@
 
     var type = null;
     $('.SplitData').click(function(e) {
+        $("body").find('.SplitData').removeClass('activeSplitterDiv');
+
+        $(this).addClass('activeSplitterDiv');
         type = $(this).attr('data-value');
         splitData(type);
     });
@@ -193,7 +200,7 @@
                     var editurl = '{{ route("category.edit", ":id") }}';
                     editurl = editurl.replace(':id', value.id);
 
-                    var deleteurl = '{{ route("category.destroy", ":id") }}';
+                    var deleteurl = '{{ route('category.destroy', ':id') }}';
                     deleteurl = deleteurl.replace(':id', value.id);
 
                     var row = `<tr role="row" class="odd"><td>` + (key + 1) + `</td><td>` + value
