@@ -37,7 +37,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('/getBrandSplitedData', 'BrandController@getBrandSplitedData')->name('getBrandSplitedData');
     Route::post('/getCategorySplitedData', 'CategoryController@getCategorySplitedData')->name('getCategorySplitedData');
-
+    Route::post('/getSupplierSplitedData', 'SupplierController@getSupplierSplitedData')->name('getSupplierSplitedData');
     Route::resources([
         'users' => 'UserController',
         'providers' => 'ProviderController',

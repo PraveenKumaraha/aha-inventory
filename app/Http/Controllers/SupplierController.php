@@ -114,4 +114,18 @@ class SupplierController extends Controller
         $mod->save();
         return redirect()->route('supplier.index');
     }
+
+    public function getSupplierSplitedData(Request $request)
+    {
+
+        $models = Supplier::select('*')->whereNull('deleted_at')->orderby('id', 'desc');
+        if ($request->type == "activeData") {
+            $models->where('supplier_status', 1);
+        } else if ($request->type == "inActiveData") {
+            $models->where('supplier_status', 0);
+        }
+        $datas = $models->get();
+
+        return response()->json(array('result' => "success", 'data' => $datas));
+    }
 }
