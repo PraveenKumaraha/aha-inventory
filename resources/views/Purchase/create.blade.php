@@ -127,7 +127,7 @@
             dataType: 'json',
             success: function(result) {
                 var data = result.data;
-                console.log(data);
+             
                 $('.Category').val(data.categoryName);
                 $('.Brand').val(data.brandName);
                 $('.Unit').val(data.unitName);
