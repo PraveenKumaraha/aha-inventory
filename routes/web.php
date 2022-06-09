@@ -31,7 +31,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('purchase','PurchaseController');
 //inventory Item
     Route::resource('inventoryItem', 'Inventory\InventoryItemController');
-
+    
     Route::resource('pass', 'PassController');
     Route::resource('supplier', 'SupplierController');
 
