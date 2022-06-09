@@ -107,4 +107,18 @@ class UnitController extends Controller
         $model->save();
         return redirect()->route('unit.index');
     }
+
+    public function getUnitSplitedData(Request $request)
+    {
+
+        $models = Unit::select('*')->whereNull('deleted_at')->orderby('id', 'desc');
+        if ($request->type == "activeData") {
+            $models->where('status', 1);
+        } else if ($request->type == "inActiveData") {
+            $models->where('status', 0);
+        }
+        $datas = $models->get();
+
+        return response()->json(array('result' => "success", 'data' => $datas));
+    }
 }
