@@ -41,6 +41,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/getInventoryItemSplitedData', 'Inventory\InventoryItemController@getInventoryItemSplitedData')->name('getInventoryItemSplitedData');
     Route::post('/getPurchaseSplitedData', 'PurchaseController@getPurchaseSplitedData')->name('getPurchaseSplitedData');
     
+    Route::post('/getSupplierSplitedData', 'SupplierController@getSupplierSplitedData')->name('getSupplierSplitedData');
 
 
     Route::resources([
