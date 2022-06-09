@@ -31,7 +31,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('purchase','PurchaseController');
 //inventory Item
     Route::resource('inventoryItem', 'Inventory\InventoryItemController');
-    
     Route::resource('pass', 'PassController');
     Route::resource('supplier', 'SupplierController');
 
@@ -40,6 +39,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/getUnitSplitedData', 'UnitController@getUnitSplitedData')->name('getUnitSplitedData');
     Route::post('/getInventoryItemSplitedData', 'Inventory\InventoryItemController@getInventoryItemSplitedData')->name('getInventoryItemSplitedData');
     Route::post('/getSupplierSplitedData', 'SupplierController@getSupplierSplitedData')->name('getSupplierSplitedData');
+    Route::post('/getPurchaseSplitedData', 'PurchaseController@getPurchaseSplitedData')->name('getPurchaseSplitedData');
 
 
     Route::resources([
