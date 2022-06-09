@@ -24,7 +24,7 @@
                         <div class="pl-lg-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                 <label class="form-control-label" for="input-name">Supplier ID</label>
-                                <select name="supplier_id" id="supplier" class="form-control unit" required>
+                                <select name="supplier_id" id="supplier" class="form-control supplier_id" required>
                                     <option value="">Select Supplier ID</option>
                                     @foreach($pdtsupplierIds as $pdtsupplierId)
                                     <option value="<?php echo $pdtsupplierId->id; ?>"<?php echo($pdtsupplierId->id == $model->supplier_id)?'Selected="selected"':"";?>><?php echo $pdtsupplierId->supplier_id; ?></option>
@@ -36,7 +36,7 @@
                         <div class="pl-lg-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                 <label class="form-control-label" for="input-name">Product ID</label>
-                                <select name="item_id" id="catgory" class="form-control unit" required>
+                                <select name="item_id" id="supplier" class="form-control supplier" required>
                                     <option value="">Select Product ID</option>
                                     @foreach($pdtproductIds as $pdtproductId)
                                     <option value="<?php echo $pdtproductId->id; ?>"<?php echo($pdtproductId->id == $model->item_id)?'Selected="selected"':"";?>><?php echo $pdtproductId->product_name; ?></option>
@@ -48,7 +48,7 @@
                         <div class="pl-lg-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                 <label class="form-control-label" for="input-name">Quantity</label>
-                                <input type="text" name="quantity" id="input-name" class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="Quantity" value="{{ old('name',$model->quantity) }}" required autofocus>
+                                <input type="text" name="quantity" id="input-name" class="form-control quantity form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="Quantity" value="{{ old('name',$model->quantity) }}" required autofocus>
                                 @include('alerts.feedback', ['field' => 'quantity'])
                             </div>
                         </div>
@@ -56,7 +56,7 @@
                         <div class="pl-lg-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                 <label class="form-control-label" for="input-name">Barcode</label>
-                                <input type="text" name="barcode" id="input-name" class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="Barcode" value="{{ old('name',$model->barcode) }}" required autofocus>
+                                <input type="text" name="barcode" id="input-name" class="form-control barcode form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="Barcode" value="{{ old('name',$model->barcode) }}" required autofocus>
                                 @include('alerts.feedback', ['field' => 'barcode'])
                             </div>
                         </div>

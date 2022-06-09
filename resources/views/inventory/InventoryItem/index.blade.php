@@ -97,7 +97,7 @@
                             <th scope="col">Actual Price</th>
                             <th scope="col">Selling Price</th>
                             <th scope="col">GST %</th>
-                            <th scope="col">Demand Limt</th>
+                            <th scope="col">Demand Limit</th>
                             <th scope="col">Actions</th>
 
                         </thead>

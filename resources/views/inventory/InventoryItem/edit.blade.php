@@ -40,7 +40,7 @@
                         <div class="pl-lg-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                 <label class="form-control-label" for="input-name">Product Brand</label>
-                                <select name="brand_id" id="catgory" class="form-control brand" required>
+                                <select name="brand_id" id="brand" class="form-control brand" required>
                                     <option value="">Select Brand</option>
                                     @foreach($pdtBrands as $pdtBrand)
                                     <option value="<?php echo $pdtBrand->id; ?>"<?php echo($pdtBrand->id == $model->brand_id)?'Selected="selected"':"";?>><?php echo $pdtBrand->brand_name; ?></option>
@@ -63,7 +63,7 @@
                         <div class="pl-lg-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                 <label class="form-control-label" for="input-name">Product Unit</label>
-                                <select name="unit_id" id="catgory" class="form-control unit" required>
+                                <select name="unit_id" id="unit" class="form-control unit" required>
                                     <option value="">Select Unit</option>
                                     @foreach($pdtUnits as $pdtUnit)
                                     <option value="<?php echo $pdtUnit->id; ?>"<?php echo($pdtUnit->id == $model->unit_id)?'Selected="selected"':"";?>><?php echo $pdtUnit->name; ?></option>
@@ -98,7 +98,7 @@
 
                         <div class="pl-lg-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input-name">Demand Limt</label>
+                                <label class="form-control-label" for="input-name">Demand Limit</label>
                                 <input type="number" name="limt" id="input-name" class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="{{ __('Name') }}" value="{{ old('name',$model->limt) }}" required autofocus>
                                 @include('alerts.feedback', ['field' => 'name'])
                             </div>
