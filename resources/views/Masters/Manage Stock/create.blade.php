@@ -11,12 +11,12 @@
                             <h3 class="mb-0">New Brand</h3>
                         </div>
                         <div class="col-4 text-right">
-                            <a href="{{ route('brand.index') }}" class="btn btn-sm btn-primary">Back to List</a>
+                            <a href="{{ route('managestock.index') }}" class="btn btn-sm btn-primary">Back to List</a>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <form method="post" action="{{ route('brand.store') }}" autocomplete="off">
+                    <form method="post" action="{{ route('managestock.store') }}" autocomplete="off">
                         @csrf
                         <div class="pl-lg-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">

@@ -1,4 +1,4 @@
-@extends('layouts.app', ['page' => 'List of Brand', 'pageSlug' => 'brand', 'section' => 'BasicMaster'])
+@extends('layouts.app', ['page' => 'List of Manage Stock', 'pageSlug' => 'manage stock', 'section' => 'BasicMaster'])
 
 @section('content')
 <style>
@@ -7,17 +7,17 @@
         width: 33%;
     }
 
-    .middle0 {
+    .middlea {
         float: left;
         width: 33%;
     }
 
-    .middle1 {
+    .middleb {
         float: left;
         width: 33%;
     }
 
-    .middle2 {
+    .middlec {
         float: left;
         width: 33%;
     }
@@ -30,41 +30,45 @@
         max-width: 100%;
         overflow-x: hidden !important;
     }
+
+    .activeSplitterDiv {
+            border: 2px solid blue !important;
+        }
 </style>
 <div class="card">
     <div class="card-header text-center font-weight-bold text-white" style="background-color: #5e72e4;">
-        Brand
+        ManageStock
     </div>
     <div class="card-body">
 
         <div class="row">
             <div class="first col-md-2 col-sm-2 col-md-pull-2">
-                <a href="#">
+
                 <div class="h-100 d-flex align-items-center justify-content-center">
-                    <div style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
+                    <div class="SplitData activeSplitterDiv" data-value="AllData" style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
                 font-size: 20px;text-align: center;">
                         <img src="assets/img/hotel-supplier.png" alt="" style=" width: 50px;margin-top:10px;">
-                        <div class="tee" style="font-size: 20px;color: #fff;">Total</div></a>
+                        <div class="tee" style="font-size: 20px;color: #fff;">Total</div>
                 </div>
                 </div>
-               
+
             </div>
 
-            <div class="middle0 col-md-2 col-md-push-2 col-sm-2">
+            <div class="middlea col-md-2 col-md-push-2 col-sm-2">
                 <div class="h-100 d-flex align-items-center justify-content-center">
-                    <div style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
+                    <div class="SplitData" data-value="Availability" class="activeSplitterDiv" style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
                 font-size: 20px;text-align: center;">
                         <img src="assets/img/active.png" alt="" style="width: 50px;margin-top:10px;">
-                        <div class="tee" style="font-size: 20px;color: #fff;">Availability</div>
+                        <div class="tee" style="font-size: 20px;color: #fff;">Available</div>
                         <div style=text-decoration: underline; ></div>
                     </div>
                 </div>
 
             </div>
 
-            <div class="middle1 col-md-2 col-md-push-2 col-sm-2">
+            <div class="middleb col-md-2 col-md-push-2 col-sm-2">
                 <div class="h-100 d-flex align-items-center justify-content-center">
-                    <div style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
+                    <div class="SplitData" data-value="Demand" class="activeSplitterDiv" style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
                 font-size: 20px;text-align: center;">
                         <img src="assets/img/active.png" alt="" style="width: 50px;margin-top:10px;">
                         <div class="tee" style="font-size: 20px;color: #fff;">Demand</div>
@@ -74,9 +78,9 @@
 
             </div>
 
-            <div class="middle2 col-md-2 col-md-push-2 col-sm-2">
+            <div class="middle col-md-2 col-md-push-2 col-sm-2">
                 <div class="h-100 d-flex align-items-center justify-content-center">
-                    <div style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
+                    <div  class="SplitData" data-value="activeData" style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
                 font-size: 20px;text-align: center;">
                         <img src="assets/img/active.png" alt="" style="width: 50px;margin-top:10px;">
                         <div class="tee" style="font-size: 20px;color: #fff;">Active</div>
@@ -88,7 +92,7 @@
 
             <div class="last col-md-2 col-sm-2">
                 <div class="h-100 d-flex align-items-center justify-content-center">
-                    <div style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
+                    <div class="SplitData" data-value="inActiveData" class="activeSplitterDiv" style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
                 font-size: 20px;text-align: center;">
                         <img src="assets/img/inactive.png" alt="" style="width: 50px;margin-top:10px;">
                         <div class="tee" style="font-size: 20px;color: #fff;">In-Active</div>
@@ -100,53 +104,6 @@
         </div>
     </div>
 </div>
-<div class="row" style="display: none;">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="row">
-                <div class="col-8">
-                    <h4 class="card-title" style="text-align: center;padding: 10px;margin-left: 550px;">Stock Management
-                    </h4>
-                </div>
-            </div>
-            <div class="row inline">
-                <div class="square" style="height: 120px;width:150px;background-color:#265362;margin-left: 30px;border-radius: 20px;
-                font-size: 20px;text-align: center;">
-                    <img src="assets/img/hotel-supplier.png" alt="" style="width: 70px;margin-top: 20px;">
-                    <div class="tee" style="font-size: 20px;color: #fff;">Total</div>
-                </div>
-
-                <div class="square" style="height:120px;width:150px;background-color:#265362;margin-left: 250px;border-radius: 20px;margin-bottom: 10px;
-                font-size: 20px;text-align: center;">
-                    <img src="assets/img/active.png" alt="" style="width: 70px;margin-top: 20px;">
-                    <div class="tee" style="font-size: 20px;color: #fff;">Availability</div>
-                </div>
-
-                <div class="square" style="height: 120px;width:150px;background-color:#265362;margin-left: 250px;border-radius: 20px;margin-bottom: 10px;
-                font-size: 20px;text-align: center;">
-                    <img src="assets/img/inactive.png" alt="" style="width: 70px;margin-top: 20px;">
-                    <div class="tee" style="font-size: 20px;color: #fff;">Demend</div>
-                </div>
-
-
-                <div class="square" style="height:120px;width:150px;background-color:#265362;margin-left: 250px;border-radius: 20px;margin-bottom: 10px;
-                font-size: 20px;text-align: center;">
-                    <img src="assets/img/active.png" alt="" style="width: 70px;margin-top: 20px;">
-                    <div class="tee" style="font-size: 20px;color: #fff;">Active</div>
-                </div>
-
-                <div class="square" style="height: 120px;width:150px;background-color:#265362;margin-left: 250px;border-radius: 20px;margin-bottom: 10px;
-                font-size: 20px;text-align: center;">
-                    <img src="assets/img/inactive.png" alt="" style="width: 70px;margin-top: 20px;">
-                    <div class="tee" style="font-size: 20px;color: #fff;">InActive</div>
-                </div>
-
-
-            </div>
-        </div>
-    </div>
-</div>
-
 
 <div class="row" style="margin-top: -15px;">
     <div class="col-md-12">
@@ -155,10 +112,9 @@
                 <div class="row">
                     <div class="col-8">
                         <h4 class="card-title"></h4>
+                        <input type="text" id="search" placeholder="Type to search" autocomplete="off">
                     </div>
-                    <div class="col-4 text-right">
-                        <a href="{{ route('brand.create') }}" class="btn btn-sm btn-primary">New Brand check</a>
-                    </div>
+
                 </div>
             </div>
             <div class="card-body">
@@ -168,31 +124,25 @@
                     <table class="table tablesorter " id="">
                         <thead class=" text-primary">
                             <th scope="col">#</th>
-                            <th scope="col">Name</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Brand</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Availablitity</th>
                             <th scope="col">Actions</th>
 
                         </thead>
-                        {{-- <tbody>
+                         <tbody>
                             @foreach ($models as $model)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
-                                <td>{{ $model->brand_name }}</td>
-                                <td class="td-actions">
+                                <td>{{ $model->product_name }}</td>
+                                <td>{{ $model->item_id }}</td>
 
-                                    <a href="{{ route('brand.edit', $model->id) }}" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit Product">
-                                        <i class="tim-icons icon-pencil"></i>
-                                    </a>
-                                    <form action="{{ route('brand.destroy', $model->id) }}" method="post" class="d-inline">
-                                        @csrf
-                                        @method('delete')
-                                        <button type="button" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Delete Product" onclick="confirm('Are you sure you want to remove this product? The records that contain it will continue to exist.') ? this.parentElement.submit() : ''">
-                                            <i class="tim-icons icon-simple-remove"></i>
-                                        </button>
-                                    </form>
-                                </td>
+
                             </tr>
                             @endforeach
-                        </tbody> --}}
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -204,4 +154,29 @@
         </div>
     </div>
 </div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+
+    });
+    var $rows = $('.table tbody tr');
+        $('#search').keyup(function() {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+
+            $rows.show().filter(function() {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+
+    var type = null;
+        $('.SplitData').click(function(e) {
+            $("body").find('.SplitData').removeClass('activeSplitterDiv');
+
+            $(this).addClass('activeSplitterDiv');
+            type = $(this).attr('data-value');
+            splitData(type);
+        });
+    </script>
 @endsection
