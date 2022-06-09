@@ -37,6 +37,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('/getBrandSplitedData', 'BrandController@getBrandSplitedData')->name('getBrandSplitedData');
     Route::post('/getCategorySplitedData', 'CategoryController@getCategorySplitedData')->name('getCategorySplitedData');
+    Route::post('/getUnitSplitedData', 'UnitController@getUnitSplitedData')->name('getUnitSplitedData');
+    Route::post('/getInventoryItemSplitedData', 'Inventory\InventoryItemController@getInventoryItemSplitedData')->name('getInventoryItemSplitedData');
+    
+
 
     Route::resources([
         'users' => 'UserController',

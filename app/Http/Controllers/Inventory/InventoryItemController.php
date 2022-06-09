@@ -137,4 +137,23 @@ class InventoryItemController extends Controller
         $model->save();
         return redirect()->route('inventoryItem.index');
     }
+
+    public function getInventoryItemSplitedData(Request $request)
+    {
+       
+
+        $models = InventoryItem::select('inventory_items.*', 'categories.category_name as categoryName', 'brands.brand_name as brandName', 'units.name as unitName')
+        ->leftjoin('units', 'units.id','=','inventory_items.unit_id')
+        ->leftjoin('brands', 'brands.id','=','inventory_items.brand_id')
+        ->leftjoin('categories', 'categories.id','=','inventory_items.category_id')
+        ->whereNull('inventory_items.deleted_at')->orderby('inventory_items.id', 'desc');
+        if ($request->type == "activeData") {
+            $models->where('inventory_items.status', 1);
+        } else if ($request->type == "inActiveData") {
+            $models->where('inventory_items.status', 0);
+        }
+        $datas = $models->get();
+
+        return response()->json(array('result' => "success", 'data' => $datas));
+    }
 }
