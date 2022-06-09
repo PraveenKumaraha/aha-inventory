@@ -122,4 +122,23 @@ class PurchaseController extends Controller
         return redirect()->route('purchase.index');
 
     }
+
+    public function getPurchaseSplitedData(Request $request)
+    {
+       
+
+        $models = Purchase::select('purchases.*', 'suppliers.supplier_id as supplierId')
+        ->leftjoin('suppliers', 'suppliers.id','=','purchases.supplier_id')
+        ->whereNull('purchases.deleted_at')->orderby('purchases.id', 'desc');
+       
+        if ($request->type == "activeData") {
+            $models->where('purchases.status', 1);
+        } else if ($request->type == "inActiveData") {
+            $models->where('purchases.status', 0);
+        }
+        $datas = $models->get();
+        
+
+        return response()->json(array('result' => "success", 'data' => $datas));
+    }
 }

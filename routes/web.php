@@ -38,6 +38,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/getCategorySplitedData', 'CategoryController@getCategorySplitedData')->name('getCategorySplitedData');
     Route::post('/getUnitSplitedData', 'UnitController@getUnitSplitedData')->name('getUnitSplitedData');
     Route::post('/getInventoryItemSplitedData', 'Inventory\InventoryItemController@getInventoryItemSplitedData')->name('getInventoryItemSplitedData');
+    Route::post('/getPurchaseSplitedData', 'PurchaseController@getPurchaseSplitedData')->name('getPurchaseSplitedData');
+    
     Route::post('/getSupplierSplitedData', 'SupplierController@getSupplierSplitedData')->name('getSupplierSplitedData');
     Route::post('/getPurchaseSplitedData', 'PurchaseController@getPurchaseSplitedData')->name('getPurchaseSplitedData');
 
