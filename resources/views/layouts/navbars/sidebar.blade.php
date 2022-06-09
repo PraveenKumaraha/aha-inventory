@@ -204,19 +204,35 @@
                     <p>Supplier</p>
                 </a>
             </li>
-            <li @if ($pageSlug=='product' ) class="active " @endif>
-                <a href="{{ route('inventoryItem.index') }}">
-                    <i class="tim-icons icon-single-02"></i>
-                    <p>Product</p>
+
+
+
+            <li>
+                <a data-toggle="collapse" href="#PurchaseMaster" {{ $section == 'PurchaseMaster' ? 'aria-expanded=true' : '' }}>
+                    <i class="tim-icons icon-controller"></i>
+                    <span class="nav-link-text">Purchase Masters</span>
+                    <b class="caret mt-1"></b>
                 </a>
+
+                <div class="collapse {{ $section == 'PurchaseMaster' ? 'show' : '' }}" id="PurchaseMaster">
+                    <ul class="nav pl-4">
+                      
+                        <li @if ($pageSlug=='purchase' ) class="active " @endif>
+                            <a href="{{ route('purchase.index') }}">
+                                <i class="tim-icons icon-single-02"></i>
+                                <p>Add Purchase</p>
+                            </a>
+                        </li>
+                        
+                        
+                    </ul>
+                </div>
             </li>
 
-            <li @if ($pageSlug=='purchase' ) class="active " @endif>
-                <a href="{{ route('purchase.index') }}">
-                    <i class="tim-icons icon-single-02"></i>
-                    <p>Purchase</p>
-                </a>
-            </li>
+
+
+
+
 
             <!-- <li @if ($pageSlug == 'clients') class="active " @endif>
                 <a href="{{ route('clients.index') }}">
