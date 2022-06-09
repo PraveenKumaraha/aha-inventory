@@ -41,6 +41,13 @@
                                 <p>State</p>
                             </a>
                         </li> -->
+                        <li @if ($pageSlug=='managestock' ) class="active " @endif>
+                            <a href="{{ route('managestock.index')  }}">
+                                <i class="tim-icons icon-world"></i>
+                                <p>Manage Stock</p>
+                            </a>
+                        </li>
+
                         <li @if ($pageSlug=='brand' ) class="active " @endif>
                             <a href="{{ route('brand.index')  }}">
                                 <i class="tim-icons icon-world"></i>
@@ -59,7 +66,7 @@
                                 <p>Unit</p>
                             </a>
                         </li>
-                        
+
 
                         <!-- <li @if ($pageSlug == 'transactions') class="active " @endif>
                             <a href="{{ route('transactions.index')  }}">

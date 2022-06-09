@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\InventoryItem;
 use App\ManageStock;
+use App\Product;
 use Illuminate\Http\Request;
+use App\Purchase;
+
 
 class ManageStockController extends Controller
 {
@@ -14,7 +18,15 @@ class ManageStockController extends Controller
      */
     public function index()
     {
-        return view('Masters.Manage Stock.index');
+
+        $models = InventoryItem::select('product_name', 'id')->get();
+
+
+
+
+        return view('Masters.Manage Stock.index', compact('models'));
+
+
     }
 
     /**
@@ -24,7 +36,7 @@ class ManageStockController extends Controller
      */
     public function create()
     {
-        return view('Masters.Manage Stock.create');
+
     }
 
     /**

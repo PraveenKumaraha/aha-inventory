@@ -137,10 +137,10 @@
                                 <td>{{ $model->barcode }}</td>
 
                                 <td class="td-actions">
-                                    <a href="{{ route('purchase.edit', $model->id) }}" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit Product">
+                                    <a href="{{ url('purchase/{purchase}/edit', $model->id) }}" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit Product">
                                         <i class="tim-icons icon-pencil"></i>
                                     </a>
-                                    <form action="{{ route('purchase.destroy', $model->id) }}" method="post" class="d-inline">
+                                    <form action="{{ url(' purchase/{purchase}', $model->id) }}" method="post" class="d-inline">
                                         @csrf
                                         @method('delete')
                                         <button type="button" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Delete Product" onclick="confirm('Are you sure you want to remove this product? The records that contain it will continue to exist.') ? this.parentElement.submit() : ''">
