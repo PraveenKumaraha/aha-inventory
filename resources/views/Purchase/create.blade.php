@@ -34,12 +34,35 @@
                         <div class="pl-lg-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                 <label class="form-control-label" for="input-name">Product Name</label>
-                                <select name="item_id" id="catgory" class="form-control unit" required>
+                                <select name="item_id" id="catgory" class="form-control product" required>
                                     <option value="">Select Product Name</option>
                                     @foreach($pdtproductIds as $pdtproductId)
                                     <option value="<?php echo $pdtproductId->id; ?>"><?php echo $pdtproductId->product_name; ?></option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+
+                        <div class="pl-lg-4">
+                            <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
+                                <label class="form-control-label" for="input-name">Category</label>
+                                <input type="text" name="Category" id="Category" class="form-control Category form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="Category" value="{{ old('name') }}" required autofocus disabled>
+                                @include('alerts.feedback', ['field' => 'Category'])
+                            </div>
+                        </div>
+                        <div class="pl-lg-4">
+                            <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
+                                <label class="form-control-label" for="input-name">Brand</label>
+                                <input type="text" name="Brand" id="Brand" class="form-control Brand form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="Brand" value="{{ old('name') }}" required autofocus disabled>
+                                @include('alerts.feedback', ['field' => 'Brand'])
+                            </div>
+                        </div>
+
+                        <div class="pl-lg-4">
+                            <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
+                                <label class="form-control-label" for="input-name">Unit</label>
+                                <input type="text" name="unit" id="unit" class="form-control Unit form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="Unit" value="{{ old('name') }}" required autofocus disabled>
+                                @include('alerts.feedback', ['field' => 'unit'])
                             </div>
                         </div>
 
@@ -83,8 +106,35 @@
 
 @push('js')
 <script>
-    new SlimSelect({
-        select: '.form-select'
-    })
+    // new SlimSelect({
+    //     select: '.form-select'
+    // })
+    $(document).ready(function() {
+        console.log("well");
+    });
+    console.log("well");
+    $('.product').on('change', function() {
+        var productId = this.value;
+
+        // $("#state-dd").html('');
+        $.ajax({
+            url: "{{url('getProductRelatedData')}}",
+            type: "POST",
+            data: {
+                productId: productId,
+                _token: '{{csrf_token()}}'
+            },
+            dataType: 'json',
+            success: function(result) {
+                var data = result.data;
+                console.log(data);
+                $('.Category').val(data.categoryName);
+                $('.Brand').val(data.brandName);
+                $('.Unit').val(data.unitName);
+
+
+            }
+        });
+    });
 </script>
 @endpush

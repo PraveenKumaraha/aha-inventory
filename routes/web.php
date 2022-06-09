@@ -43,6 +43,8 @@ Route::group(['middleware' => 'auth'], function () {
     
     Route::post('/getSupplierSplitedData', 'SupplierController@getSupplierSplitedData')->name('getSupplierSplitedData');
 
+//get product related Data
+Route::post('/getProductRelatedData', 'Inventory\InventoryItemController@getProductRelatedData')->name('getProductRelatedData');
 
     Route::resources([
         'users' => 'UserController',

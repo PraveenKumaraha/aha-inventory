@@ -156,4 +156,14 @@ class InventoryItemController extends Controller
 
         return response()->json(array('result' => "success", 'data' => $datas));
     }
+    public function getProductRelatedData(Request $request){
+       
+        $datas = InventoryItem::select('categories.category_name as categoryName', 'brands.brand_name as brandName', 'units.name as unitName')
+        ->leftjoin('units', 'units.id','=','inventory_items.unit_id')
+        ->leftjoin('brands', 'brands.id','=','inventory_items.brand_id')
+        ->leftjoin('categories', 'categories.id','=','inventory_items.category_id')
+        ->where('inventory_items.id',$request->productId)->first();
+        
+        return response()->json(array('result' => "success", 'data' => $datas));
+    }
 }
