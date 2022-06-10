@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Purchase;
 
 use App\InventoryItem;
 use App\ManageStock;
 use App\Purchase;
+use App\Http\Controllers\Controller;
 use App\Supplier;
 use Illuminate\Http\Request;
 

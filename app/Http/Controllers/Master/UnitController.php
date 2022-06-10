@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Master;
 
 use App\Unit;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class UnitController extends Controller

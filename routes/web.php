@@ -20,20 +20,20 @@ Route::get('/', 'HomeController@index')->name('home')->middleware('auth');
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::resource('brand', 'BrandController');
+    Route::resource('brand', 'Master\BrandController');
 
     Route::resource('gender', 'GenderController');
     Route::resource('bloodGroup', 'BloodGroupController');
     Route::resource('Country', 'CountryController');/**Master -> Brand& Category */
-    Route::resource('category', 'CategoryController');
-    Route::resource('unit', 'UnitController');
+    Route::resource('category', 'Master\CategoryController');
+    Route::resource('unit', 'Master\UnitController');
     Route::resource('supplier','SupplierController');
-    Route::resource('purchase','PurchaseController');
+    Route::resource('purchase','Purchase\PurchaseController');
 //inventory Item
     Route::resource('inventoryItem', 'Inventory\InventoryItemController');
     Route::resource('pass', 'PassController');
     Route::resource('supplier', 'SupplierController');
-    Route::resource('managestock', 'ManageStockController');
+    Route::resource('managestock', 'Master\ManageStockController');
 
     Route::post('/getBrandSplitedData', 'BrandController@getBrandSplitedData')->name('getBrandSplitedData');
     Route::post('/getCategorySplitedData', 'CategoryController@getCategorySplitedData')->name('getCategorySplitedData');
