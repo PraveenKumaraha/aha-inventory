@@ -110,12 +110,12 @@ class ManageStockController extends Controller
         } elseif ($type == "inActiveData") {
             $models->where('inventory_items.status', 1);
         } elseif ($type == "Availability") {
-            $models->whereColumn('inventory_items.limit', '<=', 'manage_stocks.stock');       
+            $models->whereColumn('inventory_items.limit', '<=', 'manage_stocks.stock');
         } elseif ($type == "Demand") {
-            $models->where('inventory_items.limit', '>=', 'manage_stocks.stock');
+            $models->whereColumn('inventory_items.limit', '>=', 'manage_stocks.stock');
         }
 
         $datas = $models->get();
-        dd($datas);
+        return response()->json(array('result' => "success", 'data' => $datas));
     }
 }
