@@ -229,6 +229,13 @@
                                 <p>Add Purchase</p>
                             </a>
                         </li>
+
+                        <li @if ($pageSlug=='returnPurchase' ) class="active " @endif>
+                            <a href="{{ route('returnPurchase.index') }}">
+                                <i class="tim-icons icon-single-02"></i>
+                                <p>Return Purchase</p>
+                            </a>
+                        </li>
                         
                         
                     </ul>

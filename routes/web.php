@@ -29,6 +29,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('unit', 'Master\UnitController');
     Route::resource('supplier','SupplierController');
     Route::resource('purchase','Purchase\PurchaseController');
+    Route::resource('returnPurchase','Purchase\ReturnPurchaseController');
 //inventory Item
     Route::resource('inventoryItem', 'Inventory\InventoryItemController');
     Route::resource('pass', 'PassController');
