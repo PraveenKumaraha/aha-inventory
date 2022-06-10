@@ -35,15 +35,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('supplier', 'SupplierController');
     Route::resource('managestock', 'Master\ManageStockController');
 
-    Route::post('/getBrandSplitedData', 'BrandController@getBrandSplitedData')->name('getBrandSplitedData');
-    Route::post('/getCategorySplitedData', 'CategoryController@getCategorySplitedData')->name('getCategorySplitedData');
-    Route::post('/getUnitSplitedData', 'UnitController@getUnitSplitedData')->name('getUnitSplitedData');
+    Route::post('/getBrandSplitedData', 'Master\BrandController@getBrandSplitedData')->name('getBrandSplitedData');
+    Route::post('/getCategorySplitedData', 'Master\CategoryController@getCategorySplitedData')->name('getCategorySplitedData');
+    Route::post('/getUnitSplitedData', 'Master\UnitController@getUnitSplitedData')->name('getUnitSplitedData');
     Route::post('/getInventoryItemSplitedData', 'Inventory\InventoryItemController@getInventoryItemSplitedData')->name('getInventoryItemSplitedData');
-    Route::post('/getPurchaseSplitedData', 'PurchaseController@getPurchaseSplitedData')->name('getPurchaseSplitedData');
+    Route::post('/getPurchaseSplitedData', 'Purchase\PurchaseController@getPurchaseSplitedData')->name('getPurchaseSplitedData');
 
     Route::post('/getSupplierSplitedData', 'SupplierController@getSupplierSplitedData')->name('getSupplierSplitedData');
-    Route::post('/getPurchaseSplitedData', 'PurchaseController@getPurchaseSplitedData')->name('getPurchaseSplitedData');
-    Route::post('/getManageStockSplitedData', 'ManageStockController@getManageStockSplitedData')->name('getManageStockSplitedData');
+    Route::post('/getPurchaseSplitedData', 'Purchase\PurchaseController@getPurchaseSplitedData')->name('getPurchaseSplitedData');
+    Route::post('/getManageStockSplitedData', 'Master\ManageStockController@getManageStockSplitedData')->name('getManageStockSplitedData');
 //get product related Data
 Route::post('/getProductRelatedData', 'Inventory\InventoryItemController@getProductRelatedData')->name('getProductRelatedData');
 
