@@ -22,7 +22,7 @@ class PurchaseController extends Controller
             ->whereNull('purchases.deleted_at')->orderby('purchases.id', 'desc')
             ->get();
 
-        return view('Purchase.index', compact('models'));
+        return view('inventory.Purchase.Add Purchase.index', compact('models'));
     }
 
     /**
@@ -35,7 +35,7 @@ class PurchaseController extends Controller
         $pdtproductIds = InventoryItem::select('product_name', 'id')->get();
         $pdtsupplierIds = Supplier::select('supplier_id', 'id')->get();
 
-        return view('Purchase.create', compact('pdtproductIds', 'pdtsupplierIds'));
+        return view('inventory.Purchase.Add Purchase.create', compact('pdtproductIds', 'pdtsupplierIds'));
     }
 
     /**
@@ -101,7 +101,7 @@ class PurchaseController extends Controller
         $pdtproductIds = InventoryItem::select('product_name', 'id')->where('status', 1)->get();
         $pdtsupplierIds = Supplier::select('supplier_id', 'id')->where('supplier_status', 1)->get();
 
-        return view('Purchase.edit', compact('model', 'pdtproductIds', 'pdtsupplierIds'));
+        return view('inventory.Purchase.Add Purchase.edit', compact('model', 'pdtproductIds', 'pdtsupplierIds'));
     }
 
     /**
