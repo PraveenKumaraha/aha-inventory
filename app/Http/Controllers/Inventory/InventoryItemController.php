@@ -62,7 +62,7 @@ class InventoryItemController extends Controller
         $model->a_price = $request->input('a_price');
         $model->s_price = $request->input('s_price');
         $model->gst = $request->input('gst');
-        $model->limt = $request->input('limt');
+        $model->limit = $request->input('limit');
         $model->status = "1";
         $model->save();
         if ($model) {
@@ -124,7 +124,7 @@ class InventoryItemController extends Controller
         $model->a_price = $request->input('a_price');
         $model->s_price = $request->input('s_price');
         $model->gst = $request->input('gst');
-        $model->limt = $request->input('limt');
+        $model->limit = $request->input('limit');
 
         $model->save();
         return redirect()
