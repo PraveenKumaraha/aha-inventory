@@ -18,7 +18,7 @@ class PurchaseController extends Controller
      */
     public function index()
     {
-        $models = Purchase::select('purchases.*', 'suppliers.supplier_id as supplierId')
+            $models = Purchase::select('purchases.*', 'suppliers.supplier_id as supplierId')
             ->leftjoin('suppliers', 'suppliers.id', '=', 'purchases.supplier_id')
             ->whereNull('purchases.deleted_at')->orderby('purchases.id', 'desc')
             ->get();
