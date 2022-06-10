@@ -38,7 +38,7 @@
                 <div class="h-100 d-flex align-items-center justify-content-center ">
                     <div class="SplitData activeSplitterDiv" data-value="AllData" style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
                         font-size: 20px;text-align: center;">
-                        <img src="assets/img/hotel-supplier.png" alt="" style="width: 50px;margin-top:10px;">
+                        <img src="assets/img/package.png" alt="" style="width: 50px;margin-top:10px;">
                         <div class="tee" style="font-size: 20px;color: #fff;">Total</div>
                     </div>
                 </div>
@@ -113,7 +113,7 @@
                                 <td>{{ $model->a_price }}</td>
                                 <td>{{ $model->s_price }}</td>
                                 <td>{{ $model->gst }}</td>
-                                <td>{{ $model->limt }}</td> 
+                                <td>{{ $model->limt }}</td>
 
 
                                 <td class="td-actions">
