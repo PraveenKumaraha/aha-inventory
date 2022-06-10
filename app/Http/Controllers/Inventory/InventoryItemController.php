@@ -7,6 +7,7 @@ use App\Brand;
 use App\Product;
 use App\Http\Controllers\Controller;
 use App\InventoryItem;
+use App\ManageStock;
 use App\Unit;
 use Illuminate\Http\Request;
 
@@ -20,11 +21,11 @@ class InventoryItemController extends Controller
     public function index()
     {
         $models = InventoryItem::select('inventory_items.*', 'categories.category_name as categoryName', 'brands.brand_name as brandName', 'units.name as unitName')
-        ->leftjoin('units', 'units.id','=','inventory_items.unit_id')
-        ->leftjoin('brands', 'brands.id','=','inventory_items.brand_id')
-        ->leftjoin('categories', 'categories.id','=','inventory_items.category_id')
-        ->whereNull('inventory_items.deleted_at')->orderby('inventory_items.id', 'desc')
-        ->get();
+            ->leftjoin('units', 'units.id', '=', 'inventory_items.unit_id')
+            ->leftjoin('brands', 'brands.id', '=', 'inventory_items.brand_id')
+            ->leftjoin('categories', 'categories.id', '=', 'inventory_items.category_id')
+            ->whereNull('inventory_items.deleted_at')->orderby('inventory_items.id', 'desc')
+            ->get();
 
         return view('inventory.InventoryItem.index', compact('models'));
     }
@@ -40,7 +41,7 @@ class InventoryItemController extends Controller
         $pdtCategorys = Category::select('category_name', 'id')->where('category_status', 1)->get();
         $pdtUnits = Unit::select('name', 'id')->where('status', 1)->get();
 
-        return view('inventory.InventoryItem.create',compact('pdtBrands','pdtCategorys','pdtUnits'));
+        return view('inventory.InventoryItem.create', compact('pdtBrands', 'pdtCategorys', 'pdtUnits'));
     }
 
     /**
@@ -51,7 +52,7 @@ class InventoryItemController extends Controller
      */
     public function store(Request $request)
     {
-      
+
         $model = new InventoryItem();
         $model->product_name = $request->input('product_name');
         $model->product_id = $request->input('product_id');
@@ -63,8 +64,16 @@ class InventoryItemController extends Controller
         $model->gst = $request->input('gst');
         $model->limt = $request->input('limt');
         $model->status = "1";
-
         $model->save();
+        if ($model) {
+            $manageStockModel = new ManageStock();
+            $manageStockModel->item_id = $model->id;
+            $manageStockModel->stock = "0";
+            $manageStockModel->date = date('Y-m-d');
+            $manageStockModel->status = "1";
+            $manageStockModel->save();
+        }
+       
         return redirect()
             ->route('inventoryItem.index')
             ->withStatus('Product Successfully Created.');
@@ -76,7 +85,7 @@ class InventoryItemController extends Controller
      * @param  \App\StockProduct  $stockProduct
      * @return \Illuminate\Http\Response
      */
-    public function show( )
+    public function show()
     {
         //
     }
@@ -90,11 +99,11 @@ class InventoryItemController extends Controller
     public function edit($id)
     {
         $model = InventoryItem::where('id', $id)->first();
-        $pdtBrands = Brand::select('brand_name','id')->where('brand_status',1)->get();
-       $pdtCategorys   =Category::select('category_name','id')->where('category_status',1)->get();
-       $pdtUnits = Unit::select('name','id')->where('status',1)->get();
+        $pdtBrands = Brand::select('brand_name', 'id')->where('brand_status', 1)->get();
+        $pdtCategorys   = Category::select('category_name', 'id')->where('category_status', 1)->get();
+        $pdtUnits = Unit::select('name', 'id')->where('status', 1)->get();
 
-        return view('inventory.InventoryItem.edit', compact('model','pdtBrands','pdtCategorys','pdtUnits'));
+        return view('inventory.InventoryItem.edit', compact('model', 'pdtBrands', 'pdtCategorys', 'pdtUnits'));
     }
 
     /**
@@ -140,13 +149,13 @@ class InventoryItemController extends Controller
 
     public function getInventoryItemSplitedData(Request $request)
     {
-       
+
 
         $models = InventoryItem::select('inventory_items.*', 'categories.category_name as categoryName', 'brands.brand_name as brandName', 'units.name as unitName')
-        ->leftjoin('units', 'units.id','=','inventory_items.unit_id')
-        ->leftjoin('brands', 'brands.id','=','inventory_items.brand_id')
-        ->leftjoin('categories', 'categories.id','=','inventory_items.category_id')
-        ->whereNull('inventory_items.deleted_at')->orderby('inventory_items.id', 'desc');
+            ->leftjoin('units', 'units.id', '=', 'inventory_items.unit_id')
+            ->leftjoin('brands', 'brands.id', '=', 'inventory_items.brand_id')
+            ->leftjoin('categories', 'categories.id', '=', 'inventory_items.category_id')
+            ->whereNull('inventory_items.deleted_at')->orderby('inventory_items.id', 'desc');
         if ($request->type == "activeData") {
             $models->where('inventory_items.status', 1);
         } else if ($request->type == "inActiveData") {
@@ -156,14 +165,15 @@ class InventoryItemController extends Controller
 
         return response()->json(array('result' => "success", 'data' => $datas));
     }
-    public function getProductRelatedData(Request $request){
-       
+    public function getProductRelatedData(Request $request)
+    {
+
         $datas = InventoryItem::select('categories.category_name as categoryName', 'brands.brand_name as brandName', 'units.name as unitName')
-        ->leftjoin('units', 'units.id','=','inventory_items.unit_id')
-        ->leftjoin('brands', 'brands.id','=','inventory_items.brand_id')
-        ->leftjoin('categories', 'categories.id','=','inventory_items.category_id')
-        ->where('inventory_items.id',$request->productId)->first();
-        
+            ->leftjoin('units', 'units.id', '=', 'inventory_items.unit_id')
+            ->leftjoin('brands', 'brands.id', '=', 'inventory_items.brand_id')
+            ->leftjoin('categories', 'categories.id', '=', 'inventory_items.category_id')
+            ->where('inventory_items.id', $request->productId)->first();
+
         return response()->json(array('result' => "success", 'data' => $datas));
     }
 }

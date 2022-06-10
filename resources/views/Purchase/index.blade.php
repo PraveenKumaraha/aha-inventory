@@ -1,4 +1,4 @@
-@extends('layouts.app', ['page' => 'List of Purchase', 'pageSlug' => 'purchase', 'section' => 'Purchase'])
+@extends('layouts.app', ['page' => 'List of Purchase', 'pageSlug' => 'purchase', 'section' => 'PurchaseMaster'])
 
 @section('content')
 <style>
@@ -26,6 +26,10 @@
         border: 2px solid blue !important;
     }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" ></script> 
+      <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+      <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script> 
+      
 <div class="card">
     <div class="card-header text-center font-weight-bold text-white" style="background-color: #5e72e4;">
         Purchase
@@ -75,7 +79,7 @@
                         <input type="text" id="search" placeholder="Type to search" autocomplete="off">
                     </div>
                     <div class="col-4 text-right">
-                        <a href="{{ route('purchase.create') }}" class="btn btn-sm btn-primary">New Add Purchase</a>
+                        <a href="{{ route('purchase.create') }}" class="btn btn-sm btn-primary"> Add Purchase</a>
                     </div>
                 </div>
             </div>
@@ -90,6 +94,7 @@
                             <th scope="col">Product ID</th>
                             <th scope="col">Quantity</th>
                             <th scope="col">Barcode</th>
+                            <th class="status" scope="col">Status</th>
                             <th scope="col">Actions</th>
 
                         </thead>
@@ -101,9 +106,11 @@
                                 <td>{{ $model->item_id }}</td>
                                 <td>{{ $model->quantity }}</td>
                                 <td>{{ $model->barcode }}</td>
+                                <td></label>
+                                 </td>
 
                                 <td class="td-actions">
-                                    <a href="{{ url('purchase/{purchase}/edit', $model->id) }}" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit Product">
+                                    <a href="{{ route('purchase.edit', $model->id) }}" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit Product">
                                         <i class="tim-icons icon-pencil"></i>
                                     </a>
                                     <form action="{{ url(' purchase/{purchase}', $model->id) }}" method="post" class="d-inline">

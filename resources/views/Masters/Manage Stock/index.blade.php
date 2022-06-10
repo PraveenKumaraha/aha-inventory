@@ -127,9 +127,9 @@
                             <th scope="col">Product Name</th>
                             <th scope="col">Category</th>
                             <th scope="col">Brand</th>
-                            <th scope="col">Quantity</th>
+                            <th scope="col">Currnet Quantity</th>
                             <th scope="col">Availablitity</th>
-                            <th scope="col">Actions</th>
+                            <th scope="col">Order</th>
 
                         </thead>
                          <tbody>
@@ -137,7 +137,11 @@
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{ $model->product_name }}</td>
-                                <td>{{ $model->item_id }}</td>
+                                <td>{{ $model->categoryName }}</td>
+                                <td>{{ $model->brandName }}</td>
+                                <td>{{ $model->stock }}{{ $model->unitName }}</td>
+                                <td>@if($model->limit>=$model->stock){{'In Sufficiant'}}@else{{'Sufficiant'}}@endif</td>
+                                <td>Order</td>
 
 
                             </tr>
@@ -178,5 +182,45 @@
             type = $(this).attr('data-value');
             splitData(type);
         });
+        function splitData(type)
+        {
+console.log(type);
+$.ajax({
+                url: "{{ route('getManageStockSplitedData') }}",
+                type: "post",
+                data: type,
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    type: type,
+
+                },
+                success: function(response) {
+
+                    var Result = response.data;
+                    $(".table tbody").html("");
+                    $.each(Result, function(key, value) {
+                        var editurl = '{{ route('brand.edit', ':id') }}';
+                        editurl = editurl.replace(':id', value.id);
+
+                        var deleteurl = '{{ route('brand.destroy', ':id') }}';
+                        deleteurl = deleteurl.replace(':id', value.id);
+
+                        var row = `<tr role="row" class="odd"><td>` + (key + 1) + `</td><td>` + value
+                            .brand_name + `</td><td class="td-actions"><a href ="` + editurl +
+                            `" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit"> <i class="tim-icons icon-pencil"></i></a><form id="deleteStudentForm" action="` +
+                            deleteurl + `" method="post" class="d-inline"> @csrf @method('DELETE') <button type="submit" class="btn btn-link" data-toggle="tooltip"
+                                            data-placement="bottom" title="Delete Product" onclick="return confirm('Are you sure?')">
+                                            <i class="tim-icons icon-simple-remove"></i>
+                                        </button></form></td></tr>`;
+                        //$('.table tbody').append('<tr> <td>' + (key + 1) + '</td><td>' + value.brand_name + '</td><td><a href ="" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit"> <i class="tim-icons icon-pencil"></i></a><form action="" method="post" class="d-inline">@csrf @method('delete')<button type="button" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Delete Product" onclick="confirm("Are you sure you want to remove this product? The records that contain it will continue to exist.") ? this.parentElement.submit() : ' + " " + '"> <i class="tim-icons icon-simple-remove"></i></button></form></td></tr>');
+                        $('.table tbody').append(row);
+                    })
+                    // You will get response from your PHP page (what you echo or print)
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        }
     </script>
 @endsection

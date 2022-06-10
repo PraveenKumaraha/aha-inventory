@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\InventoryItem;
+use App\ManageStock;
 use App\Purchase;
 use App\Supplier;
 use Illuminate\Http\Request;
@@ -17,9 +18,9 @@ class PurchaseController extends Controller
     public function index()
     {
         $models = Purchase::select('purchases.*', 'suppliers.supplier_id as supplierId')
-        ->leftjoin('suppliers', 'suppliers.id','=','purchases.supplier_id')
-        ->whereNull('purchases.deleted_at')->orderby('purchases.id', 'desc')
-        ->get();
+            ->leftjoin('suppliers', 'suppliers.id', '=', 'purchases.supplier_id')
+            ->whereNull('purchases.deleted_at')->orderby('purchases.id', 'desc')
+            ->get();
 
         return view('Purchase.index', compact('models'));
     }
@@ -32,9 +33,9 @@ class PurchaseController extends Controller
     public function create()
     {
         $pdtproductIds = InventoryItem::select('product_name', 'id')->get();
-        $pdtsupplierIds = Supplier::select('supplier_id','id')->get();
+        $pdtsupplierIds = Supplier::select('supplier_id', 'id')->get();
 
-        return view('Purchase.create', compact('pdtproductIds','pdtsupplierIds'));
+        return view('Purchase.create', compact('pdtproductIds', 'pdtsupplierIds'));
     }
 
     /**
@@ -45,17 +46,29 @@ class PurchaseController extends Controller
      */
     public function store(Request $request)
     {
-        $model = new Purchase();
-        $model->supplier_id = $request->supplier_id;
-        $model->item_id = $request->item_id;
-        $model->quantity = $request->quantity;
-        $model->barcode = $request->barcode;
-        $model->status = "1";
+        try {
+            $model = new Purchase();
+            $model->supplier_id = $request->supplier_id;
+            $model->item_id = $request->item_id;
+            $model->quantity = $request->quantity;
+            $model->barcode = $request->barcode;
+            $model->status = "1";
 
-        $model->save();
-        return redirect()
-          ->route('purchase.index')
-          ->withStatus('Purchase Successfully Created');
+            $model->save();
+            if ($model) {
+                $manageStockModel = ManageStock::where('item_id', $request->item_id)->first();
+                $totalStock = $manageStockModel->stock + $request->quantity;
+                $manageStockModel->stock = $totalStock;
+                $manageStockModel->save();
+            }
+
+            return redirect()
+                ->route('purchase.index')
+                ->withStatus('Purchase Successfully Created');
+        } catch (\Exception $e) {
+
+            return $e->getMessage();
+        }
     }
 
     /**
@@ -78,11 +91,17 @@ class PurchaseController extends Controller
     public function edit($id)
     {
 
-        $model = Purchase::where('id', $id)->first();
-        $pdtproductIds = InventoryItem::select('product_name', 'id')->where('status', 1)->get();
-        $pdtsupplierIds = Supplier::select('supplier_id','id')->where('supplier_status', 1)->get();
+        $model = Purchase::select('purchases.*', 'categories.category_name as categoryName', 'brands.brand_name as brandName', 'units.name as unitName')
+            ->leftjoin('inventory_items', 'inventory_items.id', '=', 'purchases.item_id')
+            ->leftjoin('units', 'units.id', '=', 'inventory_items.unit_id')
+            ->leftjoin('brands', 'brands.id', '=', 'inventory_items.brand_id')
+            ->leftjoin('categories', 'categories.id', '=', 'inventory_items.category_id')
+            ->where('purchases.id', $id)->first();
 
-        return view('Purchase.edit', compact('model','pdtproductIds', 'pdtsupplierIds'));
+        $pdtproductIds = InventoryItem::select('product_name', 'id')->where('status', 1)->get();
+        $pdtsupplierIds = Supplier::select('supplier_id', 'id')->where('supplier_status', 1)->get();
+
+        return view('Purchase.edit', compact('model', 'pdtproductIds', 'pdtsupplierIds'));
     }
 
     /**
@@ -94,17 +113,31 @@ class PurchaseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $model = Purchase::where('id', $id)->first();
-        $model->supplier_id = $request->supplier_id;
-        $model->item_id = $request->item_id;
-        $model->quantity = $request->quantity;
-        $model->barcode = $request->barcode;
-        $model->status = "1";
+        try {
+            $model = Purchase::where('id', $id)->first();
+            $oldQuantity = $model->quantity;
+            $model->supplier_id = $request->supplier_id;
+            $model->item_id = $request->item_id;
+            $model->quantity = $request->quantity;
+            $model->barcode = $request->barcode;
+            $model->status = "1";
+            $model->save();
 
-        $model->save();
-        return redirect()
-          ->route('purchase.index')
-          ->withStatus('Purchase Successfully Updated');
+            if ($model) {
+                $manageStockModel = ManageStock::where('item_id', $request->item_id)->first();
+                $totalStock = ($manageStockModel->stock + $request->quantity)-$oldQuantity;
+                $manageStockModel->stock = $totalStock;
+                $manageStockModel->save();
+            }
+
+
+            return redirect()
+                ->route('purchase.index')
+                ->withStatus('Purchase Successfully Updated');
+        } catch (\Exception $e) {
+
+            return $e->getMessage();
+        }
     }
 
     /**
@@ -120,24 +153,23 @@ class PurchaseController extends Controller
 
         $model->save();
         return redirect()->route('purchase.index');
-
     }
 
     public function getPurchaseSplitedData(Request $request)
     {
-       
+
 
         $models = Purchase::select('purchases.*', 'suppliers.supplier_id as supplierId')
-        ->leftjoin('suppliers', 'suppliers.id','=','purchases.supplier_id')
-        ->whereNull('purchases.deleted_at')->orderby('purchases.id', 'desc');
-       
+            ->leftjoin('suppliers', 'suppliers.id', '=', 'purchases.supplier_id')
+            ->whereNull('purchases.deleted_at')->orderby('purchases.id', 'desc');
+
         if ($request->type == "activeData") {
             $models->where('purchases.status', 1);
         } else if ($request->type == "inActiveData") {
             $models->where('purchases.status', 0);
         }
         $datas = $models->get();
-        
+
 
         return response()->json(array('result' => "success", 'data' => $datas));
     }

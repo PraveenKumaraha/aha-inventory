@@ -44,7 +44,28 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="pl-lg-4">
+                            <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
+                                <label class="form-control-label" for="input-name">Category</label>
+                                <input type="text" name="Category" id="Category" class="form-control Category form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="Category" value="{{ $model->categoryName }}" required autofocus disabled>
+                                @include('alerts.feedback', ['field' => 'Category'])
+                            </div>
+                        </div>
+                        <div class="pl-lg-4">
+                            <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
+                                <label class="form-control-label" for="input-name">Brand</label>
+                                <input type="text" name="Brand" id="Brand" class="form-control Brand form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="Brand" value="{{ $model->brandName }}" required autofocus disabled>
+                                @include('alerts.feedback', ['field' => 'Brand'])
+                            </div>
+                        </div>
 
+                        <div class="pl-lg-4">
+                            <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
+                                <label class="form-control-label" for="input-name">Unit</label>
+                                <input type="text" name="unit" id="unit" class="form-control Unit form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="Unit" value="{{ $model->unitName }}" required autofocus disabled>
+                                @include('alerts.feedback', ['field' => 'unit'])
+                            </div>
+                        </div>
                         <div class="pl-lg-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                 <label class="form-control-label" for="input-name">Quantity</label>

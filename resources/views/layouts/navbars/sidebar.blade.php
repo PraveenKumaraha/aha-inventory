@@ -204,6 +204,12 @@
                     <p>Supplier</p>
                 </a>
             </li>
+            <li @if ($pageSlug=='product' ) class="active " @endif>
+                <a href="{{ route('inventoryItem.index') }}">
+                    <i class="tim-icons icon-single-02"></i>
+                    <p>Product</p>
+                </a>
+            </li>
 
 
 

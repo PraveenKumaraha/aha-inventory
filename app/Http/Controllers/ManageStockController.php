@@ -19,14 +19,17 @@ class ManageStockController extends Controller
     public function index()
     {
 
-        $models = InventoryItem::select('product_name', 'id')->get();
+        $models = InventoryItem::select('inventory_items.*', 'manage_stocks.stock', 'categories.category_name as categoryName', 'brands.brand_name as brandName', 'units.name as unitName')
+            ->leftjoin('manage_stocks', 'manage_stocks.item_id', '=', 'inventory_items.id')
+            ->leftjoin('units', 'units.id', '=', 'inventory_items.unit_id')
+            ->leftjoin('brands', 'brands.id', '=', 'inventory_items.brand_id')
+            ->leftjoin('categories', 'categories.id', '=', 'inventory_items.category_id')
+            ->get();
 
 
 
 
         return view('Masters.Manage Stock.index', compact('models'));
-
-
     }
 
     /**
@@ -36,7 +39,6 @@ class ManageStockController extends Controller
      */
     public function create()
     {
-
     }
 
     /**
@@ -93,5 +95,27 @@ class ManageStockController extends Controller
     public function destroy(ManageStock $manageStock)
     {
         //
+    }
+    public function getManageStockSplitedData(Request $request)
+    {
+        $type = $request->type;
+
+        $models = InventoryItem::select('inventory_items.*', 'manage_stocks.stock', 'categories.category_name as categoryName', 'brands.brand_name as brandName', 'units.name as unitName')
+            ->leftjoin('manage_stocks', 'manage_stocks.item_id', '=', 'inventory_items.id')
+            ->leftjoin('units', 'units.id', '=', 'inventory_items.unit_id')
+            ->leftjoin('brands', 'brands.id', '=', 'inventory_items.brand_id')
+            ->leftjoin('categories', 'categories.id', '=', 'inventory_items.category_id');
+        if ($type == "activeData") {
+            $models->where('inventory_items.status', 1);
+        } elseif ($type == "inActiveData") {
+            $models->where('inventory_items.status', 1);
+        } elseif ($type == "Availability") {
+            $models->whereColumn('inventory_items.limit', '<=', 'manage_stocks.stock');       
+        } elseif ($type == "Demand") {
+            $models->where('inventory_items.limit', '>=', 'manage_stocks.stock');
+        }
+
+        $datas = $models->get();
+        dd($datas);
     }
 }
