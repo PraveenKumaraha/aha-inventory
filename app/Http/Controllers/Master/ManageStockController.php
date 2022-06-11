@@ -109,7 +109,7 @@ class ManageStockController extends Controller
         if ($type == "activeData") {
             $models->where('inventory_items.status', 1);
         } elseif ($type == "inActiveData") {
-            $models->where('inventory_items.status', 1);
+            $models->where('inventory_items.status', 0);
         } elseif ($type == "Availability") {
             $models->whereColumn('inventory_items.limit', '<=', 'manage_stocks.stock');
         } elseif ($type == "Demand") {
