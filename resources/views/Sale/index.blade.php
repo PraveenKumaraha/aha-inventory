@@ -1,4 +1,4 @@
-{{-- @extends('layouts.app', ['page' => 'List of Sale', 'pageSlug' => 'salle', 'section' => 'SaleMaster'])
+ @extends('layouts.app', ['page' => 'List of Sale', 'pageSlug' => 'salle', 'section' => 'SaleMaster'])
 
 @section('content')
 <style>
@@ -38,7 +38,7 @@
 </style>
 <div class="card">
     <div class="card-header text-center font-weight-bold text-white" style="background-color: #5e72e4;">
-        ManageStock
+        Sale Management
     </div>
     <div class="card-body">
 
@@ -49,7 +49,7 @@
                     <div class="SplitData activeSplitterDiv" data-value="AllData" style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
                 font-size: 20px;text-align: center;">
                         <img src="assets/img/hotel-supplier.png" alt="" style=" width: 50px;margin-top:10px;">
-                        <div class="tee" style="font-size: 20px;color: #fff;">Total</div>
+                        <div class="tee" style="font-size: 20px;color: #fff;">Current</div>
                     </div>
                 </div>
 
@@ -60,7 +60,7 @@
                     <div class="SplitData" data-value="Availability" class="activeSplitterDiv" style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
                 font-size: 20px;text-align: center;">
                         <img src="assets/img/active.png" alt="" style="width: 50px;margin-top:10px;">
-                        <div class="tee" style="font-size: 20px;color: #fff;">Available</div>
+                        <div class="tee" style="font-size: 20px;color: #fff;">Day</div>
                         <div style=text-decoration: underline;></div>
                     </div>
                 </div>
@@ -72,7 +72,7 @@
                     <div class="SplitData" data-value="Demand" class="activeSplitterDiv" style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
                 font-size: 20px;text-align: center;">
                         <img src="assets/img/active.png" alt="" style="width: 50px;margin-top:10px;">
-                        <div class="tee" style="font-size: 20px;color: #fff;">Demand</div>
+                        <div class="tee" style="font-size: 20px;color: #fff;">Week</div>
                         <div style=text-decoration: underline;></div>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                     <div class="SplitData" data-value="activeData" style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
                 font-size: 20px;text-align: center;">
                         <img src="assets/img/active.png" alt="" style="width: 50px;margin-top:10px;">
-                        <div class="tee" style="font-size: 20px;color: #fff;">Active</div>
+                        <div class="tee" style="font-size: 20px;color: #fff;">Month</div>
                         <div style=text-decoration: underline;></div>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
                     <div class="SplitData" data-value="inActiveData" class="activeSplitterDiv" style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
                 font-size: 20px;text-align: center;">
                         <img src="assets/img/inactive.png" alt="" style="width: 50px;margin-top:10px;">
-                        <div class="tee" style="font-size: 20px;color: #fff;">In-Active</div>
+                        <div class="tee" style="font-size: 20px;color: #fff;">Year</div>
                     </div>
                 </div>
 
@@ -124,13 +124,15 @@
                 <div class="">
                     <table class="table tablesorter " id="">
                         <thead class=" text-primary">
-                            <th scope="col">#</th>
+                            <th scope="col">S.No</th>
                             <th scope="col">Product Name</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Brand</th>
-                            <th scope="col">Currnet Quantity</th>
-                            <th scope="col">Availablitity</th>
-                            <th scope="col">Order</th>
+                            <th scope="col">Product ID</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Price₹</th>
+                            <th scope="col">CGST</th>
+                            <th scope="col">SGST</th>
+                            <th scope="col">Discount</th>
+                            <th scope="col">Total Price</th>
 
                         </thead>
                         {{-- <tbody>
@@ -192,51 +194,8 @@
         splitData(type);
     });
 
-    function splitData(type) {
-        console.log(type);
-        $.ajax({
-            url: "{{ route('getManageStockSplitedData') }}",
-            type: "post",
-            data: type,
-            data: {
-                _token: '{{ csrf_token() }}',
-                type: type,
 
-            },
-            success: function(response) {
 
-                var Result = response.data;
-                console.log(Result);
 
-                $(".table tbody tr ").html("");
-                $.each(Result, function(key, value) {
-                    var editurl = '{{ route('
-                    brand.edit ', ': id ') }}';
-                    editurl = editurl.replace(':id', value.id);
-
-                    var deleteurl = '{{ route('
-                    brand.destroy ', ': id ') }}';
-                    deleteurl = deleteurl.replace(':id', value.id);
-                    var stock = value.stock;
-                    var limit = value.limit;
-                    var badge = "";
-                    if (limit >= stock) {
-                        badge = '<span class="badge badge-danger">In-Suffiecient</span>';
-                    } else {
-                        badge = '<span class="badge badge-success">Suffiecient</span>';
-                    }
-                    console.log(badge);
-                    var row = `<tr><td>` + (key + 1) + `</td><td>` + value
-                        .product_name + `</td><td>` + value.categoryName + `</td><td>` + value.brandName + `</td><td>` + value.stock + " " + value.unitName + `</td><td>` + badge + `</td><td><a href=""><span class="badge badge-primary">Order</span></a></td></tr>`;
-                    //$('.table tbody').append('<tr> <td>' + (key + 1) + '</td><td>' + value.brand_name + '</td><td><a href ="" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit"> <i class="tim-icons icon-pencil"></i></a><form action="" method="post" class="d-inline">@csrf @method('delete')<button type="button" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Delete Product" onclick="confirm("Are you sure you want to remove this product? The records that contain it will continue to exist.") ? this.parentElement.submit() : ' + " " + '"> <i class="tim-icons icon-simple-remove"></i></button></form></td></tr>');
-                    $('.table tbody').append(row);
-                })
-                // You will get response from your PHP page (what you echo or print)
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log(textStatus, errorThrown);
-            }
-        });
-    }
 </script>
 @endsection --}}

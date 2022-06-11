@@ -16,7 +16,7 @@ class SaleController extends Controller
      */
     public function index()
     {
-        return view('inventory.Purchase.Add Purchase.index');
+        return view('Sale.index');
     }
 
     /**
