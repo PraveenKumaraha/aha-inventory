@@ -15,7 +15,7 @@ class ReturnSaleController extends Controller
      */
     public function index()
     {
-        //
+       return view('ReturnSale.index');
     }
 
     /**

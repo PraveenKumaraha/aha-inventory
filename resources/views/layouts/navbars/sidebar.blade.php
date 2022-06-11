@@ -250,7 +250,7 @@
                     <b class="caret mt-1"></b>
                 </a>
 
-                <div class="collapse {{ $section == 'SaleMaster' ? 'show' : '' }}" id="SaleMaster">
+                 <div class="collapse {{ $section == 'SaleMaster' ? 'show' : '' }}" id="SaleMaster">
                     <ul class="nav pl-4">
 
                         <li @if ($pageSlug=='sale' ) class="active " @endif>
@@ -269,7 +269,7 @@
 
 
                     </ul>
-                </div>
+                </div> 
             </li>
 
 
