@@ -19,6 +19,7 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home')->middleware('auth');
 
 Route::group(['middleware' => 'auth'], function () {
+    include_once('purchase.php');
 
     Route::resource('brand', 'Master\BrandController');
 
