@@ -32,11 +32,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('returnPurchase','Purchase\ReturnPurchaseController');
     Route::resource('sale','Sale\SaleController');
     Route::resource('returnsale','Sale\ReturnSaleController');
+
+    Route::resource('report','Purchase\ReportPurchaseController');
 //inventory Item
     Route::resource('inventoryItem', 'Inventory\InventoryItemController');
     Route::resource('pass', 'PassController');
     Route::resource('supplier', 'SupplierController');
     Route::resource('managestock', 'Master\ManageStockController');
+    Route::resource('bulkPurchase', 'Purchase\BulkPurchaseController');
 
     Route::post('/getBrandSplitedData', 'Master\BrandController@getBrandSplitedData')->name('getBrandSplitedData');
     Route::post('/getCategorySplitedData', 'Master\CategoryController@getCategorySplitedData')->name('getCategorySplitedData');
@@ -50,10 +53,12 @@ Route::group(['middleware' => 'auth'], function () {
 //get product related Data
 Route::post('/getProductRelatedData', 'Inventory\InventoryItemController@getProductRelatedData')->name('getProductRelatedData');
 
+Route::post('/getReportRelatedData', 'Purchase\ReportPurchaseController@getReportRelatedData')->name('getReportRelatedData');
+
     Route::resources([
         'users' => 'UserController',
         'providers' => 'ProviderController',
-        'inventory/products' => 'ProductController',
+        // 'inventory/products' => 'ProductController',
         'clients' => 'ClientController',
         'inventory/categories' => 'ProductCategoryController',
         'transactions/transfer' => 'TransferController',
