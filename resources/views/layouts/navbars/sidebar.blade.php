@@ -210,6 +210,13 @@
                     <p>Product</p>
                 </a>
             </li>
+            <li @if ($pageSlug=='purchase' ) class="active " @endif>
+                <a href="{{ route('InvPurchase.index') }}">
+                    <i class="tim-icons icon-cart"></i>
+                    <p>Purchase</p>
+                </a>
+            </li>
+
 
 
 
@@ -254,14 +261,14 @@
                     <ul class="nav pl-4">
 
                         <li @if ($pageSlug=='sale' ) class="active " @endif>
-                            <a href="{{ route('sale.index') }}">
+                            <a href="">
                                 <i class="tim-icons icon-single-02"></i>
                                 <p>Sale</p>
                             </a>
                         </li>
 
                         <li @if ($pageSlug=='returnsale' ) class="active " @endif>
-                            <a href="{{ route('returnsale.index') }}">
+                            <a href="">
                                 <i class="tim-icons icon-single-02"></i>
                                 <p>Return Sale</p>
                             </a>
