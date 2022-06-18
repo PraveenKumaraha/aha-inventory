@@ -42,6 +42,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('managestock', 'Master\ManageStockController');
     Route::resource('bulkPurchase', 'Purchase\BulkPurchaseController');
 
+    
+Route::resource('addinv','AddInvController');
+
     Route::post('/getBrandSplitedData', 'Master\BrandController@getBrandSplitedData')->name('getBrandSplitedData');
     Route::post('/getCategorySplitedData', 'Master\CategoryController@getCategorySplitedData')->name('getCategorySplitedData');
     Route::post('/getUnitSplitedData', 'Master\UnitController@getUnitSplitedData')->name('getUnitSplitedData');

@@ -127,7 +127,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                               
+
                             </tbody>
                         </table>
                     </div>
@@ -173,7 +173,7 @@
                             <tbody>
 
                                 @foreach($lasttransactions as $transaction)
-                                    <tr> 
+                                    <tr>
                                         <td>
                                             @if($transaction->type == 'expense')
                                                 Expense
@@ -186,7 +186,7 @@
                                             @else
                                                 {{ $transaction->type }}
                                             @endif
-                                            
+
                                         </td>
                                         <td>{{ $transaction->title }}</td>
                                         <td>{{ $transaction->method->name }}</td>
@@ -233,7 +233,7 @@
 
 @push('js')
     <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
-    
+
     <script>
         var lastmonths = [];
 

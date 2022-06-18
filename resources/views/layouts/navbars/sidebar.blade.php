@@ -261,7 +261,7 @@
                     <ul class="nav pl-4">
 
                         <li @if ($pageSlug=='sale' ) class="active " @endif>
-                            <a href="">
+                            <a href="{{ route('sale.index') }}">
                                 <i class="tim-icons icon-single-02"></i>
                                 <p>Sale</p>
                             </a>
@@ -276,7 +276,7 @@
 
 
                     </ul>
-                </div> 
+                </div>
             </li>
 
 
@@ -328,6 +328,12 @@
                 </div>
             </li> -->
 
+            <li @if ($pageSlug=='addinv' ) class="active " @endif>
+                <a href="{{ route('addinv.index') }}">
+                    <i class="tim-icons icon-single-02"></i>
+                    <p>Add Inv</p>
+                </a>
+            </li>
 
             <li>
                 <a data-toggle="collapse" href="#users" {{ $section == 'users' ? 'aria-expanded=true' : '' }}>
