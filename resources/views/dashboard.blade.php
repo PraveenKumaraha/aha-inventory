@@ -127,20 +127,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($unfinishedsales as $sale)
-                                    <tr>
-                                        <td>{{ date('d-m-y', strtotime($sale->created_at)) }}</td>
-                                        <td><a href="">{{ $sale->client->name }}<br>{{ $sale->client->document_type }}-{{ $sale->client->document_id }}</a></td>
-                                        <td>{{ $sale->products->count() }}</td>
-                                        <td>{{ format_money($sale->transactions->sum('amount')) }}</td>
-                                        <td>{{ format_money($sale->products->sum('total_amount')) }}</td>
-                                        <td class="td-actions text-right">
-                                            <a href="{{ route('sales.show', ['sale' => $sale]) }}" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="View Sale">
-                                                <i class="tim-icons icon-zoom-split"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
+
                             </tbody>
                         </table>
                     </div>
@@ -186,7 +173,7 @@
                             <tbody>
 
                                 @foreach($lasttransactions as $transaction)
-                                    <tr> 
+                                    <tr>
                                         <td>
                                             @if($transaction->type == 'expense')
                                                 Expense
@@ -199,7 +186,7 @@
                                             @else
                                                 {{ $transaction->type }}
                                             @endif
-                                            
+
                                         </td>
                                         <td>{{ $transaction->title }}</td>
                                         <td>{{ $transaction->method->name }}</td>
@@ -246,7 +233,7 @@
 
 @push('js')
     <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
-    
+
     <script>
         var lastmonths = [];
 

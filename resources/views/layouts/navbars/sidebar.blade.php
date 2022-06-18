@@ -261,7 +261,7 @@
                     <ul class="nav pl-4">
 
                         <li @if ($pageSlug=='sale' ) class="active " @endif>
-                            <a href="">
+                            <a href="{{ route('sale.index') }}">
                                 <i class="tim-icons icon-single-02"></i>
                                 <p>Sale</p>
                             </a>
