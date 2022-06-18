@@ -104,14 +104,14 @@
 	var x = 1;
 	$(add_button).click(function() {
 		var lastItem = $('tr:last td:first .select2').val();;
-		
+
 		var currentcount = $('table.item-table tr:last').index() + 1;
-		
-	
+
+
 
 		if (lastItem) {
 			var count = currentcount+1;
-	
+
 			var html_code = '';
 			html_code += '<tr id="row_id_' + count + '">';
 
@@ -167,7 +167,7 @@
 	// 				console.log(data.length);
 	// 				$.each(data, function(key, value) {
 	// 					$("#selProduct1").append("<option value='"+value.id+"' selected>"+value.product_name+"</option>");
-	// 					$('#selProduct1').trigger('change'); 
+	// 					$('#selProduct1').trigger('change');
 	// 				});
 	// 				// return {
 	// 				// 	results: response

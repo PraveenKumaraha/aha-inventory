@@ -38,6 +38,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('pass', 'PassController');
     Route::resource('supplier', 'SupplierController');
     Route::resource('managestock', 'Master\ManageStockController');
+
+    
 Route::resource('addinv','AddInvController');
 
     Route::post('/getBrandSplitedData', 'Master\BrandController@getBrandSplitedData')->name('getBrandSplitedData');
