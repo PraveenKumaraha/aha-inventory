@@ -178,7 +178,7 @@
                             </a>
                         </li>
                         <li @if ($pageSlug == 'products') class="active " @endif>
-                            <a href="{{ route('products.index') }}">
+                            <a href="">
                                 <i class="tim-icons icon-notes"></i>
                                 <p>Products</p>
                             </a>
