@@ -3,8 +3,20 @@
 @section('content')
 
 <style>
+	.form-row {
+		margin: 10px;
+		margin-left: 20px;
+	}
 
+	.col-form-label1 {
+		margin-right: 50px;
+		padding-right: 40px;
+	}
 
+	.col-form-label12 {
+		margin-right: 80px;
+		padding-right: 40px;
+	}
 </style>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 <!-- jQuery -->
@@ -23,13 +35,46 @@
 						<div class="col-8">
 							<h3 class="mb-0">New Purchase</h3>
 						</div>
+						<!-- <div class="text">
+							<a href="" class="btn">Back</a>
+						</div>
+						<div class="text">
+							<a href="" class="btn y">Save</a>
+						</div> -->
 						<div class="col-4 text-right">
+							<a href="" class="btn">Reset</a>
+							<a href="" class="btn">Save</a>
 							<a href="{{ route('InvPurchase.index') }}" class="btn btn-sm btn-primary">Back to List</a>
 						</div>
 					</div>
 				</div>
 				<div class="card-body">
-				<div class="container-sm" style="width:100%;border-style: solid;border-color: coral;">100% wide until small breakpoint</div>
+					<div class="form-group">
+
+					</div>
+					<div class="container-sm" style="width:100%;border-style: solid;border-color: coral;">
+
+						<div class="form-row">
+						<label class=" col-form-label" for="name">Supplier Name:</label>
+							<select class="form-control col-sm-2 supplierselect1" id="product-name1" name="product_name[]">
+								<option selected="selected" disabled>Select Product</option>
+								<?php foreach ($pdtsupplierIds as $row) { ?> <option value="<?php echo ($row["id"]); ?>"><?php echo ($row["supplier_id"]); ?> | <?php echo ($row["supplier_name"]); ?></option>
+								<?php } ?>
+							</select>
+							<!-- </div>
+							<div class="form-row"> -->
+							<label class=" col-form-label" for="name">Customer Number:</label>
+							<input type="text" class="form-control col-sm-2" name="name" id="name" />
+						</div>
+						<div class="form-row">
+							<label class=" col-form-label1" for="name">GSTIN:</label>
+							<input type="text" class="form-control col-sm-2" name="name" id="name" />
+							<!-- </div>
+							<div class="form-row"> -->
+							<label class=" col-form-label12" for="name">Date:</label>
+							<input type="date" class="form-control col-sm-2" name="name" id="name" />
+						</div>
+					</div>
 					<table class="table table-bordered item-table">
 						<thead class="thead-light">
 							<th>item</th>
@@ -97,6 +142,7 @@
 		//initailizeSelect2();
 		//$("#selProduct1").select2();
 		$('.select2').select2();
+		$('.supplierselect').select2();	
 	});
 
 	var add_button = $(".add_field");
@@ -110,7 +156,7 @@
 
 
 		if (lastItem) {
-			var count = currentcount+1;
+			var count = currentcount + 1;
 
 			var html_code = '';
 			html_code += '<tr id="row_id_' + count + '">';

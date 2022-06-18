@@ -34,9 +34,9 @@ class InvPurchaseController extends Controller
 
          $pdtproductIds = InventoryItem::select('product_id','product_name', 'id')->get();
         
-        // $pdtsupplierIds = Supplier::select('supplier_id', 'id')->get();
+         $pdtsupplierIds = Supplier::select('supplier_id', 'supplier_name', 'id')->get();
 
-        return view('Purchase.create',compact('pdtproductIds'));
+        return view('Purchase.create',compact('pdtproductIds','pdtsupplierIds'));
     }
 
     /**
@@ -181,6 +181,9 @@ class InvPurchaseController extends Controller
         
         $datas = InventoryItem::where('product_name', 'like', '%' . $search . '%')
             ->select('product_name', 'id')->get();
+
+        $datas = Supplier::where('supplier_name', 'like', '%' . $search . '%')
+           ->select('supplier_name', 'id')->get();         
           
         return response()->json(array('data' => $datas));
     }
