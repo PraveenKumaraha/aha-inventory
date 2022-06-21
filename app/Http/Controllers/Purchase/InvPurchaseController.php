@@ -6,6 +6,8 @@ use App\InventoryItem;
 use App\ManageStock;
 use App\Purchase;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+use App\InvPurchase;
 use App\Supplier;
 use Illuminate\Http\Request;
 
@@ -47,29 +49,59 @@ class InvPurchaseController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $model = new Purchase();
-            $model->supplier_id = $request->supplier_id;
-            $model->item_id = $request->item_id;
-            $model->quantity = $request->quantity;
-            $model->barcode = $request->barcode;
-            $model->status = "1";
+        $rules = [];
+        
+        foreach($request->input('product_name') as $key => $value) {
+            $rules["supplier_name.{$key}"] = 'required';
+            $rules["customer_name.{$key}"] = 'required';
+            $rules["gstin.{$key}"] = 'required';
+            $rules["date.{$key}"] = 'required';
+            $rules["product_name.{$key}"] = 'required';
+            $rules["rate.{$key}"] = 'required';
+            $rules["qty.{$key}"] = 'required';
+            $rules["tax.{$key}"] = 'required';
+            $rules["disc.{$key}"] = 'required';
+            $rules["total.{$key}"] = 'required';
+        }
 
-            $model->save();
-            if ($model) {
-                $manageStockModel = ManageStock::where('item_id', $request->item_id)->first();
-                $totalStock = $manageStockModel->stock + $request->quantity;
-                $manageStockModel->stock = $totalStock;
-                $manageStockModel->save();
+
+        $validator = Validator::make($request->all(), $rules);
+
+
+        if ($validator) {
+
+
+            foreach($request->input('product_name') as $key => $value) {
+
+                $model=new InvPurchase();
+
+                $model->supplier = $request->get('supplier_name');
+                $model->customer_name = $request->get('customer_name');
+                $model->gstin = $request->get('gstin');
+                $model->date = $request->get('date');
+                $model->product = $request->get('product_name');
+                $model->rate = $request->get('rate');
+                $model->qty = $request->get('qty');
+                $model->tax =$request->get('tax') ; 
+                $model->disc =$request->get('disc') ;
+                $model->total =$request->get('total') ;
+
+                dd($model);
+
+                $model->save();
             }
 
-            return redirect()
-                ->route('purchase.index')
-                ->withStatus('Purchase Successfully Created');
-        } catch (\Exception $e) {
 
-            return $e->getMessage();
-        }
+            return response()->json(['success'=>'done']);
+        }else{
+
+        return response()->json(['error'=>$validator->errors()->all()]);}
+
+
+
+
+        
+        
     }
 
     /**
