@@ -1,4 +1,4 @@
-@extends('layouts.app', ['page' => 'New Product', 'pageSlug' => 'products', 'section' => 'inventory'])
+@extends('layouts.app',  ['page' => 'List of Brand', 'pageSlug' => 'brand', 'section' => 'BasicMaster'])
 
 @section('content')
 <div class="container-fluid mt--7">
@@ -21,7 +21,7 @@
                         <div class="pl-lg-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                 <label class="form-control-label" for="input-name">Name</label>
-                                <input type="text" name="brand_name" id="input-name" class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="Name" value="{{ old('name') }}" required autofocus>
+                                <input type="text" name="brand_name" id="input-name" class="form-control form-control-alternative{{ $errors->has('brand_name') ? ' is-invalid' : '' }}" placeholder="Name" value="{{ old('brand_name') }}" required autofocus>
                                 @include('alerts.feedback', ['field' => 'brand_name'])
                             </div>
                         </div>

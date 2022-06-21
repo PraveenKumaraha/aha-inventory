@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Master;
 
-use App\Pass;
 
 use App\Brand;
 use App\Http\Controllers\Controller;
@@ -42,11 +41,11 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        // $validatedData = $request->validate([
+        $validatedData = $request->validate([
+            'brand_name' => 'required|unique:brands|max:255',
 
-        //     'brand_name' => 'required|unique:brands|max:255',
+        ]);
 
-        // ]);
         $model = new Brand();
         $model->brand_name = $request->brand_name;
         $model->brand_status = "1";
@@ -63,7 +62,7 @@ class BrandController extends Controller
      * @param  \App\Pass  $pass
      * @return \Illuminate\Http\Response
      */
-    public function show(Pass $pass)
+    public function show()
     {
         //
     }

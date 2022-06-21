@@ -113,7 +113,7 @@
                                 <td>{{ $model->a_price }}</td>
                                 <td>{{ $model->s_price }}</td>
                                 <td>{{ $model->gst }}</td>
-                                <td>{{ $model->limt }}</td>
+                                <td>{{ $model->limit }}</td>
 
 
                                 <td class="td-actions">
