@@ -38,7 +38,8 @@ class SupplierController extends Controller
     {
         $validatedData = $request->validate([
 
-            'supplier_name' => 'required|unique:suppliers|max:255',
+            'supplier_id' => 'required|unique:suppliers|max:255',
+            'supplier_contact' =>'required|unique:suppliers|max:255',
 
         ]);
         $model = new Supplier();

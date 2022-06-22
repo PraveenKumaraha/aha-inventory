@@ -22,7 +22,7 @@
                         <div class="pl-lg-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                 <label class="form-control-label" for="input-name">Supplier ID</label>
-                                <input type="text" name="supplier_id" id="input-name" class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="Supplier ID" value="{{ old('name') }}" required autofocus>
+                                <input type="text" name="supplier_id" id="input-name" class="form-control form-control-alternative{{ $errors->has('supplier_id') ? ' is-invalid' : '' }}" placeholder="Supplier ID" value="{{ old('supplier_id') }}" required autofocus>
                                 @include('alerts.feedback', ['field' => 'supplier_id'])
                             </div>
                         </div>
@@ -46,7 +46,7 @@
                         <div class="pl-lg-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                 <label class="form-control-label" for="input-name">Supplier Contact</label>
-                                <input type="text" name="supplier_contact" id="input-name" class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="Supplier Contact" value="{{ old('name') }}" required autofocus>
+                                <input type="text" name="supplier_contact" id="input-name" class="form-control form-control-alternative{{ $errors->has('supplier_contact') ? ' is-invalid' : '' }}" placeholder="Supplier Contact" value="{{ old('supplier_contact') }}" required autofocus>
                                 @include('alerts.feedback', ['field' => 'supplier_contact'])
                             </div>
                         </div>
