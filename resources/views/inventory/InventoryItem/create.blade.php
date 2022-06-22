@@ -21,15 +21,15 @@
                         <div class="pl-lg-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                 <label class="form-control-label" for="input-name">Product Name</label>
-                                <input type="text" name="product_name" id="input-name" class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="stockproduct Name" value="{{ old('name') }}" required autofocus>
-                                @include('alerts.feedback', ['field' => 'name'])
+                                <input type="text" name="product_name" id="input-name" class="form-control form-control-alternative{{ $errors->has('product_name') ? ' is-invalid' : '' }}" placeholder="stockproduct Name" value="{{ old('product_name') }}" required autofocus>
+                                @include('alerts.feedback', ['field' => 'product_name'])
                             </div>
                         </div>
                         <div class="pl-lg-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                 <label class="form-control-label" for="input-name">Product ID</label>
-                                <input type="number" name="product_id" id="input-name" class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="stockproduct Name" value="{{ old('name') }}" required autofocus>
-                                @include('alerts.feedback', ['field' => 'name'])
+                                <input type="number" name="product_id" id="input-name" class="form-control form-control-alternative{{ $errors->has('product_id') ? ' is-invalid' : '' }}" placeholder="stockproduct Name" value="{{ old('product_id') }}" required autofocus>
+                                @include('alerts.feedback', ['field' => 'product_id'])
                             </div>
                         </div>
 

@@ -52,6 +52,10 @@ class InventoryItemController extends Controller
      */
     public function store(Request $request)
     {
+        $validatedData = $request->validate([
+            'product_name' =>'required|unique:inventory_items|max:255',
+            'product_id' =>'required|unique:inventory_items|max:255',
+        ]);
 
         $model = new InventoryItem();
         $model->product_name = $request->input('product_name');
