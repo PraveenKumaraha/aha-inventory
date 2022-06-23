@@ -66,6 +66,12 @@
                                 <p>Unit</p>
                             </a>
                         </li>
+                        <li @if ($pageSlug=='tax' ) class="active " @endif>
+                            <a href="{{ route('tax.index')  }}">
+                                <i class="tim-icons icon-world"></i>
+                                <p>Tax</p>
+                            </a>
+                        </li>
 
 
                         <!-- <li @if ($pageSlug == 'transactions') class="active " @endif>
