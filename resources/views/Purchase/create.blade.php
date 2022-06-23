@@ -19,12 +19,14 @@
 	}
 </style>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <!-- Select2 JS -->
 
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
 <div class="container-fluid mt--7">
 	<form method="POST" action="{{ route('InvPurchase.store') }}" autocomplete="off">
@@ -60,7 +62,7 @@
 
 							<div class="form-row">
 								<label class=" col-form-label" for="name">Supplier Name:</label>
-								<select class="form-control col-sm-2 supplierselect1" id="product-name1" name="supplier_name">
+								<select class="form-control col-sm-2 " id="supplierselect" name="supplier_name">
 									<option selected="selected" disabled>Select Product</option>
 									<?php foreach ($pdtsupplierIds as $row) { ?> <option value="<?php echo ($row["id"]); ?>"><?php echo ($row["supplier_id"]); ?> | <?php echo ($row["supplier_name"]); ?></option>
 									<?php } ?>
@@ -96,7 +98,7 @@
 
 										<td data-select2-id="1">
 											<div class="form-group">
-												<select class="form-control select2" style="width:150px;height:80px!important" id="product-name1" name="product_name[]">
+												<select class="form-control	select" style="width:150px;height:80px!important" id="product-name1" name="product_name[]">
 													<option selected="selected" disabled>Select Product</option>
 													<?php foreach ($pdtproductIds as $row) { ?> <option value="<?php echo ($row["id"]); ?>"><?php echo ($row["product_id"]); ?> | <?php echo ($row["product_name"]); ?></option>
 													<?php } ?>
@@ -141,11 +143,9 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		//initailizeSelect2();
-		//$("#selProduct1").select2();
-		$('.select2').select2();
-		$('.supplierselect').select2();
+		$('.select').select2();
 	});
+	
 
 	var add_button = $(".add_field");
 	var wrapper = $('.item-table > tbody:last-child');
@@ -227,10 +227,10 @@
 	// }
 	// }
 </script>
-<script>
-	// new SlimSelect({
-	// 	select: '.form-select'
-	// })
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#supplierselect').select2();
+	});
 </script>
 
 @endpush
