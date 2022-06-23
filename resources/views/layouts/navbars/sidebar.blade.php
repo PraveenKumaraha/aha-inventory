@@ -220,7 +220,7 @@
 
 
 
-            <li>
+            <!-- <li>
                 <a data-toggle="collapse" href="#PurchaseMaster" {{ $section == 'PurchaseMaster' ? 'aria-expanded=true' : '' }}>
                     <i class="tim-icons icon-controller"></i>
                     <span class="nav-link-text">Purchase Masters</span>
@@ -247,7 +247,7 @@
 
                     </ul>
                 </div>
-            </li>
+            </li> -->
 
 
             <li>
