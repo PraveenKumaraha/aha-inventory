@@ -35,6 +35,8 @@
          .activeSplitterDiv {
              border: 2px solid blue !important;
          }
+         
+
      </style>
      <div class="card">
          <div class="card-header text-center font-weight-bold text-white" style="background-color: #5e72e4;">
@@ -112,26 +114,8 @@
          </div>
      </div>
 
-     <div class="card">
-         <div>
-             <label class="" for="input-name">Customer/Company : </label>
-             <input type="text" name="cname" id="cname" class="" placeholder="Enter Name">
-         </div>
 
-         <div>
-             <label class="" for="input-name">Customer Number : </label>
-             <input type="text" name="cnumber" id="cno" class="" placeholder="Enter Customer Name">
-            </div>
-             <div>
-                <label class="" for="input-name">GSTIN : </label>
-                <input type="text" name="gstin" id="gstin" class="" placeholder="Enter GSTIN">
-            </div>
 
-            <div>
-                <label class="" for="input-name">Date : </label>
-                <input type="date" name="date" id="date" class="" placeholder="Enter Name">
-            </div>
-     </div>
 
      <div class="row" style="margin-top: -15px;">
          <div class="col-md-12">
@@ -142,7 +126,9 @@
                              <h4 class="card-title"></h4>
                              <input type="text" id="search" placeholder="Type to search" autocomplete="off">
                          </div>
-
+                         <div class="col-4 text-right">
+                            <a href="{{ route('sale.create') }}" class="btn btn-sm btn-primary">Create Sale</a>
+                        </div>
                      </div>
                  </div>
                  <div class="card-body">
@@ -193,30 +179,63 @@
          $(document).ready(function() {
 
          });
+         var $rows = $('.table tbody tr');
+         $('#search').keyup(function() {
+             var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
 
-         $("#search").keyup(function() {
-
-             var value = this.value.toLowerCase().trim();
-
-             $("table tr").each(function(index) {
-                 if (!index) return;
-                 $(this).find("td").each(function() {
-                     var id = $(this).text().toLowerCase().trim();
-                     var not_found = (id.indexOf(value) == -1);
-                     $(this).closest('tr').toggle(!not_found);
-                     return not_found;
-                 });
-             });
+             $rows.show().filter(function() {
+                 var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                 return !~text.indexOf(val);
+             }).hide();
          });
 
          var type = null;
          $('.SplitData').click(function(e) {
-             $('#search').val("");
              $("body").find('.SplitData').removeClass('activeSplitterDiv');
 
              $(this).addClass('activeSplitterDiv');
              type = $(this).attr('data-value');
              splitData(type);
          });
+
+         function splitData(type) {
+
+             $.ajax({
+                 url: "{{ route('getBrandSplitedData') }}",
+                 type: "post",
+                 data: type,
+                 data: {
+                     _token: '{{ csrf_token() }}',
+                     type: type,
+
+                 },
+                 success: function(response) {
+
+                     var Result = response.data;
+                     $(".table tbody").html("");
+                     $.each(Result, function(key, value) {
+                         var editurl = '{{ route('brand.edit', ':id') }}';
+                         editurl = editurl.replace(':id', value.id);
+
+                         var deleteurl = '{{ route('brand.destroy', ':id') }}';
+                         deleteurl = deleteurl.replace(':id', value.id);
+
+                         var row = `<tr role="row" class="odd"><td>` + (key + 1) + `</td><td>` + value
+                             .brand_name + `</td><td class="td-actions"><a href ="` + editurl +
+                             `" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit"> <i class="tim-icons icon-pencil"></i></a><form id="deleteStudentForm" action="` +
+                             deleteurl + `" method="post" class="d-inline"> @csrf @method('DELETE') <button type="submit" class="btn btn-link" data-toggle="tooltip"
+                                             data-placement="bottom" title="Delete Product" onclick="return confirm('Are you sure?')">
+                                             <i class="tim-icons icon-simple-remove"></i>
+                                         </button></form></td></tr>`;
+                         //$('.table tbody').append('<tr> <td>' + (key + 1) + '</td><td>' + value.brand_name + '</td><td><a href ="" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit"> <i class="tim-icons icon-pencil"></i></a><form action="" method="post" class="d-inline">@csrf @method('delete')<button type="button" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Delete Product" onclick="confirm("Are you sure you want to remove this product? The records that contain it will continue to exist.") ? this.parentElement.submit() : ' + " " + '"> <i class="tim-icons icon-simple-remove"></i></button></form></td></tr>');
+                         $('.table tbody').append(row);
+                     })
+                     // You will get response from your PHP page (what you echo or print)
+                 },
+                 error: function(jqXHR, textStatus, errorThrown) {
+                     console.log(textStatus, errorThrown);
+                 }
+             });
+         }
      </script>
  @endsection --}}

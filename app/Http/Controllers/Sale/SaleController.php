@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Sale;
 use App\Http\Controllers\Controller;
 use App\Sale;
 use Illuminate\Http\Request;
-
+use App\InventoryItem;
+use Illuminate\Support\Facades\Validator;
 
 class SaleController extends Controller
 {
@@ -26,7 +27,9 @@ class SaleController extends Controller
      */
     public function create()
     {
-        //
+
+        $pdtproductIds = InventoryItem::select('product_id','product_name', 'id')->get();
+        return view('sale.create',compact('pdtproductIds'));
     }
 
     /**
@@ -37,7 +40,55 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [];
+
+        foreach($request->input('product_name') as $key => $value) {
+            $rules["cname.{$key}"] = 'required';
+            $rules["cnumber.{$key}"] = 'required';
+            $rules["gstin.{$key}"] = 'required';
+            $rules["date.{$key}"] = 'required';
+            $rules["product_name.{$key}"] = 'required';
+            $rules["rate.{$key}"] = 'required';
+            $rules["qty.{$key}"] = 'required';
+            $rules["tax.{$key}"] = 'required';
+            $rules["disc.{$key}"] = 'required';
+            $rules["total.{$key}"] = 'required';
+        }
+
+
+        $validator = Validator::make($request->all(), $rules);
+
+
+        if ($validator) {
+
+
+            foreach($request->input('product_name') as $key => $value) {
+
+                $model=new sale();
+
+                $model->cname = $request->get('cname');
+                $model->cnumber = $request->get('cnumber');
+                $model->gstin = $request->get('gstin');
+                $model->date = $request->get('date');
+                $model->product = $request->get('product_name');
+                $model->rate = $request->get('rate');
+                $model->qty = $request->get('qty');
+                $model->tax =$request->get('tax');
+                $model->disc =$request->get('disc');
+                $model->total =$request->get('total');
+
+                dd($model);
+
+                $model->save();
+            }
+
+
+            return response()->json(['success'=>'done']);
+        }
+        else{
+
+        return response()->json(['error'=>$validator->errors()->all()]);
+    }
     }
 
     /**
