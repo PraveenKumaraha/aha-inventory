@@ -115,7 +115,7 @@
 											<div class="form-group">
 												<select class="form-control	select2" style="width:150px;height:80px!important" id="tax-name1" name="tax[]">
 													<option selected="selected" disabled>Select Tax</option>
-													<?php foreach ($pdttaxids as $row) { ?> <option value="<?php echo ($row["id"]); ?>"><?php echo ($row["tax_name"]); ?> | <?php echo ($row["tax_value"]); ?></option>
+													<?php foreach ($pdttaxids as $row) { ?> <option value="<?php echo ($row["id"]); ?>"><?php echo ($row["tax_name"]); ?></option>
 													<?php } ?>
 												</select>
 											</div>
@@ -187,7 +187,7 @@
 				'<div class="form-group">' +
 				'<select class="form-control select2" style="width: 100%;" id="tax-name' + count + '" name="tax[]">' +
 				'<option selected="selected" disabled>Select Tax</option>' +
-				<?php foreach ($pdttaxids as $row) { ?> '<option value="<?php echo ($row["id"]); ?>"><?php echo ($row["tax_name"]); ?> | <?php echo ($row["tax_value"]); ?></option>' +
+				<?php foreach ($pdttaxids as $row) { ?> '<option value="<?php echo ($row["id"]); ?>"><?php echo ($row["tax_name"]); ?></option>' +
 				<?php } ?> '</select>' +
 				'</div>' +
 				'</td>';
