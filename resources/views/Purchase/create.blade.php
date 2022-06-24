@@ -47,9 +47,9 @@
 						</div> -->
 							<div class="col-4 text-right">
 								<button type="reset" class="btn">Reset</button>
-								
+
 								<button type="submit" class="btn">Save</button>
-								
+
 								<a href="{{ route('InvPurchase.index') }}" class="btn">Back to List</a>
 							</div>
 						</div>
@@ -63,7 +63,7 @@
 							<div class="form-row">
 								<label class=" col-form-label" for="name">Supplier Name:</label>
 								<select class="form-control col-sm-2 " id="supplierselect" name="supplier_name">
-									<option selected="selected" disabled>Select Product</option>
+									<option selected="selected" disabled>Select Supplier</option>
 									<?php foreach ($pdtsupplierIds as $row) { ?> <option value="<?php echo ($row["id"]); ?>"><?php echo ($row["supplier_id"]); ?> | <?php echo ($row["supplier_name"]); ?></option>
 									<?php } ?>
 								</select>
@@ -98,7 +98,7 @@
 
 										<td data-select2-id="1">
 											<div class="form-group">
-												<select class="form-control	select" style="width:150px;height:80px!important" id="product-name1" name="product_name[]">
+												<select class="form-control	select2" style="width:150px;height:80px!important" id="product-name1" name="product_name[]">
 													<option selected="selected" disabled>Select Product</option>
 													<?php foreach ($pdtproductIds as $row) { ?> <option value="<?php echo ($row["id"]); ?>"><?php echo ($row["product_id"]); ?> | <?php echo ($row["product_name"]); ?></option>
 													<?php } ?>
@@ -111,9 +111,18 @@
 										<td>
 											<input type="text" name="rate[]" id="rate1" class="form-control">
 										</td>
-										<td>
-											<input type="text" name="tax[]" id="tax" class="form-control">
+										<td data-select2-id="1">
+											<div class="form-group">
+												<select class="form-control	select2" style="width:150px;height:80px!important" id="tax-name1" name="tax[]">
+													<option selected="selected" disabled>Select Tax</option>
+													<?php foreach ($pdttaxids as $row) { ?> <option value="<?php echo ($row["id"]); ?>"><?php echo ($row["tax_name"]); ?> | <?php echo ($row["tax_value"]); ?></option>
+													<?php } ?>
+												</select>
+											</div>
 										</td>
+										<!-- <td>
+											<input type="text" name="tax[]" id="tax" class="form-control">
+										</td> -->
 										<td>
 											<input type="text" name="disc[]" id="disc1" value="0" class="form-control">
 										</td>
@@ -143,15 +152,16 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('.select').select2();
+		$('.select2').select2();
 	});
-	
+
 
 	var add_button = $(".add_field");
 	var wrapper = $('.item-table > tbody:last-child');
 	var x = 1;
 	$(add_button).click(function() {
 		var lastItem = $('tr:last td:first .select2').val();;
+		
 
 		var currentcount = $('table.item-table tr:last').index() + 1;
 
@@ -173,13 +183,22 @@
 				'</td>';
 			html_code += '<td> <input type="text" name="rate[]" id="rate1"  class="form-control"> </td>';
 			html_code += '<td> <input type="number" name="qty[]" id="qty1" min="1" class="form-control"> </td>';
-			html_code += '<td> <input type="text" name="tax[]" id="tax" class="form-control"> </td>';
+			html_code += '<td data-select2-id="' + (count * 50) + '">' +
+				'<div class="form-group">' +
+				'<select class="form-control select2" style="width: 100%;" id="tax-name' + count + '" name="tax[]">' +
+				'<option selected="selected" disabled>Select Tax</option>' +
+				<?php foreach ($pdttaxids as $row) { ?> '<option value="<?php echo ($row["id"]); ?>"><?php echo ($row["tax_name"]); ?> | <?php echo ($row["tax_value"]); ?></option>' +
+				<?php } ?> '</select>' +
+				'</div>' +
+				'</td>';
 			html_code += '<td> <input type="text" name="disc[]" id="disc1" value="0" class="form-control"> </td>';
 			html_code += '<td> <input type="text" name="total[]" id="total1" class="form-control"> </td>';
-			html_code += '<td><a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons" style="color:red">&#xE872;</i></a></td>';
+			html_code += '<td><a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons" style="color:red">&#xE872;</i></a></td> </tr>';
 
 			wrapper.append(html_code);
 			$('#' + 'product-name' + count, wrapper).select2();
+			$('#' + 'tax-name' + count, wrapper).select2();
+
 		} else {
 			alert("Please Select Product");
 		}

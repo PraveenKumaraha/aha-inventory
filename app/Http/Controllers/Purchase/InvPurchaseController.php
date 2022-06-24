@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\InvPurchase;
 use App\Supplier;
+use App\Tax;
 use Illuminate\Http\Request;
 
 class InvPurchaseController extends Controller
@@ -37,8 +38,9 @@ class InvPurchaseController extends Controller
          $pdtproductIds = InventoryItem::select('product_id','product_name', 'id')->get();
         
          $pdtsupplierIds = Supplier::select('supplier_id', 'supplier_name', 'id')->get();
+         $pdttaxids = Tax::select('tax_name', 'tax_value', 'id')->get();
 
-        return view('Purchase.create',compact('pdtproductIds','pdtsupplierIds'));
+        return view('Purchase.create',compact('pdtproductIds','pdtsupplierIds', 'pdttaxids'));
     }
 
     /**

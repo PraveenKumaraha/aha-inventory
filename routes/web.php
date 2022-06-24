@@ -41,6 +41,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('supplier', 'SupplierController');
     Route::resource('managestock', 'Master\ManageStockController');
     Route::resource('bulkPurchase', 'Purchase\BulkPurchaseController');
+    Route::resource('tax','Master\TaxController');
 
     
 Route::resource('addinv','AddInvController');
