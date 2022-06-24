@@ -284,6 +284,7 @@
                     </ul>
                 </div>
             </li>
+            
 
 
 
@@ -368,6 +369,29 @@
                                 <p>New user</p>
                             </a>
                         </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a data-toggle="collapse" href="#Settings" {{ $section == 'Settings' ? 'aria-expanded=true' : '' }}>
+                    <i class="tim-icons icon-controller"></i>
+                    <span class="nav-link-text">Settings</span>
+                    <b class="caret mt-1"></b>
+                </a>
+
+                 <div class="collapse {{ $section == 'Settings' ? 'show' : '' }}" id="Settings">
+                    <ul class="nav pl-4">
+
+                        <li @if ($pageSlug=='transactionType' ) class="active " @endif>
+                            <a href="{{ route('transactionType.index') }}">
+                                <i class="tim-icons icon-single-02"></i>
+                                <p>Transaction Type</p>
+                            </a>
+                        </li>
+
+                       
+
+
                     </ul>
                 </div>
             </li>

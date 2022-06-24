@@ -106,4 +106,16 @@ class TaxController extends Controller
         $model->save();
         return redirect()->route('tax.index');
     }
+    public function getTaxSplitedData(Request $request)
+    {
+        $models = Tax::select('*')->whereNull('deleted_at')->orderby('id', 'desc');
+        if ($request->type == "activeData") {
+            $models->where('tax_status', 1);
+        } else if ($request->type == "inActiveData") {
+            $models->where('tax_status', 0);
+        }
+        $datas = $models->get();
+
+        return response()->json(array('result' => "success", 'data' => $datas));
+    }
 }
