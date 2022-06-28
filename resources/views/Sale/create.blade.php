@@ -2,33 +2,20 @@
 
 @section('content')
     <style>
-        .gst {
-            margin-left: 80px;
-        }
+        .form-row {
+		margin: 10px;
+		margin-left: 20px;
+	}
 
-        .name {
-            margin-left: 6px;
-        }
+	.col-form-label1 {
+		margin-right: 62px;
+		padding-right: 40px;
+	}
 
-        .cno {
-            margin-left: 10px;
-        }
-
-        .cno1 {
-            margin-left: 5px;
-        }
-
-        .date {
-            margin-left: 13px;
-        }
-
-        .date1 {
-            margin-left: 80px;
-        }
-
-        .num {
-            margin-left: 10px;
-        }
+	.col-form-label12 {
+		margin-right: 80px;
+		padding-right: 40px;
+	}
     </style>
     <div class="container-fluid mt--7">
         <div class="row">
@@ -48,7 +35,7 @@
                         <div class="row">
                             <div class="col-xl-12 order-xl-1">
 
-                                <div class="card">
+                                <div class="card-body">
                                     <form method="POST" action="{{ route('sale.store') }}" autocomplete="off">
                                         @csrf
                                         <div class="card-header">
@@ -57,49 +44,37 @@
                                                     <h3 class="mb-0">Create Sale</h3>
                                                 </div>
 
-                                                <div class="col-4 text-right">
-                                                    <a href="{{ route('sale.index') }}"
-                                                        class="btn btn-sm btn-primary">Back to
-                                                        List</a>
 
+                                                <div class="col-4 text-right">
                                                     <button type="reset" class="btn">Reset</button>
 
-                                                    <button type="submit" class="btn">Submit</button>
+                                                    <button type="submit" class="btn">Save</button>
 
+                                                    <a href="{{ route('sale.index') }}" class="btn">Back to List</a>
                                                 </div>
 
                                             </div>
-                                        </div><br><br>
+                                        </div><br>
 
-                                        <div class="card">
+                                            <div class="container-sm" style="width:100%;border-style: solid;border-color: coral;">
 
-                                            <div class=" form-row" style="margin-right:100px">
+                                                <div class="form-row">
+                                                    <label class=" col-form-label" for="name">Customer Number:</label>
+                                                    <input type="text" class="form-control col-sm-2" name="customer_name" id="name" />
 
-                                                <label for="input-name" class="col-form-label">Customer/Company : </label>
-                                                <input type="text" name="cname" id="cname"
-                                                    class="form-control col-sm-2 name" placeholder="Enter Name">
+                                                    <label class=" col-form-label" for="name">Customer Number:</label>
+                                                    <input type="text" class="form-control col-sm-2" name="customer_name" id="name" />
+                                                </div>
 
-                                                <label for="input-name" class="col-form-label num">Customer Number :
-                                                </label>
-                                                <input type="text" name="cnumber" id="cno"
-                                                    class="form-control col-sm-2 cno1" placeholder="Enter Customer Name">
-                                            </div><br>
+                                                <div class="form-row">
+                                                    <label class=" col-form-label1" for="name">GSTIN:</label>
+                                                    <input type="text" class="form-control col-sm-2" name="gstin" id="name" placeholder="12345" disabled />
 
-                                            <div class="form-row" style="margin-right:100px">
-                                                <label for="input-name" class="col-form-label">GSTIN : </label>
-                                                <input type="text" name="gstin" id="gstin"
-                                                    class="form-control col-sm-2 gst" placeholder="Enter GSTIN">
+                                                    <label class=" col-form-label12" for="name">Date:</label>
+                                                    <input type="date" class="form-control col-sm-2" name="date" id="name" />
+                                                </div>
+                                            </div>
 
-                                                <label for="input-name" class="col-form-label date">Date : </label>
-                                                <input type="date" name="date" id="date"
-                                                    class="form-control col-sm-2 date1" placeholder="Enter Name">
-
-                                            </div><br>
-
-
-                                        </div>
-
-                                        <div class="card-body">
                                             <table class="table table-bordered item-table">
                                                 <thead class="thead-light">
                                                     <th>item</th>
@@ -137,9 +112,14 @@
                                                                 <input type="text" name="rate[]" id="rate1"
                                                                     class="form-control">
                                                             </td>
-                                                            <td>
-                                                                <input type="text" name="tax[]" id="tax"
-                                                                    class="form-control">
+                                                            <td data-select2-id="1">
+                                                                <div class="form-group">
+                                                                    <select class="form-control	select2" style="width:150px;height:80px!important" id="tax-name1" name="tax[]">
+                                                                        <option selected="selected" disabled>Select Tax</option>
+                                                                        <?php foreach ($pdttaxids as $row) { ?> <option value="<?php echo ($row["id"]); ?>"><?php echo ($row["tax_name"]); ?></option>
+                                                                        <?php } ?>
+                                                                    </select>
+                                                                </div>
                                                             </td>
                                                             <td>
                                                                 <input type="text" name="disc[]" id="disc1"
@@ -160,7 +140,7 @@
                                                     </div>
                                                 </tbody>
                                             </table>
-                                            <button class="btn btn-primary add_field">add Pdt</button>
+                                            <button type="button" class="btn btn-primary add_field">add Pdt</button>
                                         </div>
                                     </form>
                                 </div>
@@ -209,7 +189,15 @@
                     '</td>';
                 html_code += '<td> <input type="text" name="rate[]" id="rate1"  class="form-control"> </td>';
                 html_code += '<td> <input type="number" name="qty[]" id="qty1" min="1" class="form-control"> </td>';
-                html_code += '<td> <input type="text" name="tax[]" id="tax" class="form-control"> </td>';
+                html_code += '<td data-select2-id="' + (count * 50) + '">' +
+				'<div class="form-group">' +
+				'<select class="form-control select2" style="width: 100%;" id="tax-name' + count +
+                '" name="tax[]">' +
+				'<option selected="selected" disabled>Select Tax</option>' +
+				<?php foreach ($pdttaxids as $row) { ?> '<option value="<?php echo ($row["id"]); ?>"><?php echo ($row["tax_name"]); ?></option>' +
+				<?php } ?> '</select>' +
+				'</div>' +
+				'</td>';
                 html_code +=
                     '<td> <input type="text" name="disc[]" id="disc1" value="0" class="form-control"> </td>';
                 html_code += '<td> <input type="text" name="total[]" id="total1" class="form-control"> </td>';
@@ -218,7 +206,8 @@
 
                 wrapper.append(html_code);
                 $('#' + 'product-name' + count, wrapper).select2();
-            } else {
+                $('#' + 'tax-name' + count, wrapper).select2();
+            }else {
                 alert("Please Select Product");
             }
         });

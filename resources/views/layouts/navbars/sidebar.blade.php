@@ -223,7 +223,12 @@
                 </a>
             </li>
 
-
+            <li @if ($pageSlug=='sale' ) class="active " @endif>
+                <a href="{{ route('sale.index') }}">
+                    <i class="tim-icons icon-single-02"></i>
+                    <p>Sale</p>
+                </a>
+            </li>
 
 
             <!-- <li>
@@ -256,7 +261,7 @@
             </li> -->
 
 
-            <li>
+            {{-- <li>
                 <a data-toggle="collapse" href="#SaleMaster" {{ $section == 'SaleMaster' ? 'aria-expanded=true' : '' }}>
                     <i class="tim-icons icon-controller"></i>
                     <span class="nav-link-text">Sale Masters</span>
@@ -266,12 +271,7 @@
                  <div class="collapse {{ $section == 'SaleMaster' ? 'show' : '' }}" id="SaleMaster">
                     <ul class="nav pl-4">
 
-                        <li @if ($pageSlug=='sale' ) class="active " @endif>
-                            <a href="{{ route('sale.index') }}">
-                                <i class="tim-icons icon-single-02"></i>
-                                <p>Sale</p>
-                            </a>
-                        </li>
+
 
                         <li @if ($pageSlug=='returnsale' ) class="active " @endif>
                             <a href="">
@@ -283,8 +283,8 @@
 
                     </ul>
                 </div>
-            </li>
-            
+            </li> --}}
+
 
 
 
@@ -389,7 +389,7 @@
                             </a>
                         </li>
 
-                       
+
 
 
                     </ul>
