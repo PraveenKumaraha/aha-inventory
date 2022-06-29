@@ -7,6 +7,7 @@ use App\Sale;
 use Illuminate\Http\Request;
 use App\InventoryItem;
 use Illuminate\Support\Facades\Validator;
+use App\Tax;
 
 class SaleController extends Controller
 {
@@ -29,7 +30,9 @@ class SaleController extends Controller
     {
 
         $pdtproductIds = InventoryItem::select('product_id','product_name', 'id')->get();
-        return view('sale.create',compact('pdtproductIds'));
+        $pdttaxids = Tax::select('tax_name', 'tax_value', 'id')->get();
+
+        return view('sale.create',compact('pdtproductIds','pdttaxids'));
     }
 
     /**
