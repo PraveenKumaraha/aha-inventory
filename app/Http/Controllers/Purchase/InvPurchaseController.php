@@ -35,7 +35,7 @@ class InvPurchaseController extends Controller
     public function create()
     {
 
-         $pdtproductIds = InventoryItem::select('product_id','product_name', 'id')->get();
+         $pdtproductIds = InventoryItem::select('product_id','product_name', 'id','a_price')->get();
         
          $pdtsupplierIds = Supplier::select('supplier_id', 'supplier_name', 'id')->get();
          $pdttaxids = Tax::select('tax_name', 'tax_value', 'id')->get();
