@@ -14,7 +14,7 @@
 	}
 
 	.col-form-label12 {
-		margin-right: 80px;
+		margin-right: 75px;
 		padding-right: 40px;
 	}
 </style>
@@ -55,9 +55,7 @@
 						</div>
 					</div>
 					<div class="card-body">
-						<div class="form-group">
-
-						</div>
+						
 						<div class="container-sm" style="width:100%;border-style: solid;border-color: coral;">
 
 							<div class="form-row">
@@ -98,9 +96,9 @@
 
 										<td data-select2-id="1">
 											<div class="form-group">
-												<select class="form-control	select2" style="width:150px;height:80px!important" id="product-name1" name="product_name[]">
+												<select class="form-control	select2 item" style="width:150px;height:80px!important" id="product-name1" name="product_name[]">
 													<option selected="selected" disabled>Select Product</option>
-													<?php foreach ($pdtproductIds as $row) { ?> <option value="<?php echo ($row["id"]); ?>"><?php echo ($row["product_id"]); ?> | <?php echo ($row["product_name"]); ?></option>
+													<?php foreach ($pdtproductIds as $row) { ?> <option value="<?php echo ($row["id"]); ?>" a_price="<?php echo ($row['a_price']); ?>"><?php echo ($row["product_id"]); ?> | <?php echo ($row["product_name"]); ?></option>
 													<?php } ?>
 												</select>
 											</div>
@@ -155,13 +153,13 @@
 		$('.select2').select2();
 	});
 
-
+	
 	var add_button = $(".add_field");
 	var wrapper = $('.item-table > tbody:last-child');
 	var x = 1;
 	$(add_button).click(function() {
 		var lastItem = $('tr:last td:first .select2').val();;
-		
+
 
 		var currentcount = $('table.item-table tr:last').index() + 1;
 
@@ -175,9 +173,9 @@
 
 			html_code += '<td data-select2-id="' + (count * 50) + '">' +
 				'<div class="form-group">' +
-				'<select class="form-control select2" style="width: 100%;" id="product-name' + count + '" name="product_name[]">' +
+				'<select class="form-control select2 item" style="width: 100%;" id="product-name' + count + '" name="product_name[]">' +
 				'<option selected="selected" disabled>Select Product</option>' +
-				<?php foreach ($pdtproductIds as $row) { ?> '<option value="<?php echo ($row["id"]); ?>"><?php echo ($row["product_id"]); ?> | <?php echo ($row["product_name"]); ?></option>' +
+				<?php foreach ($pdtproductIds as $row) { ?> '<option value="<?php echo ($row["id"]); ?>" a_price="<?php echo ($row["a_price"]); ?>" ><?php echo ($row["product_id"]); ?> | <?php echo ($row["product_name"]); ?></option>' +
 				<?php } ?> '</select>' +
 				'</div>' +
 				'</td>';
@@ -250,6 +248,15 @@
 	$(document).ready(function() {
 		$('#supplierselect').select2();
 	});
-</script>
+	$('.item').on('change', function() {
+		console.log("well");
+		var a_price = $('option:selected', this).attr('a_price');
+	
+		var $rateField = $(this).closest('tr').find($('input[name="rate[]"]'));
+		$rateField.val("");
+		$rateField.val(a_price);
 
+	});
+</script>  
 @endpush
+ 
