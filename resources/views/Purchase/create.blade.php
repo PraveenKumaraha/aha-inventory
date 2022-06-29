@@ -47,11 +47,13 @@
 							<a href="" class="btn y">Save</a>
 						</div> -->
 							<div class="col-4 text-right">
-								<button type="reset" class="btn">Reset</button>
+								<button type="button" class="btn btn-primary back">Back</button>
+								<button type="reset" class="btn btn-danger reset">Reset</button>
 
-								<button type="submit" class="btn">Save</button>
+								<button type="submit" class="btn btn-success save">Save</button>
 
-								<a href="{{ route('InvPurchase.index') }}" class="btn">Back to List</a>
+
+
 							</div>
 						</div>
 					</div>
@@ -223,6 +225,11 @@
 		// var rate = $(this).closest('tr').find('input[name=rate[]]').val();
 		//console.log(rate);
 	}
+	$(".back").on("click", function() {
+		var url = "{{ route('InvPurchase.index') }}";
+		window.location.href = url;
+	});
+
 
 	var add_button = $(".add_field1");
 	var wrapper = $('.item-table > tbody:last-child');
