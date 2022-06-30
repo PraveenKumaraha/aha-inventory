@@ -14,7 +14,7 @@
 	}
 
 	.col-form-label12 {
-		margin-right: 75px;
+		margin-right: 80px;
 		padding-right: 40px;
 	}
 </style>
@@ -25,6 +25,7 @@
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <!-- Select2 JS -->
+
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
@@ -58,7 +59,9 @@
 						</div>
 					</div>
 					<div class="card-body">
-						
+						<div class="form-group">
+
+						</div>
 						<div class="container-sm" style="width:100%;border-style: solid;border-color: coral;">
 
 							<div class="form-row">
@@ -82,8 +85,8 @@
 								<input type="date" class="form-control col-sm-2" name="date" id="name" />
 							</div>
 						</div>
-						<table class="table table-bordered item-table">
-							<thead class="thead-light">
+						<table class="table table-bordered item-table" id="productTable">
+							<thead class=" thead-light">
 								<th>item</th>
 
 								<th>Quantity</th>
@@ -95,28 +98,28 @@
 							</thead>
 							<tbody>
 								<div class="col-sm-12 rowInvoice1">
-									<tr class="rowInvoice">
+									<tr class="1" id="row1">
 
 										<td data-select2-id="1">
 											<div class="form-group">
-												<select class="form-control	select2 item" style="width:150px;height:80px!important" id="product-name1" name="product_name[]">
-													<option selected="selected" disabled>Select Product</option>
-													<?php foreach ($pdtproductIds as $row) { ?> <option value="<?php echo ($row["id"]); ?>" a_price="<?php echo ($row['a_price']); ?>"><?php echo ($row["product_id"]); ?> | <?php echo ($row["product_name"]); ?></option>
+												<select class="form-control	select2 productName1" style="width:150px;height:80px!important" id="productName1" name="productName[]" onchange="getProductData(1)">
+													<option value="" selected="selected" disabled>Select Product</option>
+													<?php foreach ($pdtproductIds as $row) { ?> <option value="<?php echo ($row["id"]); ?>" a_price="<?php echo ($row["a_price"]); ?>"><?php echo ($row["product_id"]); ?> | <?php echo ($row["product_name"]); ?></option>
 													<?php } ?>
 												</select>
 											</div>
 										</td>
 										<td>
-											<input type="number" name="qty[]" id="qty1" min="1" class="form-control">
+											<input type="number" name="qty[]" id="quantity1" min="1" class="form-control quantity1">
 										</td>
 										<td>
-											<input type="text" name="rate[]" id="rate1" class="form-control">
+											<input type="text" name="rate[]" id="rate1" class="form-control rate1">
 										</td>
 										<td data-select2-id="1">
 											<div class="form-group">
-												<select class="form-control	select2" style="width:150px;height:80px!important" id="tax-name1" name="tax[]">
-													<option selected="selected" disabled>Select Tax</option>
-													<?php foreach ($pdttaxids as $row) { ?> <option value="<?php echo ($row["id"]); ?>"><?php echo ($row["tax_name"]); ?></option>
+												<select class="form-control	select2" style="width:150px;height:80px!important" id="tax1" name="tax[]" onchange="getTaxData(1)">
+													<option value="0" selected="selected" disabled>Select Tax</option>
+													<?php foreach ($pdttaxids as $row) { ?> <option value="<?php echo ($row["id"]); ?>" taxValue="<?php echo ($row["tax_value"]); ?>"><?php echo ($row["tax_name"]); ?></option>
 													<?php } ?>
 												</select>
 											</div>
@@ -133,13 +136,13 @@
 										</td>
 										<td>
 
-											<a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons" style="color:red">&#xE872;</i></a>
+											<a class="delete" title="Delete" data-toggle="tooltip" onclick="removeProductRow(1)"><i class="material-icons" style="color:red">&#xE872;</i></a>
 										</td>
 									</tr>
 								</div>
 							</tbody>
 						</table>
-						<button type="button" class="btn btn-primary add_field">add Pdt</button>
+						<button type="button" class="btn btn-primary add_field" id="addRowBtn" onclick="addRow()">add Pdt</button>
 					</div>
 				</div>
 			</div>
@@ -153,13 +156,9 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('.select2').select2();
+
 	});
 
-<<<<<<< HEAD
-	
-	var add_button = $(".add_field");
-=======
 	function addRow() {
 		$("#addRowBtn").button("loading");
 
@@ -234,7 +233,6 @@
 
 
 	var add_button = $(".add_field1");
->>>>>>> 76904c1980b123042466bc7cf6a9f52e82625d32
 	var wrapper = $('.item-table > tbody:last-child');
 	var x = 1;
 	$(add_button).click(function() {
@@ -253,9 +251,9 @@
 
 			html_code += '<td data-select2-id="' + (count * 50) + '">' +
 				'<div class="form-group">' +
-				'<select class="form-control select2 item" style="width: 100%;" id="product-name' + count + '" name="product_name[]">' +
+				'<select class="form-control select2" style="width: 100%;" id="product-name' + count + '" name="product_name[]" onchange="onSelectProduct(this)">' +
 				'<option selected="selected" disabled>Select Product</option>' +
-				<?php foreach ($pdtproductIds as $row) { ?> '<option value="<?php echo ($row["id"]); ?>" a_price="<?php echo ($row["a_price"]); ?>" ><?php echo ($row["product_id"]); ?> | <?php echo ($row["product_name"]); ?></option>' +
+				<?php foreach ($pdtproductIds as $row) { ?> '<option value="<?php echo ($row["id"]); ?>" a_price="<?php echo ($row["a_price"]); ?>"><?php echo ($row["product_id"]); ?> | <?php echo ($row["product_name"]); ?></option>' +
 				<?php } ?> '</select>' +
 				'</div>' +
 				'</td>';
@@ -324,19 +322,6 @@
 	// }
 	// }
 </script>
-<script type="text/javascript">
-	$(document).ready(function() {
-		$('#supplierselect').select2();
-	});
-	$('.item').on('change', function() {
-		console.log("well");
-		var a_price = $('option:selected', this).attr('a_price');
-	
-		var $rateField = $(this).closest('tr').find($('input[name="rate[]"]'));
-		$rateField.val("");
-		$rateField.val(a_price);
+<script src="{{ asset('assets') }}/js/inventory/purchase.js"></script>
 
-	});
-</script>  
 @endpush
- 
