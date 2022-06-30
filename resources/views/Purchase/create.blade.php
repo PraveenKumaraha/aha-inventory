@@ -30,6 +30,7 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
 <div class="container-fluid mt--7">
+	<!-- //test by dhana -->
 	<form method="POST" action="{{ route('InvPurchase.store') }}" autocomplete="off">
 		@csrf
 		<div class="row">
