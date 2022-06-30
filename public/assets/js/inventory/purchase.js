@@ -15,7 +15,7 @@ function getProductData(rowId = null) {
       $("#rate" + rowId).val("");
       $("#rate" + rowId).val(actualPrice);
       $("#quantity" + rowId).val("");
-      $("#quantity" + rowId).val(1);
+     // $("#quantity" + rowId).val(1);
       $("#total" + rowId).val("");
       var total = Number(actualPrice) * 1; 
 
@@ -61,17 +61,43 @@ function getTaxData(row = null) {
       $("#total" + row).val(total);
 
 
-      console.log('row' + row);
-      console.log('actualPrice' + actualPrice);
-      console.log('quantity' + quantity);
-      console.log('actualPrice*quantity->price =' + price);
-      console.log('taxValue' + taxValue);
-      console.log('totaltaxvalue' + totaltaxvalue);
-      console.log('price*totaltaxvalue ->taxAmount' + taxAmount);
-      console.log('price*totaltaxvalue ->total' + total);
+      // console.log('row' + row);
+      // console.log('actualPrice' + actualPrice);
+      // console.log('quantity' + quantity);
+      // console.log('actualPrice*quantity->price =' + price);
+      // console.log('taxValue' + taxValue);
+      // console.log('totaltaxvalue' + totaltaxvalue);
+      // console.log('price*totaltaxvalue ->taxAmount' + taxAmount);
+      // console.log('price*totaltaxvalue ->total' + total);
 
    } else {
       alert('Attention!,First Select Product');
 
+   }
+}
+function getQtyData(row = null) {
+   var productId = $("#productName" + row).val();
+   if (productId)  {
+      var actualPrice = $("#productName" + row).find("option:selected").attr('a_price');
+      var quantity = $("#quantity" + row).val();
+      var price = Number(actualPrice) * Number(quantity);
+      $("#total" + row).val("");
+      var total = Number(quantity) * Number(actualPrice);
+      total = total.toFixed();
+      $("#total" + row).val(total);
+
+
+
+      console.log('row' + row);
+      console.log('actualPrice' + actualPrice);
+      console.log('quantity' + quantity);
+      console.log('actualPrice*quantity->price =' + price);
+      console.log('quantity*price->total =' + total);
+     
+     
+
+
+   }else {
+      alert('no row !! please refresh the page');
    }
 }

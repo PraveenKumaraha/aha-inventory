@@ -110,7 +110,7 @@
 											</div>
 										</td>
 										<td>
-											<input type="number" name="qty[]" id="quantity1" min="1" class="form-control quantity1">
+											<input type="number" name="qty[]" id="quantity1" min="1" class="form-control quantity1" onchange="getQtyData(1)">
 										</td>
 										<td>
 											<input type="text" name="rate[]" id="rate1" class="form-control rate1">
@@ -184,7 +184,7 @@
 				<?php } ?> + '</select>' +
 				'</div>' +
 				'</td>';
-			tr += '<td> <input type="text" name="quantity[]" id="quantity' + count + '"  class="form-control quantity' + count + '"></td>';
+			tr += '<td> <input type="text" name="quantity[]" id="quantity' + count + '"  class="form-control quantity' + count + '"onchange="getQtyData(' + count + ')"></td>';
 			tr += ' <td> <input type="text" name="rate[]" id="rate' + count + '"  class="form-control rate' + count + '"> </td>'
 			tr += '<td data-select2-id="' + (count * 50) + '">' +
 				'<div class="form-group">' +
@@ -235,51 +235,51 @@
 	var add_button = $(".add_field1");
 	var wrapper = $('.item-table > tbody:last-child');
 	var x = 1;
-	$(add_button).click(function() {
-		var lastItem = $('tr:last td:first .select2').val();;
+	// $(add_button).click(function() {
+	// 	var lastItem = $('tr:last td:first .select2').val();;
 
 
-		var currentcount = $('table.item-table tr:last').index() + 1;
+	// 	var currentcount = $('table.item-table tr:last').index() + 1;
 
 
 
-		if (lastItem) {
-			var count = currentcount + 1;
+	// 	if (lastItem) {
+	// 		var count = currentcount + 1;
 
-			var html_code = '';
-			html_code += '<tr id="row_id_' + count + '">';
+	// 		var html_code = '';
+	// 		html_code += '<tr id="row_id_' + count + '">';
 
-			html_code += '<td data-select2-id="' + (count * 50) + '">' +
-				'<div class="form-group">' +
-				'<select class="form-control select2" style="width: 100%;" id="product-name' + count + '" name="product_name[]" onchange="onSelectProduct(this)">' +
-				'<option selected="selected" disabled>Select Product</option>' +
-				<?php foreach ($pdtproductIds as $row) { ?> '<option value="<?php echo ($row["id"]); ?>" a_price="<?php echo ($row["a_price"]); ?>"><?php echo ($row["product_id"]); ?> | <?php echo ($row["product_name"]); ?></option>' +
-				<?php } ?> '</select>' +
-				'</div>' +
-				'</td>';
-			html_code += '<td> <input type="text" name="rate[]" id="rate1"  class="form-control"> </td>';
-			html_code += '<td> <input type="number" name="qty[]" id="qty1" min="1" class="form-control"> </td>';
-			html_code += '<td data-select2-id="' + (count * 50) + '">' +
-				'<div class="form-group">' +
-				'<select class="form-control select2" style="width: 100%;" id="tax-name' + count + '" name="tax[]">' +
-				'<option selected="selected" disabled>Select Tax</option>' +
-				<?php foreach ($pdttaxids as $row) { ?> '<option value="<?php echo ($row["id"]); ?>"><?php echo ($row["tax_name"]); ?></option>' +
-				<?php } ?> '</select>' +
-				'</div>' +
-				'</td>';
-			html_code += '<td> <input type="text" name="disc[]" id="disc1" value="0" class="form-control"> </td>';
-			html_code += '<td> <input type="text" name="total[]" id="total1" class="form-control"> </td>';
-			html_code += '<td><a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons" style="color:red">&#xE872;</i></a></td> </tr>';
+	// 		html_code += '<td data-select2-id="' + (count * 50) + '">' +
+	// 			'<div class="form-group">' +
+	// 			'<select class="form-control select2" style="width: 100%;" id="product-name' + count + '" name="product_name[]" onchange="onSelectProduct(this)">' +
+	// 			'<option selected="selected" disabled>Select Product</option>' +
+	// 			<?php foreach ($pdtproductIds as $row) { ?> '<option value="<?php echo ($row["id"]); ?>" a_price="<?php echo ($row["a_price"]); ?>"><?php echo ($row["product_id"]); ?> | <?php echo ($row["product_name"]); ?></option>' +
+	// 			<?php } ?> '</select>' +
+	// 			'</div>' +
+	// 			'</td>';
+	// 		html_code += '<td> <input type="text" name="rate[]" id="rate1"  class="form-control"> </td>';
+	// 		html_code += '<td> <input type="number" name="qty[]" id="qty1" min="1" class="form-control"> </td>';
+	// 		html_code += '<td data-select2-id="' + (count * 50) + '">' +
+	// 			'<div class="form-group">' +
+	// 			'<select class="form-control select2" style="width: 100%;" id="tax-name' + count + '" name="tax[]">' +
+	// 			'<option selected="selected" disabled>Select Tax</option>' +
+	// 			<?php foreach ($pdttaxids as $row) { ?> '<option value="<?php echo ($row["id"]); ?>"><?php echo ($row["tax_name"]); ?></option>' +
+	// 			<?php } ?> '</select>' +
+	// 			'</div>' +
+	// 			'</td>';
+	// 		html_code += '<td> <input type="text" name="disc[]" id="disc1" value="0" class="form-control"> </td>';
+	// 		html_code += '<td> <input type="text" name="total[]" id="total1" class="form-control"> </td>';
+	// 		html_code += '<td><a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons" style="color:red">&#xE872;</i></a></td> </tr>';
 
-			wrapper.append(html_code);
-			$('#' + 'product-name' + count, wrapper).select2();
-			$('#' + 'tax-name' + count, wrapper).select2();
+	// 		wrapper.append(html_code);
+	// 		$('#' + 'product-name' + count, wrapper).select2();
+	// 		$('#' + 'tax-name' + count, wrapper).select2();
 
-		} else {
-			alert("Please Select Product");
-		}
+	// 	} else {
+	// 		alert("Please Select Product");
+	// 	}
 
-	});
+	// });
 
 	//var trow = "";
 	// $(wrapper).append(
