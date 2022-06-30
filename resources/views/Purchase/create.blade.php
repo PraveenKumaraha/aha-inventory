@@ -29,6 +29,7 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
 <div class="container-fluid mt--7">
+	<!-- //test by dhana -->
 	<form method="POST" action="{{ route('InvPurchase.store') }}" autocomplete="off">
 		@csrf
 		<div class="row">
@@ -46,11 +47,13 @@
 							<a href="" class="btn y">Save</a>
 						</div> -->
 							<div class="col-4 text-right">
-								<button type="reset" class="btn">Reset</button>
+								<button type="button" class="btn btn-primary back">Back</button>
+								<button type="reset" class="btn btn-danger reset">Reset</button>
 
-								<button type="submit" class="btn">Save</button>
+								<button type="submit" class="btn btn-success save">Save</button>
 
-								<a href="{{ route('InvPurchase.index') }}" class="btn">Back to List</a>
+
+
 							</div>
 						</div>
 					</div>
@@ -153,8 +156,85 @@
 		$('.select2').select2();
 	});
 
+<<<<<<< HEAD
 	
 	var add_button = $(".add_field");
+=======
+	function addRow() {
+		$("#addRowBtn").button("loading");
+
+		var tableLength = $("#productTable tbody tr").length;
+		console.log(tableLength);
+
+		var tableRow;
+		var arrayNumber;
+		var count;
+		if (tableLength > 0) {
+			tableRow = $("#productTable tbody tr:last").attr('id');
+			arrayNumber = $("#productTable tbody tr:last").attr('class');
+			count = tableRow.substring(3);
+			count = Number(count) + 1;
+			arrayNumber = Number(arrayNumber) + 1;
+			$("#addRowBtn").button("reset");
+			var tr = '';
+			tr += '<tr class=' + arrayNumber + ' id="row' + count + '">';
+			tr += '<td data-select2-id="' + (count * 50) + '">' +
+				'<div class="form-group">' +
+				'<select class="form-control select2" style="width: 100%;" id="productName' + count + '" name="product_name[]" onchange="getProductData(' + count + ')">' +
+				'<option  value="" selected="selected" disabled>Select Product</option>' + <?php foreach ($pdtproductIds as $row) { ?> '<option value="<?php echo ($row["id"]); ?>" a_price="<?php echo ($row["a_price"]); ?>"><?php echo ($row["product_id"]); ?> | <?php echo ($row["product_name"]); ?></option>' +
+				<?php } ?> + '</select>' +
+				'</div>' +
+				'</td>';
+			tr += '<td> <input type="text" name="quantity[]" id="quantity' + count + '"  class="form-control quantity' + count + '"></td>';
+			tr += ' <td> <input type="text" name="rate[]" id="rate' + count + '"  class="form-control rate' + count + '"> </td>'
+			tr += '<td data-select2-id="' + (count * 50) + '">' +
+				'<div class="form-group">' +
+				'<select class="form-control select2 tax' + count + '" style="width: 100%;" id="tax' + count + '" name="tax[]"  onchange="getTaxData(' + count + ')">' +
+				'<option value="0" selected="selected" disabled>Select Tax</option>' +
+				<?php foreach ($pdttaxids as $row) { ?> '<option value="<?php echo ($row["id"]); ?>" taxValue="<?php echo ($row["tax_value"]); ?>"><?php echo ($row["tax_name"]); ?></option>' +
+				<?php } ?> '</select>' +
+				'</div>' +
+				'</td>';
+			tr += '<td> <input type="text" name="discount[]" id="discount' + count + '" value="0" class="form-control discount' + count + '"> </td>';
+			tr += '<td> <input type="text" name="total[]" id="total' + count + '" class="form-control total' + count + '"> </td>';
+			//tr += '<td><a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons" style="color:red">&#xE872;</i></a></td> </tr>';
+			tr += '<td><a class="delete" title="Delete" data-toggle="tooltip" onclick="removeProductRow(' + count + ')"><i class="material-icons" style="color:red">&#xE872;</i></a></td> </tr>';
+
+			tr += '</tr>';
+			$("#productTable tbody").append(tr);
+			$('#' + 'productName' + count).select2();
+			$('#' + 'tax' + count).select2();
+		} else {
+			alert("Please Select Product");
+		}
+	}
+
+	function onSelectProduct1(row) {
+
+		var actPriceValue = $('option:selected', row).attr('a_price');
+		console.log(actPriceValue);
+		var $row = row.closest('tr');
+		$('.rate').val();
+		$('#rate' + id).val();
+
+
+
+		console.log($row);
+		// var $rateField = $(this).closest('tr').find($('input[name="rate[]"]'));
+		// console.log($rateField.val());
+		// $rateField.val("");
+		// $rateField.val(actPriceValue);
+		// var rate = $(this).closest('tr').find('input[name=rate[]]').val();
+		//console.log(rate);
+	}
+	$(".back").on("click", function() {
+		var url = "{{ route('InvPurchase.index') }}";
+		window.location.href = url;
+	});
+
+
+	var add_button = $(".add_field1");
+>>>>>>> 76904c1980b123042466bc7cf6a9f52e82625d32
 	var wrapper = $('.item-table > tbody:last-child');
 	var x = 1;
 	$(add_button).click(function() {
