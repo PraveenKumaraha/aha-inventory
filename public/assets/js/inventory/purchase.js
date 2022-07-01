@@ -51,7 +51,8 @@ function getTaxData(row = null) {
    if (productId) {
       var actualPrice = $("#productName" + row).find("option:selected").attr('a_price');
       var quantity = $("#quantity" + row).val();
-      var price = Number(actualPrice) * Number(quantity);
+      var rate =$("#rate" + row).val();
+      var price = Number(rate) * Number(quantity);
       var taxValue = $("#tax" + row).find("option:selected").attr('taxValue');
       var totaltaxvalue = Number(taxValue) / 100;
       var taxAmount = price * totaltaxvalue;
@@ -86,18 +87,29 @@ function getQtyData(row = null) {
       total = total.toFixed();
       $("#total" + row).val(total);
 
-
+      // console.log('row' + row);
+      // console.log('actualPrice' + actualPrice);
+      // console.log('quantity' + quantity);
+      // console.log('actualPrice*quantity->price =' + price);
+      // console.log('quantity*actualPrice->total =' + total);
+   }else {
+      alert('no row !! please refresh the page');
+   }
+}
+function  getRateData(row = null) {
+   var productId = $("#productName" + row).val();
+   if(productId) {
+      var actualPrice = $("#productName" + row).find("option:selected").attr('a_price');
+      var quantity = $("#quantity" + row).val();
+      var rate =$("#rate" + row).val();
+      
+      $("#total" + row).val("");
+      var total = Number(quantity) * Number(rate);
+      total = total.toFixed();
+      $("#total" + row).val(total);
 
       console.log('row' + row);
       console.log('actualPrice' + actualPrice);
-      console.log('quantity' + quantity);
-      console.log('actualPrice*quantity->price =' + price);
-      console.log('quantity*price->total =' + total);
-     
-     
-
-
-   }else {
-      alert('no row !! please refresh the page');
+      console.log('rate' + rate);
    }
 }
