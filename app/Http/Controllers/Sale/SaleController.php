@@ -29,7 +29,7 @@ class SaleController extends Controller
     public function create()
     {
 
-        $pdtproductIds = InventoryItem::select('product_id','product_name', 'id')->get();
+        $pdtproductIds = InventoryItem::select('product_id','product_name','a_price', 'id')->get();
         $pdttaxids = Tax::select('tax_name', 'tax_value', 'id')->get();
 
         return view('sale.create',compact('pdtproductIds','pdttaxids'));
