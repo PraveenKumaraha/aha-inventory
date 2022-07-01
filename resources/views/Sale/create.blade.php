@@ -8,7 +8,7 @@
 	}
 
 	.col-form-label1 {
-		margin-right: 62px;
+		margin-right: 105px;
 		padding-right: 40px;
 	}
 
@@ -59,11 +59,11 @@
                                             <div class="container-sm" style="width:100%;border-style: solid;border-color: coral;">
 
                                                 <div class="form-row">
-                                                    <label class=" col-form-label" for="name">Customer Number:</label>
-                                                    <input type="text" class="form-control col-sm-2" name="customer_name" id="name" />
+                                                    <label class=" col-form-label" for="name">Customer/Company name:</label>
+                                                    <input type="text" class="form-control col-sm-2" name="cname" id="name" />
 
                                                     <label class=" col-form-label" for="name">Customer Number:</label>
-                                                    <input type="text" class="form-control col-sm-2" name="customer_name" id="name" />
+                                                    <input type="text" class="form-control col-sm-2" name="cnumber" id="name" />
                                                 </div>
 
                                                 <div class="form-row">
@@ -91,7 +91,7 @@
                                                             <tr class="1" id="row1">
                                                                 <td data-select2-id="1">
                                                                     <div class="form-group">
-                                                                        <select class="form-control	select2 productName1" style="width:150px;height:80px!important" id="productName1" name="productName[]" onchange="getProductData(1)">
+                                                                        <select class="form-control	select2 productName1" style="width:150px;height:80px!important" id="productName1" name="product_name[]" onchange="getProductData(1)">
                                                                             <option value="" selected="selected" disabled>Select Product</option>
                                                                             <?php foreach ($pdtproductIds as $row) { ?> <option value="<?php echo ($row["id"]); ?>" a_price="<?php echo ($row["a_price"]); ?>"><?php echo ($row["product_id"]); ?> | <?php echo ($row["product_name"]); ?></option>
                                                                             <?php } ?>
@@ -99,12 +99,12 @@
                                                                     </div>
                                                                 </td>
                                                             <td>
-                                                                <input type="number" name="qty[]" id="qty1"
-                                                                    min="1" class="form-control">
+                                                                <input type="number" name="qty[]"  id="quantity1"
+                                                                    min="1" class="form-control" onchange="getQtyData(1)">
                                                             </td>
                                                             <td>
                                                                 <input type="text" name="rate[]" id="rate1"
-                                                                    class="form-control">
+                                                                    class="form-control" onchange="getRateData(1)">
                                                             </td>
                                                             <td data-select2-id="1">
                                                                 <div class="form-group">
@@ -134,6 +134,7 @@
                                                     </div>
                                                 </tbody>
                                             </table>
+
                                             <button type="button" class="btn btn-primary add_field" id="addRowBtn" onclick="addRow()">add Pdt</button>
                                         </div>
                                     </form>
@@ -181,7 +182,7 @@
 				<?php } ?> + '</select>' +
 				'</div>' +
 				'</td>';
-			tr += '<td> <input type="text" name="quantity[]" id="quantity' + count + '"  class="form-control quantity' + count + '"></td>';
+			tr += '<td> <input type="text" name="qty[]" id="quantity' + count + '"  class="form-control quantity' + count + '"></td>';
 			tr += ' <td> <input type="text" name="rate[]" id="rate' + count + '"  class="form-control rate' + count + '"> </td>'
 			tr += '<td data-select2-id="' + (count * 50) + '">' +
 				'<div class="form-group">' +
@@ -191,7 +192,7 @@
 				<?php } ?> '</select>' +
 				'</div>' +
 				'</td>';
-			tr += '<td> <input type="text" name="discount[]" id="discount' + count + '" value="0" class="form-control discount' + count + '"> </td>';
+			tr += '<td> <input type="text" name="disc[]" id="discount' + count + '" value="0" class="form-control discount' + count + '"> </td>';
 			tr += '<td> <input type="text" name="total[]" id="total' + count + '" class="form-control total' + count + '"> </td>';
 			tr += '<td><a class="delete" title="Delete" data-toggle="tooltip" onclick="removeProductRow(' + count + ')"><i class="material-icons" style="color:red">&#xE872;</i></a></td> </tr>';
 
