@@ -40,8 +40,10 @@ class TransactionTypeController extends Controller
     {
         $model = new TransactionType();
         $model->transaction_type_name = $request->transaction_type_name;
+        $model->gen_no = $request->gen_no;
+        $model->gen_name = $request->gen_name;
         $model->status = '1';
-        
+       
         $model->save();
         return redirect()
             ->route('transactionType.index')
@@ -83,6 +85,8 @@ class TransactionTypeController extends Controller
     {
         $model = TransactionType::where('id', $id)->first();
         $model->transaction_type_name = $request->transaction_type_name;
+        $model->gen_no = $request->gen_no;
+        $model->gen_name = $request->gen_name;
         
         $model->update();
         return redirect()

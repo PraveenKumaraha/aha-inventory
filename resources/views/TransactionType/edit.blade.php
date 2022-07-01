@@ -32,6 +32,29 @@
                             </div>
                         </div>
 
+                        <div class="pl-lg-4">
+                            <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
+                                <label class="form-control-label" for="input-name">Generate NO</label>
+                                <input type="text" name="gen_no" id="input-name"
+                                    class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}"
+                                    placeholder="{{ __('Name') }}" value="{{ old('name', $model->gen_no) }}" required
+                                    autofocus>
+                                @include('alerts.feedback', ['field' => 'name'])
+                            </div>
+                        </div>
+
+                        <div class="pl-lg-4">
+                            <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
+                                <label class="form-control-label" for="input-name">Generate Name</label>
+                                <input type="text" name="gen_name" id="input-name"
+                                    class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}"
+                                    placeholder="{{ __('Name') }}" value="{{ old('name', $model->gen_name) }}" required
+                                    autofocus>
+                                @include('alerts.feedback', ['field' => 'name'])
+                            </div>
+                        </div>
+                       
+
                             <div class="text-center">
                                 <button type="submit" class="btn btn-success mt-4">Save</button>
                             </div>

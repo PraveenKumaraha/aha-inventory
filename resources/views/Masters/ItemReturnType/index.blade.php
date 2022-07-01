@@ -1,44 +1,44 @@
-@extends('layouts.app', ['page' => 'List of tax', 'pageSlug' => 'tax', 'section' => 'BasicMaster'])
+@extends('layouts.app', ['page' => 'List of ItemReturnType', 'pageSlug' => 'itemReturnType', 'section' => 'BasicMaster'])
 
 @section('content')
+    <style>
+        .first {
+            float: left;
+            width: 33%;
+        }
 
-<style>
-    .first {
-        float: left;
-        width: 33%;
-    }
+        .middle {
+            float: left;
+            width: 33%;
+        }
 
-    .middle {
-        float: left;
-        width: 33%;
-    }
+        .last {
+            float: left;
+            width: 33%;
+        }
 
-    .last {
-        float: left;
-        width: 33%;
-    }
+        .card {
+            max-width: 100%;
+            overflow-x: hidden !important;
+        }
 
-    .card {
-        max-width: 100%;
-        overflow-x: hidden !important;
-    }
 
-    .activeSplitterDiv {
+        .activeSplitterDiv {
             border: 2px solid blue !important;
-    }
-</style>
-<div class="card">
-    <div class="card-header text-center font-weight-bold text-white" style="background-color: #5e72e4;">
-        Tax
-    </div>
-    <div class="card-body">
+        }
+    </style>
+    <div class="card">
+        <div class="card-header text-center font-weight-bold text-white" style="background-color: #5e72e4;">
+            Item Return Type
+        </div>
+        <div class="card-body">
 
             <div class="row">
                 <div class="first col-md-3 col-sm-3 col-md-pull-3">
                     <div class="h-100 d-flex align-items-center justify-content-center ">
-                        <div class="SplitData activeSplitterDiv" data-va lue="AllData" style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
-                        font-size: 20px;text-align: center;border-bottom: 10px; ">
-                            <img src="assets/img/size.png" alt="" style="width: 50px;margin-top:10px;">
+                        <div class="SplitData activeSplitterDiv" data-value="AllData" style=" height: auto;width:130px;background-color:#265362;border-radius: 10px;
+                        font-size: 20px;text-align: center;">
+                            <img src="assets/img/badge.png" alt="" style="width: 50px;margin-top:10px;">
                             <div class="tee" style="font-size: 20px;color: #fff;">Total</div>
                         </div>
                     </div>
@@ -64,71 +64,72 @@
 
             </div>
         </div>
-</div>
+    </div>
 
 
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="card ">
-            <div class="card-header">
-                <div class="row">
-                    <div class="col-8">
-                        <h4 class="card-title"></h4>
-                        <input type="text" id="search" placeholder="Type to search" autocomplete="off">
-
-                    </div>
-                    <div class="col-4 text-right">
-                        <a href="{{ route('tax.create') }}" class="btn btn-sm btn-primary">New Tax</a>
+    <div class="row" style="margin-top: -15px;">
+        <div class="col-md-12">
+            <div class="card ">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4 class="card-title"></h4>
+                            <input type="text" id="search" placeholder="Type to search" autocomplete="off">
+                        </div>
+                        <div class="col-4 text-right">
+                            <a href="{{ route('itemReturnType.create') }}" class="btn btn-sm btn-primary">New Item Return Type check</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="card-body">
-                @include('alerts.success')
+                <div class="card-body">
+                    @include('alerts.success')
 
-                <div class="">
-                    <table class="table tablesorter " id="">
-                        <thead class=" text-primary">
-                            <th scope="col">#</th>
-                            <th scope="col">Tax Name</th>
-                            <th scope="col">Tax Value</th>
-                            <th scope="col">Actions</th>
+                    <div class="">
+                        <table class="table tablesorter " id="">
+                            <thead class=" text-primary">
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Actions</th>
 
-                        </thead>
-                        <tbody>
-                        @foreach ($models as $model)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $model->tax_name }}</td>
-                                <td>{{ $model->tax_value }}</td>
+                            </thead>
+                            <tbody>
+                            @foreach ($models as $model)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $model->name }}</td>
+                                        <td class="td-actions">
 
-                                <td class="td-actions">
-                                        <a href="{{ route('tax.edit', $model->id) }}" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit Product">
-                                            <i class="tim-icons icon-pencil"></i>
-                                        </a>
-                                        <form action="{{ route('tax.destroy', $model->id) }}" method="post" class="d-inline">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="button" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Delete Product" onclick="confirm('Are you sure you want to remove this product? The records that contain it will continue to exist.') ? this.parentElement.submit() : ''">
-                                                <i class="tim-icons icon-simple-remove"></i>
-                                            </button>
-                                        </form>
-                                    </td>
-                            </tr>
-                         @endforeach
-                        </tbody>
-                    </table>
+                                            <a href="{{ route('itemReturnType.edit', $model->id) }}" class="btn btn-link"
+                                                data-toggle="tooltip" data-placement="bottom" title="Edit Product">
+                                                <i class="tim-icons icon-pencil"></i>
+                                            </a>
+                                            <form action="{{ route('itemReturnType.destroy', $model->id) }}" method="post"
+                                                class="d-inline">
+                                                @csrf
+                                                @method('delete')
+                                                <button type="button" class="btn btn-link" data-toggle="tooltip"
+                                                    data-placement="bottom" title="Delete Product"
+                                                    onclick="confirm('Are you sure you want to remove this product? The records that contain it will continue to exist.') ? this.parentElement.submit() : ''">
+                                                    <i class="tim-icons icon-simple-remove"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-            <div class="card-footer py-4">
-                <nav class="d-flex justify-content-end">
+                <div class="card-footer py-4">
+                    <nav class="d-flex justify-content-end">
 
-                </nav>
+                    </nav>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -156,7 +157,7 @@
         function splitData(type) {
 
             $.ajax({
-                url: "{{ route('getTaxSplitedData') }}",
+                url: "{{ route('getItemReturnTypeData') }}",
                 type: "post",
                 data: type,
                 data: {
@@ -169,16 +170,14 @@
                     var Result = response.data;
                     $(".table tbody").html("");
                     $.each(Result, function(key, value) {
-                        var editurl = '{{ route('tax.edit', ':id') }}';
+                        var editurl = '{{ route('itemReturnType.edit', ':id') }}';
                         editurl = editurl.replace(':id', value.id);
 
-                        var deleteurl = '{{ route('tax.destroy', ':id') }}';
+                        var deleteurl = '{{ route('itemReturnType.destroy', ':id') }}';
                         deleteurl = deleteurl.replace(':id', value.id);
 
                         var row = `<tr role="row" class="odd"><td>` + (key + 1) + `</td><td>` + value
-                            .tax_name + `</td>
-                            <td>` + value
-                            .tax_value +`</td><td class="td-actions"><a href ="` + editurl +
+                            .name + `</td><td class="td-actions"><a href ="` + editurl +
                             `" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit"> <i class="tim-icons icon-pencil"></i></a><form id="deleteStudentForm" action="` +
                             deleteurl + `" method="post" class="d-inline"> @csrf @method('DELETE') <button type="submit" class="btn btn-link" data-toggle="tooltip"
                                             data-placement="bottom" title="Delete Product" onclick="return confirm('Are you sure?')">

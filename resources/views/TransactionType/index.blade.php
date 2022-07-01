@@ -91,6 +91,8 @@
                         <thead class=" text-primary">
                             <th scope="col">#</th>
                             <th scope="col">TransactionType Name</th>
+                            <th scope="col">Generate NO</th>
+                            <th scope="col">Generate Name</th>
                             <th scope="col">Actions</th>
 
                         </thead>
@@ -99,6 +101,8 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $model->transaction_type_name }}</td>
+                                <td>{{ $model->gen_no }}</td>
+                                <td>{{ $model->gen_name }}</td>
                                 <td class="td-actions">
 
                                     <a href="{{ route('transactionType.edit', $model->id) }}" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit Product">

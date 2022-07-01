@@ -42,6 +42,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('managestock', 'Master\ManageStockController');
     Route::resource('bulkPurchase', 'Purchase\BulkPurchaseController');
     Route::resource('tax','Master\TaxController');
+    Route::resource('itemReturnType','Master\ItemReturnTypeController');
     Route::resource('transactionType','TransactionTypeController');
     
 Route::resource('addinv','AddInvController');
@@ -51,6 +52,7 @@ Route::resource('addinv','AddInvController');
     Route::post('/getUnitSplitedData', 'Master\UnitController@getUnitSplitedData')->name('getUnitSplitedData');
     Route::post('/getInventoryItemSplitedData', 'Inventory\InventoryItemController@getInventoryItemSplitedData')->name('getInventoryItemSplitedData');
     Route::post('/getPurchaseSplitedData', 'Purchase\PurchaseController@getPurchaseSplitedData')->name('getPurchaseSplitedData');
+    Route::post('/getItemReturnTypeData', 'Master\ItemReturnTypeController@getItemReturnTypeData')->name('getItemReturnTypeData');
 
     Route::post('/getTaxSplitedData', 'Master\TaxController@getTaxSplitedData')->name('getTaxSplitedData');
     Route::post('/getTransactionTypeSplitedData', 'TransactionTypeController@getTransactionTypeSplitedData')->name('getTransactionTypeSplitedData');

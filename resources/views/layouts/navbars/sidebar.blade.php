@@ -72,6 +72,12 @@
                                 <p>Tax</p>
                             </a>
                         </li>
+                        <li @if ($pageSlug=='itemReturnType' ) class="active " @endif>
+                            <a href="{{ route('itemReturnType.index')  }}">
+                                <i class="tim-icons icon-world"></i>
+                                <p>Item Return Type</p>
+                            </a>
+                        </li>
 
 
                         <!-- <li @if ($pageSlug == 'transactions') class="active " @endif>
