@@ -35,7 +35,8 @@
 					<div class="card-header">
 						<div class="row align-items-center">
 							<div class="col-8">
-								<h3 class="mb-0">New Purchase</h3>
+								<h3 class="mb-0"style="margin: 0; display: inline;">New Purchase </h3>#<h4 class ="referenceNo" style="margin: 0; display: inline;color:blue" align="right"></h4>
+								
 							</div>
 
 							<div class="col-4 text-right">
@@ -272,6 +273,10 @@
 
 					var datas = data;
 					if (datas.success == "done") {
+						var referenceNo = datas.referenceNo;
+						$('.referenceNo').html("");
+						$('.referenceNo').html(referenceNo);
+
 						alert("Successfully completed");
 					}
 

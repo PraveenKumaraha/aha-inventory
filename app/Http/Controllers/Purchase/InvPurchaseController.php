@@ -85,7 +85,7 @@ class InvPurchaseController extends Controller
         $typeId = $transactiontype->id;
         $orderNo = $transactiontype->o_no;
         $date = $request->date;
-        $referenceNo = "PU2021" . $orderNo;
+        $referenceNo = "PU/2022/" . $orderNo;
         $supplierId = $request->supplier;
         $userId = Auth::user()->id;
         $itemCount = count($request->item_id);
@@ -108,6 +108,9 @@ class InvPurchaseController extends Controller
             $transactionModel->save();
             Log::info('Purchase>Store Inside transactionModel ' . " => " . json_encode($transactionModel));
             if ($transactionModel) {
+                $transactiontype->o_no= $orderNo+1;
+                $transactiontype->save();
+
                 $purchaseModel = new Purchase();
                 $purchaseModel->supplier_id = $supplierId;
                 $purchaseModel->transaction_id = $transactionModel->id;
@@ -150,7 +153,7 @@ class InvPurchaseController extends Controller
 
             return $e->getMessage();
         }
-        return response()->json(['success' => 'done']);
+        return response()->json(['success' => 'done','referenceNo'=>$transactionModel->reference_no]);
     }
 
     /**
