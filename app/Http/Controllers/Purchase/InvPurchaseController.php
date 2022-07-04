@@ -134,6 +134,14 @@ class InvPurchaseController extends Controller
                     $purchaseItemModel->status = "1";
                     Log::info('Purchase>Store Inside for in purchase Item ');
                     $purchaseItemModel->save();
+
+                    if ($purchaseItemModel) {
+                        $manageStockModel = ManageStock::where('item_id', $items[$i])->first();                       
+                        $totalStock = ($manageStockModel->stock + $quantity[$i]);
+                        $manageStockModel->stock = $totalStock;
+                        $manageStockModel->save();
+                    }
+        
                 }
 
                 
@@ -142,28 +150,6 @@ class InvPurchaseController extends Controller
 
             return $e->getMessage();
         }
-
-        // foreach ($request->input('product_name') as $key => $value) {
-
-        //     $model = new InvPurchase();
-
-        //     $model->supplier = $request->get('supplier_name');
-        //     $model->customer_name = $request->get('customer_name');
-        //     $model->gstin = $request->get('gstin');
-        //     $model->date = $request->get('date');
-        //     $model->product = $request->get('product_name');
-        //     $model->rate = $request->get('rate');
-        //     $model->qty = $request->get('qty');
-        //     $model->tax = $request->get('tax');
-        //     $model->disc = $request->get('disc');
-        //     $model->total = $request->get('total');
-
-        //     dd($model);
-
-        //     $model->save();
-        // }
-
-
         return response()->json(['success' => 'done']);
     }
 
