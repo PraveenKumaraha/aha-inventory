@@ -128,4 +128,11 @@ class BrandController extends Controller
 
         return response()->json(array('result' => "success", 'data' => $datas));
     }
+    public function changeStatus(Request $request)
+    {
+       
+        $brand = Brand::find($request->id)->update(['brand_status' => $request->status]);
+
+        return response()->json(['success'=>'Status changed successfully.']);
+    }
 }

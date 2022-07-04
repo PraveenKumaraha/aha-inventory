@@ -22,7 +22,7 @@ Route::group(['middleware' => 'auth'], function () {
     include_once('purchase.php');
 
     Route::resource('brand', 'Master\BrandController');
-
+    Route::post('changeBrandStatus','Master\BrandController@changeStatus');
     Route::resource('gender', 'GenderController');
     Route::resource('bloodGroup', 'BloodGroupController');
     Route::resource('Country', 'CountryController');/**Master -> Brand& Category */
@@ -34,13 +34,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('sale','Sale\SaleController');
     Route::resource('returnsale','Sale\ReturnSaleController');
 
-    Route::resource('report','Purchase\ReportPurchaseController');
+    // Route::resource('report','Purchase\ReportPurchaseController');
 //inventory Item
     Route::resource('inventoryItem', 'Inventory\InventoryItemController');
     Route::resource('pass', 'PassController');
     Route::resource('supplier', 'SupplierController');
     Route::resource('managestock', 'Master\ManageStockController');
-    Route::resource('bulkPurchase', 'Purchase\BulkPurchaseController');
+   // Route::resource('bulkPurchase', 'Purchase\BulkPurchaseController');
     Route::resource('tax','Master\TaxController');
     Route::resource('itemReturnType','Master\ItemReturnTypeController');
     Route::resource('transactionType','TransactionTypeController');
@@ -63,7 +63,7 @@ Route::resource('addinv','AddInvController');
 //get product related Data
 Route::post('/getProductRelatedData', 'Inventory\InventoryItemController@getProductRelatedData')->name('getProductRelatedData');
 
-Route::post('/getReportRelatedData', 'Purchase\ReportPurchaseController@getReportRelatedData')->name('getReportRelatedData');
+//Route::post('/getReportRelatedData', 'Purchase\ReportPurchaseController@getReportRelatedData')->name('getReportRelatedData');
 
     Route::resources([
         'users' => 'UserController',
@@ -90,13 +90,13 @@ Route::post('/getReportRelatedData', 'Purchase\ReportPurchaseController@getRepor
     Route::match(['put', 'patch'], 'inventory/receipts/{receipt}/product/{receivedproduct}', ['as' => 'receipts.product.update', 'uses' => 'ReceiptController@updateproduct']);
     Route::delete('inventory/receipts/{receipt}/product/{receivedproduct}', ['as' => 'receipts.product.destroy', 'uses' => 'ReceiptController@destroyproduct']);
 
-    Route::resource('sales', 'SaleController')->except(['edit', 'update']);
-    Route::get('sales/{sale}/finalize', ['as' => 'sales.finalize', 'uses' => 'SaleController@finalize']);
-    Route::get('sales/{sale}/product/add', ['as' => 'sales.product.add', 'uses' => 'SaleController@addproduct']);
-    Route::get('sales/{sale}/product/{soldproduct}/edit', ['as' => 'sales.product.edit', 'uses' => 'SaleController@editproduct']);
-    Route::post('sales/{sale}/product', ['as' => 'sales.product.store', 'uses' => 'SaleController@storeproduct']);
-    Route::match(['put', 'patch'], 'sales/{sale}/product/{soldproduct}', ['as' => 'sales.product.update', 'uses' => 'SaleController@updateproduct']);
-    Route::delete('sales/{sale}/product/{soldproduct}', ['as' => 'sales.product.destroy', 'uses' => 'SaleController@destroyproduct']);
+    Route::resource('sales', 'Sale\SaleController')->except(['edit', 'update']);
+    // Route::get('sales/{sale}/finalize', ['as' => 'sales.finalize', 'uses' => 'SaleController@finalize']);
+    // Route::get('sales/{sale}/product/add', ['as' => 'sales.product.add', 'uses' => 'SaleController@addproduct']);
+    // Route::get('sales/{sale}/product/{soldproduct}/edit', ['as' => 'sales.product.edit', 'uses' => 'SaleController@editproduct']);
+    // Route::post('sales/{sale}/product', ['as' => 'sales.product.store', 'uses' => 'SaleController@storeproduct']);
+    // Route::match(['put', 'patch'], 'sales/{sale}/product/{soldproduct}', ['as' => 'sales.product.update', 'uses' => 'SaleController@updateproduct']);
+    // Route::delete('sales/{sale}/product/{soldproduct}', ['as' => 'sales.product.destroy', 'uses' => 'SaleController@destroyproduct']);
 
     Route::get('clients/{client}/transactions/add', ['as' => 'clients.transactions.add', 'uses' => 'ClientController@addtransaction']);
 
