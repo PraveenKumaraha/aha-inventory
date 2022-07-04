@@ -8,9 +8,14 @@ use App\Purchase;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\InvPurchase;
+use App\PurchaseItem;
 use App\Supplier;
 use App\Tax;
+use App\Transaction;
+use App\TransactionType;
 use Illuminate\Http\Request;
+use Auth;
+use Illuminate\Support\Facades\Log;
 
 class InvPurchaseController extends Controller
 {
@@ -35,12 +40,12 @@ class InvPurchaseController extends Controller
     public function create()
     {
 
-         $pdtproductIds = InventoryItem::select('product_id','product_name', 'id','a_price')->get();
-        
-         $pdtsupplierIds = Supplier::select('supplier_id', 'supplier_name', 'id')->get();
-         $pdttaxids = Tax::select('tax_name', 'tax_value', 'id')->get();
+        $pdtproductIds = InventoryItem::select('product_id', 'product_name', 'id', 'a_price')->get();
 
-        return view('Purchase.create',compact('pdtproductIds','pdtsupplierIds', 'pdttaxids'));
+        $pdtsupplierIds = Supplier::select('supplier_id', 'supplier_name', 'id')->get();
+        $pdttaxids = Tax::select('tax_name', 'tax_value', 'id')->get();
+
+        return view('Purchase.create', compact('pdtproductIds', 'pdtsupplierIds', 'pdttaxids'));
     }
 
     /**
@@ -51,59 +56,115 @@ class InvPurchaseController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [];
-        
-        foreach($request->input('product_name') as $key => $value) {
-            $rules["supplier_name.{$key}"] = 'required';
-            $rules["customer_name.{$key}"] = 'required';
-            $rules["gstin.{$key}"] = 'required';
-            $rules["date.{$key}"] = 'required';
-            $rules["product_name.{$key}"] = 'required';
-            $rules["rate.{$key}"] = 'required';
-            $rules["qty.{$key}"] = 'required';
-            $rules["tax.{$key}"] = 'required';
-            $rules["disc.{$key}"] = 'required';
-            $rules["total.{$key}"] = 'required';
+
+        Log::info('Purchase>Store Inside ' . " => " . json_encode($request->all()));
+
+        // $rules = [];
+
+        // foreach ($request->input('product_name') as $key => $value) {
+        //     $rules["supplier_name.{$key}"] = 'required';
+        //     $rules["customer_name.{$key}"] = 'required';
+        //     $rules["gstin.{$key}"] = 'required';
+        //     $rules["date.{$key}"] = 'required';
+        //     $rules["product_name.{$key}"] = 'required';
+        //     $rules["rate.{$key}"] = 'required';
+        //     $rules["qty.{$key}"] = 'required';
+        //     $rules["tax.{$key}"] = 'required';
+        //     $rules["disc.{$key}"] = 'required';
+        //     $rules["total.{$key}"] = 'required';
+        // }
+
+
+        // $validator = Validator::make($request->all(), $rules);
+
+
+
+
+        $type = "income";
+        $transactiontype = TransactionType::where('transaction_type_name', 'purchase')->first();
+        $typeId = $transactiontype->id;
+        $orderNo = $transactiontype->o_no;
+        $date = $request->date;
+        $referenceNo = "PU2021" . $orderNo;
+        $supplierId = $request->supplier;
+        $userId = Auth::user()->id;
+        $itemCount = count($request->item_id);
+        $items = $request->item_id;
+        $quantity = $request->quantity;
+        $rate = $request->rate;
+        $tax = $request->tax;
+        $discount = $request->discount;
+        $total = $request->total;
+
+
+        try {
+            $transactionModel = new Transaction();
+            $transactionModel->type = $type;
+            $transactionModel->transaction_type_id = $typeId;
+            $transactionModel->supplier_id = $supplierId;
+            $transactionModel->date = $date;
+            $transactionModel->reference_no = $referenceNo;
+            $transactionModel->user_id = $userId;
+            $transactionModel->save();
+            Log::info('Purchase>Store Inside transactionModel ' . " => " . json_encode($transactionModel));
+            if ($transactionModel) {
+                $purchaseModel = new Purchase();
+                $purchaseModel->supplier_id = $supplierId;
+                $purchaseModel->transaction_id = $transactionModel->id;
+                $purchaseModel->save();
+                Log::info('Purchase>Store Inside purchaseModel ' . " => " . json_encode($purchaseModel));
+                for ($i = 0; $i < $itemCount; $i++) {
+                    Log::info('Purchase>Store Inside for in purchase Item loop');
+                    $purchaseItemModel = new PurchaseItem();
+                    Log::info('Purchase>Store Inside for in purchase Item $purchaseModel->id'.$purchaseModel->id);
+                    $purchaseItemModel->purchase_id = $purchaseModel->id;
+                    Log::info('Purchase>Store Inside for in purchase Item $items[$i]'.$items[$i]);
+                    $purchaseItemModel->item_id = $items[$i];
+                    Log::info('Purchase>Store Inside for in purchase Item .$quantity[$i]'.$quantity[$i]);
+                    $purchaseItemModel->quantity = $quantity[$i];
+                    Log::info('Purchase>Store Inside for in purchase Item $rate[$i]'.$rate[$i]);
+                    $purchaseItemModel->rate = $rate[$i];
+                    Log::info('Purchase>Store Inside for in purchase Item $tax[$i]'.$tax[$i]);
+                   $purchaseItemModel->tax_id = $tax[$i];
+                   Log::info('Purchase>Store Inside for in purchase Item $discount[$i]'.$discount[$i]);
+                    $purchaseItemModel->discount_id = $discount[$i];
+                    Log::info('Purchase>Store Inside for in purchase Item  $total[$i]'. $total[$i]);
+                    $purchaseItemModel->final_amount = $total[$i];
+                    Log::info('Purchase>Store Inside for in purchase Item status');
+                    $purchaseItemModel->status = "1";
+                    Log::info('Purchase>Store Inside for in purchase Item ');
+                    $purchaseItemModel->save();
+                }
+
+                
+            }
+        } catch (\Exception $e) {
+
+            return $e->getMessage();
         }
 
+        // foreach ($request->input('product_name') as $key => $value) {
 
-        $validator = Validator::make($request->all(), $rules);
+        //     $model = new InvPurchase();
 
+        //     $model->supplier = $request->get('supplier_name');
+        //     $model->customer_name = $request->get('customer_name');
+        //     $model->gstin = $request->get('gstin');
+        //     $model->date = $request->get('date');
+        //     $model->product = $request->get('product_name');
+        //     $model->rate = $request->get('rate');
+        //     $model->qty = $request->get('qty');
+        //     $model->tax = $request->get('tax');
+        //     $model->disc = $request->get('disc');
+        //     $model->total = $request->get('total');
 
-        if ($validator) {
+        //     dd($model);
 
-
-            foreach($request->input('product_name') as $key => $value) {
-
-                $model=new InvPurchase();
-
-                $model->supplier = $request->get('supplier_name');
-                $model->customer_name = $request->get('customer_name');
-                $model->gstin = $request->get('gstin');
-                $model->date = $request->get('date');
-                $model->product = $request->get('product_name');
-                $model->rate = $request->get('rate');
-                $model->qty = $request->get('qty');
-                $model->tax =$request->get('tax') ; 
-                $model->disc =$request->get('disc') ;
-                $model->total =$request->get('total') ;
-
-                dd($model);
-
-                $model->save();
-            }
+        //     $model->save();
+        // }
 
 
-            return response()->json(['success'=>'done']);
-        }else{
-
-        return response()->json(['error'=>$validator->errors()->all()]);}
-
-
-
-
-        
-        
+        return response()->json(['success' => 'done']);
     }
 
     /**
@@ -212,13 +273,13 @@ class InvPurchaseController extends Controller
     {
 
         $search = $request->searchTerm;
-        
+
         $datas = InventoryItem::where('product_name', 'like', '%' . $search . '%')
             ->select('product_name', 'id')->get();
 
         $datas = Supplier::where('supplier_name', 'like', '%' . $search . '%')
-           ->select('supplier_name', 'id')->get();         
-          
+            ->select('supplier_name', 'id')->get();
+
         return response()->json(array('data' => $datas));
     }
 }

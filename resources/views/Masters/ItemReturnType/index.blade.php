@@ -78,7 +78,7 @@
                             <input type="text" id="search" placeholder="Type to search" autocomplete="off">
                         </div>
                         <div class="col-4 text-right">
-                            <a href="{{ route('itemReturnType.create') }}" class="btn btn-sm btn-primary">New Item Return Type check</a>
+                            <a href="{{ route('itemReturnType.create') }}" class="btn btn-sm btn-primary">New Type</a>
                         </div>
                     </div>
                 </div>

@@ -15,7 +15,7 @@ function getProductData(rowId = null) {
       $("#rate" + rowId).val("");
       $("#rate" + rowId).val(actualPrice);
       $("#quantity" + rowId).val("");
-     // $("#quantity" + rowId).val(1);
+      $("#quantity" + rowId).val(1);
       $("#total" + rowId).val("");
       var total = Number(actualPrice) * 1; 
 

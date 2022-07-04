@@ -18,8 +18,6 @@
 		padding-right: 40px;
 	}
 </style>
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -27,11 +25,9 @@
 <!-- Select2 JS -->
 
 
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
 <div class="container-fluid mt--7">
 	<!-- //test by dhana -->
-	<form method="POST" action="{{ route('InvPurchase.store') }}" autocomplete="off">
+	<form id='create' action="" enctype="multipart/form-data" method="POST" accept-charset="utf-8" class="create needs-validation" novalidate autocomplete="off">
 		@csrf
 		<div class="row">
 			<div class="col-xl-12 order-xl-1">
@@ -41,18 +37,12 @@
 							<div class="col-8">
 								<h3 class="mb-0">New Purchase</h3>
 							</div>
-							<!-- <div class="text">
-							<a href="" class="btn">Back</a>
-						</div>
-						<div class="text">
-							<a href="" class="btn y">Save</a>
-						</div> -->
+
 							<div class="col-4 text-right">
 								<button type="button" class="btn btn-primary back">Back</button>
 								<button type="reset" class="btn btn-danger reset">Reset</button>
 
 								<button type="submit" class="btn btn-success save">Save</button>
-
 
 
 							</div>
@@ -66,15 +56,16 @@
 
 							<div class="form-row">
 								<label class=" col-form-label" for="name">Supplier Name:</label>
-								<select class="form-control col-sm-2 " id="supplierselect" name="supplier_name">
+								<select class="form-control col-sm-2 " id="supplierselect" name="supplier">
 									<option selected="selected" disabled>Select Supplier</option>
 									<?php foreach ($pdtsupplierIds as $row) { ?> <option value="<?php echo ($row["id"]); ?>"><?php echo ($row["supplier_id"]); ?> | <?php echo ($row["supplier_name"]); ?></option>
 									<?php } ?>
 								</select>
+								<span id="error_supplier" class="has-error"></span>
 								<!-- </div>
 							<div class="form-row"> -->
 								<label class=" col-form-label" for="name">Customer Number:</label>
-								<input type="text" class="form-control col-sm-2" name="customer_name" id="name" />
+								<input type="text" class="form-control col-sm-2" name="customerNO" id="customerNO" />
 							</div>
 							<div class="form-row">
 								<label class=" col-form-label1" for="name">GSTIN:</label>
@@ -102,7 +93,7 @@
 
 										<td data-select2-id="1">
 											<div class="form-group">
-												<select class="form-control	select2 productName1" style="width:150px;height:80px!important" id="productName1" name="product_name[]" onchange="getProductData(1)">
+												<select class="form-control	select2 productName1" style="width:150px;height:80px!important" id="productName1" name="product_name[]" onchange="getProductData(1)" required>
 													<option value="0" selected="selected" disabled>Select Product</option>
 													<?php foreach ($pdtproductIds as $row) { ?> <option value="<?php echo ($row["id"]); ?>" a_price="<?php echo ($row["a_price"]); ?>"><?php echo ($row["product_id"]); ?> | <?php echo ($row["product_name"]); ?></option>
 													<?php } ?>
@@ -110,21 +101,21 @@
 											</div>
 										</td>
 										<td>
-											<input type="number" name="qty[]" id="quantity1" min="1" class="form-control quantity1" onchange="getQtyData(1)">
+											<input type="number" name="qty[]" id="quantity1" min="1" class="form-control quantity1" onkeyup="getQtyData(1)">
 										</td>
 										<td>
-											<input type="text" name="rate[]" id="rate1" class="form-control rate1" onchange="getRateData(1)">
+											<input type="text" name="rate[]" id="rate1" class="form-control rate1" onkeyup="getRateData(1)">
 										</td>
 										<td data-select2-id="1">
 											<div class="form-group">
 												<select class="form-control	select2" style="width:150px;height:80px!important" id="tax1" name="tax[]" onchange="getTaxData(1)">
-													<option value="0" selected="selected" disabled>Select Tax</option>
+													<option value="">Select Tax</option>
 													<?php foreach ($pdttaxids as $row) { ?> <option value="<?php echo ($row["id"]); ?>" taxValue="<?php echo ($row["tax_value"]); ?>"><?php echo ($row["tax_name"]); ?></option>
 													<?php } ?>
 												</select>
 											</div>
 										</td>
-										
+
 										<td>
 											<input type="text" name="disc[]" id="disc1" class="form-control">
 										</td>
@@ -182,12 +173,12 @@
 				<?php } ?> + '</select>' +
 				'</div>' +
 				'</td>';
-			tr += '<td> <input type="text" name="qty[]" id="quantity' + count + '"  class="form-control qty' + count + '"onchange="getQtyData(' + count + ')"></td>';
-			tr += ' <td> <input type="text" name="rate[]" id="rate' + count + '"  class="form-control rate' + count + '" onchange="getRateData(' + count + ')"> </td>'
+			tr += '<td> <input type="text" name="qty[]" id="quantity' + count + '"  class="form-control qty' + count + '"onkeyup="getQtyData(' + count + ')"></td>';
+			tr += ' <td> <input type="text" name="rate[]" id="rate' + count + '"  class="form-control rate' + count + '" onkeyup="getRateData(' + count + ')"> </td>'
 			tr += '<td data-select2-id="' + (count * 50) + '">' +
 				'<div class="form-group">' +
 				'<select class="form-control select2 tax' + count + '" style="width: 100%;" id="tax' + count + '" name="tax[]"  onchange="getTaxData(' + count + ')">' +
-				'<option value="0" selected="selected" disabled>Select Tax</option>' +
+				'<option value="">Select Tax</option>' +
 				<?php foreach ($pdttaxids as $row) { ?> '<option value="<?php echo ($row["id"]); ?>" taxValue="<?php echo ($row["tax_value"]); ?>"><?php echo ($row["tax_name"]); ?></option>' +
 				<?php } ?> '</select>' +
 				'</div>' +
@@ -205,120 +196,93 @@
 			alert("Please Select Product");
 		}
 	}
-
-	function onSelectProduct1(row) {
-
-		var actPriceValue = $('option:selected', row).attr('a_price');
-		console.log(actPriceValue);
-		var $row = row.closest('tr');
-		$('.rate').val();
-		$('#rate' + id).val();
-
-
-
-		console.log($row);
-		// var $rateField = $(this).closest('tr').find($('input[name="rate[]"]'));
-		// console.log($rateField.val());
-		// $rateField.val("");
-		// $rateField.val(actPriceValue);
-		// var rate = $(this).closest('tr').find('input[name=rate[]]').val();
-		//console.log(rate);
-	}
 	$(".back").on("click", function() {
 		var url = "{{ route('InvPurchase.index') }}";
 		window.location.href = url;
 	});
+	var item_id = "";
+	$('#create').validate({
+		errorElement: 'span', //default input error message container
+		errorClass: 'help-block', // default input error message class
+		focusInvalid: false, // do not focus the last invalid input
+		rules: {
+
+			supplier: {
+				required: true
+			}
+		},
 
 
-	var add_button = $(".add_field1");
-	var wrapper = $('.item-table > tbody:last-child');
-	var x = 1;
-	// $(add_button).click(function() {
-	// 	var lastItem = $('tr:last td:first .select2').val();;
+		messages: {
+			supplier: {
+				required: "supplier Name is required."
+			},
+
+		},
+
+		invalidHandler: function(event, validator) {
+			//display error alert on form submit   
+			$('.alert-danger', $('.login-form')).show();
+		},
+
+		highlight: function(element) { // hightlight error inputs
+			$(element).closest('.form-group').addClass('has-error'); // set error class to the control group
+		},
+
+		success: function(label) {
+			label.closest('.form-group').removeClass('has-error');
+			label.remove();
+		},
+
+		submitHandler: function(form) {
+			var purchaseData = {
+				supplier: $('select[name="supplier"]').val(),
+				customerNO: $('input[name=customerNO]').val(),
+				gstIn: $('input[name=gstin]').val(),
+				date: $('input[name=date]').val(),
+				_token: '{{ csrf_token() }}',
+				item_id: $('.item-table').find('select[name="product_name[]"]').map(function() {
+					return this.value;
+				}).get(),
+				quantity: $('.item-table').find('input[name="qty[]"]').map(function() {
+					return this.value;
+				}).get(),
+				rate: $('.item-table').find('input[name="rate[]"]').map(function() {
+					return this.value;
+				}).get(),
+				tax: $('.item-table').find('select[name="tax[]"]').map(function() {
+					return this.value;
+				}).get(),
+				discount: $('.item-table').find('input[name="disc[]"]').map(function() {
+					return this.value;
+				}).get(),
+				total: $('.item-table').find('input[name="total[]"]').map(function() {
+					return this.value;
+				}).get(),
+
+			}
+
+			console.log(purchaseData);
+
+			$.ajax({
+				url: 'store',
+				type: 'post',
+				data: purchaseData,
+				success: function(data, textStatus, jqXHR) {
+
+					var datas = data;
+					if (datas.success == "done") {
+						alert("Successfully completed");
+					}
 
 
-	// 	var currentcount = $('table.item-table tr:last').index() + 1;
-
-
-
-	// 	if (lastItem) {
-	// 		var count = currentcount + 1;
-
-	// 		var html_code = '';
-	// 		html_code += '<tr id="row_id_' + count + '">';
-
-	// 		html_code += '<td data-select2-id="' + (count * 50) + '">' +
-	// 			'<div class="form-group">' +
-	// 			'<select class="form-control select2" style="width: 100%;" id="product-name' + count + '" name="product_name[]" onchange="onSelectProduct(this)">' +
-	// 			'<option selected="selected" disabled>Select Product</option>' +
-	// 			<?php foreach ($pdtproductIds as $row) { ?> '<option value="<?php echo ($row["id"]); ?>" a_price="<?php echo ($row["a_price"]); ?>"><?php echo ($row["product_id"]); ?> | <?php echo ($row["product_name"]); ?></option>' +
-	// 			<?php } ?> '</select>' +
-	// 			'</div>' +
-	// 			'</td>';
-	// 		html_code += '<td> <input type="text" name="rate[]" id="rate1"  class="form-control"> </td>';
-	// 		html_code += '<td> <input type="number" name="qty[]" id="qty1" min="1" class="form-control"> </td>';
-	// 		html_code += '<td data-select2-id="' + (count * 50) + '">' +
-	// 			'<div class="form-group">' +
-	// 			'<select class="form-control select2" style="width: 100%;" id="tax-name' + count + '" name="tax[]">' +
-	// 			'<option selected="selected" disabled>Select Tax</option>' +
-	// 			<?php foreach ($pdttaxids as $row) { ?> '<option value="<?php echo ($row["id"]); ?>"><?php echo ($row["tax_name"]); ?></option>' +
-	// 			<?php } ?> '</select>' +
-	// 			'</div>' +
-	// 			'</td>';
-	// 		html_code += '<td> <input type="text" name="disc[]" id="disc1" value="0" class="form-control"> </td>';
-	// 		html_code += '<td> <input type="text" name="total[]" id="total1" class="form-control"> </td>';
-	// 		html_code += '<td><a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons" style="color:red">&#xE872;</i></a></td> </tr>';
-
-	// 		wrapper.append(html_code);
-	// 		$('#' + 'product-name' + count, wrapper).select2();
-	// 		$('#' + 'tax-name' + count, wrapper).select2();
-
-	// 	} else {
-	// 		alert("Please Select Product");
-	// 	}
-
-	// });
-
-	//var trow = "";
-	// $(wrapper).append(
-
-	// 	'<tr class="rowInvoice"><td><select id="selProduct1" style="width: 150px;" class="form-control">' + '<option value="">Choose Product</option>' + '<?php $cate = App\Category::where(["category_status" => 1])->get(); ?>@foreach ($cate as $key)<optgroup label="{!! $key->category_name !!}" style="color: green!important;"><?php $pro = App\InventoryItem::where(["category_id" => $key->id, "status" => 1])->get() ?>@foreach($pro as $r) <option value="{!! $r->id !!}" data-commission="" data-retail="{!! $r->s_price !!}">{!! $r->product_name !!}</option> @endforeach</optgroup>@endforeach </select></td> <td>	<input type="text" name="inv[1][commission]" class="comm form-control" placeholder="Commission (RM)" /></td> <td>	<input type="text" name="inv[1][commission]" class="comm form-control" placeholder="Commission (RM)" /></td> <td>	<input type="text" name="inv[1][commission]" class="comm form-control" placeholder="Commission (RM)" /></td> <td>	<input type="text" name="inv[1][commission]" class="comm form-control" placeholder="Commission (RM)" /></td> <td>	<input type="text" name="inv[1][commission]" class="comm form-control" placeholder="Commission (RM)" /></td><td><a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons" style="color:red">&#xE872;</i></a></td></tr>'
-	// );
-	//initailizeSelect2();
-	// });
-
-	// function initailizeSelect21() {
-	// 	console.log("well");
-	// 	if($(".select2_el").val()){
-	// 	$(".select2_el").select2({
-
-	// 		ajax: {
-	// 			url: "{{url('getItemData')}}",
-	// 			type: "post",
-	// 			dataType: 'json',
-	// 			delay: 250,
-	// 			data: function(params) {
-	// 				return {
-	// 					_token: '{{csrf_token()}}',
-	// 					searchTerm: params.term // search term
-	// 				};
-	// 			},
-	// 			processResults: function(response) {
-	// 				var data = response.data;
-	// 				console.log(data.length);
-	// 				$.each(data, function(key, value) {
-	// 					$("#selProduct1").append("<option value='"+value.id+"' selected>"+value.product_name+"</option>");
-	// 					$('#selProduct1').trigger('change');
-	// 				});
-	// 				// return {
-	// 				// 	results: response
-	// 				// };
-	// 			},
-	// 			cache: true
-	// 		}
-	// 	});
-	// }
-	// }
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					//alert("New Request Failed " +textStatus);
+				}
+			});
+		}
+	});
 </script>
 <script src="{{ asset('assets') }}/js/inventory/purchase.js"></script>
 
