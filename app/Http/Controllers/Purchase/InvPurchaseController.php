@@ -26,11 +26,11 @@ class InvPurchaseController extends Controller
      */
     public function index()
     {
-        $models = Purchase::select('purchases.id as purchaseId','transactions.date','transactions.reference_no')
-        ->leftjoin('transactions','transactions.id','=','purchases.transaction_id')        
-        ->whereNull('purchases.deleted_at')->orderby('purchases.id', 'desc')
-        ->get();
-      
+        $models = Purchase::select('purchases.id as purchaseId', 'transactions.date', 'transactions.reference_no')
+            ->leftjoin('transactions', 'transactions.id', '=', 'purchases.transaction_id')
+            ->whereNull('purchases.deleted_at')->orderby('purchases.id', 'desc')
+            ->get();
+
 
         return view('Purchase.index', compact('models'));
     }
@@ -89,7 +89,7 @@ class InvPurchaseController extends Controller
         $orderNo = $transactiontype->gen_no;
         $orderName = $transactiontype->gen_name;
         $date = $request->date;
-        $referenceNo = $orderName."/2022/" . $orderNo;
+        $referenceNo = $orderName . "/2022/" . $orderNo;
         $supplierId = $request->supplier;
         $userId = Auth::user()->id;
         $itemCount = count($request->item_id);
@@ -120,27 +120,25 @@ class InvPurchaseController extends Controller
                 for ($i = 0; $i < $itemCount; $i++) {
                     Log::info('Purchase>Store Inside for in purchase Item loop');
                     $purchaseItemModel = new PurchaseItem();
-                    Log::info('Purchase>Store Inside for in purchase Item $purchaseModel->id'.$purchaseModel->id);
+                    Log::info('Purchase>Store Inside for in purchase Item $purchaseModel->id' . $purchaseModel->id);
                     $purchaseItemModel->purchase_id = $purchaseModel->id;
-                    Log::info('Purchase>Store Inside for in purchase Item $items[$i]'.$items[$i]);
+                    Log::info('Purchase>Store Inside for in purchase Item $items[$i]' . $items[$i]);
                     $purchaseItemModel->item_id = $items[$i];
-                    Log::info('Purchase>Store Inside for in purchase Item .$quantity[$i]'.$quantity[$i]);
+                    Log::info('Purchase>Store Inside for in purchase Item .$quantity[$i]' . $quantity[$i]);
                     $purchaseItemModel->quantity = $quantity[$i];
-                    Log::info('Purchase>Store Inside for in purchase Item $rate[$i]'.$rate[$i]);
+                    Log::info('Purchase>Store Inside for in purchase Item $rate[$i]' . $rate[$i]);
                     $purchaseItemModel->rate = $rate[$i];
-                    Log::info('Purchase>Store Inside for in purchase Item $tax[$i]'.$tax[$i]);
-                   $purchaseItemModel->tax_id = $tax[$i];
-                   Log::info('Purchase>Store Inside for in purchase Item $discount[$i]'.$discount[$i]);
+                    Log::info('Purchase>Store Inside for in purchase Item $tax[$i]' . $tax[$i]);
+                    $purchaseItemModel->tax_id = $tax[$i];
+                    Log::info('Purchase>Store Inside for in purchase Item $discount[$i]' . $discount[$i]);
                     $purchaseItemModel->discount_id = $discount[$i];
-                    Log::info('Purchase>Store Inside for in purchase Item  $total[$i]'. $total[$i]);
+                    Log::info('Purchase>Store Inside for in purchase Item  $total[$i]' . $total[$i]);
                     $purchaseItemModel->final_amount = $total[$i];
                     Log::info('Purchase>Store Inside for in purchase Item status');
                     $purchaseItemModel->status = "1";
                     Log::info('Purchase>Store Inside for in purchase Item ');
                     $purchaseItemModel->save();
                 }
-
-                
             }
         } catch (\Exception $e) {
 
@@ -168,7 +166,7 @@ class InvPurchaseController extends Controller
         // }
 
 
-        return response()->json(['success' => 'done']);
+        return response()->json(['success' => 'done','referenceNo'=> $transactionModel->reference_no]);
     }
 
     /**
@@ -190,12 +188,19 @@ class InvPurchaseController extends Controller
      */
     public function edit($id)
     {
-        $model = Purchase::select('transactions.date','transactions.reference_no','transactions.supplier_id')
-        ->leftjoin('transactions','transactions.id','=','purchases.transaction_id')
-        ->where('transactions.id', $id)->first();
+        $model = Purchase::select("purchases.id", "transactions.reference_no", "transactions.supplier_id", "transactions.date")
+            ->leftjoin('transactions', 'transactions.id', '=', 'purchases.transaction_id')
+            ->where('transactions.id', $id)
+            ->first();
+        $purchaseItems = PurchaseItem::where('purchase_id', $id)->get();
 
-        dd($model);
-        return view('Purchase.edit', compact('model'));
+        $pdtproductIds = InventoryItem::select('product_id', 'product_name', 'id', 'a_price')->get();
+
+        $pdtsupplierIds = Supplier::select('supplier_id', 'supplier_name', 'id')->get();
+        $pdttaxids = Tax::select('tax_name', 'tax_value', 'id')->get();
+
+
+        return view('Purchase.edit', compact('model', 'pdtproductIds', 'pdtsupplierIds', 'pdttaxids', 'purchaseItems'));
     }
 
     /**
@@ -207,7 +212,61 @@ class InvPurchaseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+
+        $date = $request->date;
+        $supplierId = $request->supplier;
+
+        $itemCount = count($request->item_id);
+        $items = $request->item_id;
+        $quantity = $request->quantity;
+        $rate = $request->rate;
+        $tax = $request->tax;
+        $discount = $request->discount;
+        $total = $request->total;
+        $purchaseModel = Purchase::where('id', $id)->first();
+
+        try {
+            $transactionModel = Transaction::where('id', $purchaseModel->transaction_id)->first();
+            $transactionModel->supplier_id = $supplierId;
+            $transactionModel->date = $date;
+            $transactionModel->save();
+            if ($transactionModel) {
+               
+                $purchaseModel->supplier_id = $supplierId;               
+                $purchaseModel->save();
+                Log::info('Purchase>Store Inside purchaseModel ' . " => " . json_encode($purchaseModel));
+                for ($i = 0; $i < $itemCount; $i++) {
+                    Log::info('Purchase>Store Inside for in purchase Item loop');
+                    $purchaseItemModel = PurchaseItem::where('item_id',$items[$i])->where('purchase_id',$id)->first();
+                    if($purchaseItemModel ==""){
+                        $purchaseItemModel = new PurchaseItem();
+                    }
+                    Log::info('Purchase>Store Inside for in purchase Item $purchaseModel->id' . $purchaseModel->id);
+                    $purchaseItemModel->purchase_id = $purchaseModel->id;
+                    Log::info('Purchase>Store Inside for in purchase Item $items[$i]' . $items[$i]);
+                    $purchaseItemModel->item_id = $items[$i];
+                    Log::info('Purchase>Store Inside for in purchase Item .$quantity[$i]' . $quantity[$i]);
+                    $purchaseItemModel->quantity = $quantity[$i];
+                    Log::info('Purchase>Store Inside for in purchase Item $rate[$i]' . $rate[$i]);
+                    $purchaseItemModel->rate = $rate[$i];
+                    Log::info('Purchase>Store Inside for in purchase Item $tax[$i]' . $tax[$i]);
+                    $purchaseItemModel->tax_id = $tax[$i];
+                    Log::info('Purchase>Store Inside for in purchase Item $discount[$i]' . $discount[$i]);
+                    $purchaseItemModel->discount_id = $discount[$i];
+                    Log::info('Purchase>Store Inside for in purchase Item  $total[$i]' . $total[$i]);
+                    $purchaseItemModel->final_amount = $total[$i];
+                    Log::info('Purchase>Store Inside for in purchase Item status');
+                    $purchaseItemModel->status = "1";
+                    Log::info('Purchase>Store Inside for in purchase Item ');
+                    $purchaseItemModel->save();
+                }
+               
+            }
+        } catch (\Exception $e) {
+
+            return $e->getMessage();
+        }
+        return response()->json(['success' => 'done','referenceNo'=> $transactionModel->reference_no]);
     }
 
     /**

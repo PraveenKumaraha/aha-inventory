@@ -54,8 +54,12 @@ function getTaxData(row = null) {
       var rate =$("#rate" + row).val();
       var price = Number(rate) * Number(quantity);
       var taxValue = $("#tax" + row).find("option:selected").attr('taxValue');
-      var totaltaxvalue = Number(taxValue) / 100;
-      var taxAmount = price * totaltaxvalue;
+      var taxAmount = 0;
+      if(taxValue){
+         var totaltaxvalue = Number(taxValue) / 100;
+         var taxAmount = price * totaltaxvalue;
+      }
+    
       $("#total" + row).val("");
       var total = Number(price) + Number(taxAmount);
       total = total.toFixed(2);
