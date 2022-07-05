@@ -86,9 +86,10 @@ class InvPurchaseController extends Controller
         $type = "income";
         $transactiontype = TransactionType::where('transaction_type_name', 'purchase')->first();
         $typeId = $transactiontype->id;
-        $orderNo = $transactiontype->o_no;
+        $orderNo = $transactiontype->gen_no;
+        $orderName = $transactiontype->gen_name;
         $date = $request->date;
-        $referenceNo = "PU2021" . $orderNo;
+        $referenceNo = $orderName."/2022/" . $orderNo;
         $supplierId = $request->supplier;
         $userId = Auth::user()->id;
         $itemCount = count($request->item_id);
