@@ -65,7 +65,67 @@
             </div>
         </div>
 </div>
+<style>
+    .switch {
+  position: relative;
+  display: inline-block;
+  width: 45px;
+  height: 20px;
+  vertical-align: middle;
+  margin-top: 8px;
+}
 
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: red;
+  -webkit-transition: .4s;
+  transition: .4s;
+
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+ height: 16px;
+width: 14px;
+left: 2px;
+bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: green;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+</style>
 
 
 <div class="row">
@@ -92,6 +152,7 @@
                             <th scope="col">#</th>
                             <th scope="col">Tax Name</th>
                             <th scope="col">Tax Value</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Actions</th>
 
                         </thead>
@@ -102,6 +163,12 @@
                                 <td>{{ $model->tax_name }}</td>
                                 <td>{{ $model->tax_value }}</td>
 
+                                <td><label class="switch">
+                                            <input type="checkbox" onchange="changeStatus(event.target,'{{$model->id}}')"
+                                                                                       <?php 
+                                            if($model->tax_status == "1"){echo"checked";}else{ echo "unchecked";}
+                                            ?>><span class="slider round"></span></label>
+                                        </td>
                                 <td class="td-actions">
                                         <a href="{{ route('tax.edit', $model->id) }}" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit Product">
                                             <i class="tim-icons icon-pencil"></i>
@@ -134,6 +201,27 @@
         $(document).ready(function() {
 
         });
+        function changeStatus(_this,id) {
+           
+           var status = $(_this).prop('checked') == true ? 1 : 0;
+           console.log(id);
+           console.log(status);
+           
+           let _token = $('meta[name="csrf-token"]').attr('content');
+
+           $.ajax({
+               url: `changeTaxStatus`,
+               type: 'post',
+               data: {
+                   _token: _token,
+                   id: id,
+                   status: status 
+               },
+               success: function (result) {             
+           console.log("success");
+               }
+           });
+       }
         var $rows = $('.table tbody tr');
         $('#search').keyup(function() {
             var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
@@ -169,6 +257,11 @@
                     var Result = response.data;
                     $(".table tbody").html("");
                     $.each(Result, function(key, value) {
+                        var status = value.tax_status;
+                        var StatusRes = "unchecked";
+                        if(status =="1"){
+                            StatusRes = "checked";
+                        }
                         var editurl = '{{ route('tax.edit', ':id') }}';
                         editurl = editurl.replace(':id', value.id);
 
@@ -178,7 +271,7 @@
                         var row = `<tr role="row" class="odd"><td>` + (key + 1) + `</td><td>` + value
                             .tax_name + `</td>
                             <td>` + value
-                            .tax_value +`</td><td class="td-actions"><a href ="` + editurl +
+                            .tax_value +`</td><td><label class="switch"> <input type="checkbox" onchange="changeStatus(event.target,`+value.id+`)" `+StatusRes+` ><span class="slider round"></span></label></td><td class="td-actions"><a href ="` + editurl +
                             `" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit"> <i class="tim-icons icon-pencil"></i></a><form id="deleteStudentForm" action="` +
                             deleteurl + `" method="post" class="d-inline"> @csrf @method('DELETE') <button type="submit" class="btn btn-link" data-toggle="tooltip"
                                             data-placement="bottom" title="Delete Product" onclick="return confirm('Are you sure?')">

@@ -52,7 +52,7 @@ class BrandController extends Controller
         $model->brand_active = "1";
         $model->save();
         return redirect()
-            ->route('brand.index')
+            ->route('brand.index')   
             ->withStatus('Brand successfully created.');
     }
 

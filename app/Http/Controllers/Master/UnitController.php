@@ -44,7 +44,7 @@ class UnitController extends Controller
 
         $model = new Unit();
         $model->name=$request->name;
-        $model->status="1";
+        $model->unit_status="1";
         $model->unit_active = "1";
         $model->save();
         return redirect()
@@ -114,12 +114,18 @@ class UnitController extends Controller
 
         $models = Unit::select('*')->whereNull('deleted_at')->orderby('id', 'desc');
         if ($request->type == "activeData") {
-            $models->where('status', 1);
+            $models->where('unit_status', 1);
         } else if ($request->type == "inActiveData") {
-            $models->where('status', 0);
+            $models->where('unit_status', 0);
         }
         $datas = $models->get();
 
         return response()->json(array('result' => "success", 'data' => $datas));
+    }
+    public function changeStatus(Request $request)
+    {
+        $unit = Unit::find($request->id)->update(['unit_status' => $request->status]);
+
+        return response()->json(['success'=>'Status changed successfully.']);
     }
 }

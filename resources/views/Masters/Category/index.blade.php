@@ -64,6 +64,70 @@
         </div>
     </div>
 </div>
+
+<style>
+    .switch {
+  position: relative;
+  display: inline-block;
+  width: 45px;
+  height: 20px;
+  vertical-align: middle;
+  margin-top: 8px;
+}
+
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: red;
+  -webkit-transition: .4s;
+  transition: .4s;
+
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+ height: 16px;
+width: 14px;
+left: 2px;
+bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: green;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+
+</style>
+
 <div class="row" style="display: none;">
     <div class="col-md-12">
         <div class="card">
@@ -121,6 +185,7 @@
                         <thead class=" text-primary">
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Actions</th>
 
                         </thead>
@@ -129,6 +194,12 @@
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{ $model->category_name }}</td>
+                                <td><label class="switch">
+                                            <input type="checkbox" onchange="changeStatus(event.target,'{{$model->id}}')"
+                                                                                       <?php 
+                                            if($model->category_status == "1"){echo"checked";}else{ echo "unchecked";}
+                                            ?>><span class="slider round"></span></label>
+                                        </td>
                                 <td class="td-actions">
 
                                     <a href="{{ route('category.edit', $model->id) }}" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit Product">
@@ -181,6 +252,47 @@
         splitData(type);
     });
 
+
+    function changeStatus(_this,id) {
+           
+           var status = $(_this).prop('checked') == true ? 1 : 0;
+           console.log(id);
+           console.log(status);
+           
+           let _token = $('meta[name="csrf-token"]').attr('content');
+
+           $.ajax({
+               url: `changeCategoryStatus`,
+               type: 'post',
+               data: {
+                   _token: _token,
+                   id: id,
+                   status: status 
+               },
+               success: function (result) {             
+           console.log("success");
+               }
+           });
+       }
+       var $rows = $('.table tbody tr');
+        $('#search').keyup(function() {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+
+            $rows.show().filter(function() {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+
+        var type = null;
+        $('.SplitData').click(function(e) {
+            $("body").find('.SplitData').removeClass('activeSplitterDiv');
+
+            $(this).addClass('activeSplitterDiv');
+            type = $(this).attr('data-value');
+            splitData(type);
+        });
+
     function splitData(type) {
 
         $.ajax({
@@ -197,6 +309,11 @@
                 var Result = response.data;
                 $(".table tbody").html("");
                 $.each(Result, function(key, value) {
+                    var status = value.status;
+                        var StatusRes = "unchecked";
+                        if(status =="1"){
+                            StatusRes = "checked";
+                        }
                     var editurl = '{{ route("category.edit", ":id") }}';
                     editurl = editurl.replace(':id', value.id);
 
@@ -204,7 +321,7 @@
                     deleteurl = deleteurl.replace(':id', value.id);
 
                     var row = `<tr role="row" class="odd"><td>` + (key + 1) + `</td><td>` + value
-                        .category_name + `</td><td class="td-actions"><a href ="` + editurl +
+                        .category_name + `</td><td><label class="switch"> <input type="checkbox" onchange="changeStatus(event.target,`+value.id+`)" `+StatusRes+` ><span class="slider round"></span></label></td><td class="td-actions"><a href ="` + editurl +
                         `" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit"> <i class="tim-icons icon-pencil"></i></a><form id="deleteStudentForm" action="` + deleteurl + `" method="post" class="d-inline"> @csrf @method('DELETE') <button type="submit" class="btn btn-link" data-toggle="tooltip"
                                             data-placement="bottom" title="Delete Product" onclick="return confirm('Are you sure?')">
                                             <i class="tim-icons icon-simple-remove"></i>

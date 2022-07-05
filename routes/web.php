@@ -23,6 +23,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('brand', 'Master\BrandController');
     Route::post('changeBrandStatus','Master\BrandController@changeStatus');
+    Route::post('changeCategoryStatus','Master\CategoryController@changeStatus');
+    Route::post('changeUnitStatus','Master\UnitController@changeStatus');
+    Route::post('changeTaxStatus','Master\TaxController@changeStatus');
+    Route::post('changeItemReturnTypeStatus','Master\ItemReturnTypeController@changeStatus');
     Route::resource('gender', 'GenderController');
     Route::resource('bloodGroup', 'BloodGroupController');
     Route::resource('Country', 'CountryController');/**Master -> Brand& Category */

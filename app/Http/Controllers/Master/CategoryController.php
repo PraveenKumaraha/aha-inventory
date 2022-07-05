@@ -119,4 +119,11 @@ class CategoryController extends Controller
 
         return response()->json(array('result' => "success", 'data' => $datas));
     }
+    public function changeStatus(Request $request)
+    {
+      //  dd($request->all());
+        $category = Category::find($request->id)->update(['category_status' => $request->status]);
+
+        return response()->json(['success'=>'Status Changed successfully.']);
+    }
 }

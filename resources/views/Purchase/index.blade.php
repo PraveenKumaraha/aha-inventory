@@ -89,17 +89,34 @@
                         <table class="table tablesorter " id="">
                             <thead class=" text-primary">
                                 <th scope="col">#</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Actions</th>
+                                <th scope="col">Purchase No</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Action</th>
+
 
                             </thead>
                             <tbody>
-                              <tr>
-                                <td></td>
-                                <td></td>
-                                 <td></td>
+                            @foreach($models as $model)
+                            <tr>
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{ $model->reference_no }}</td>
+                                <td>{{ $model->date }}</td>
+
+                                <td class="td-actions">
+                                    <a href="{{ url('InvPurchase/'.$model->purchaseId.'/edit') }}"" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit Product">
+                                        <i class="tim-icons icon-pencil"></i>
+                                    </a>
+                                    <form action="{{ url('InvPurchase/{InvPurchase}', $model->id) }}" method="post" class="d-inline">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="button" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Delete Product" onclick="confirm('Are you sure you want to remove this product? The records that contain it will continue to exist.') ? this.parentElement.submit() : ''">
+                                            <i class="tim-icons icon-simple-remove"></i>
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
-                            </tbody>
+                            @endforeach
+                        </tbody>
                         </table>
                     </div>
                 </div>
@@ -152,10 +169,10 @@
                     var Result = response.data;
                     $(".table tbody").html("");
                     $.each(Result, function(key, value) {
-                        var editurl = '{{ route('brand.edit', ':id') }}';
+                        var editurl = '{{ route('InvPurchase.edit', ':id') }}';
                         editurl = editurl.replace(':id', value.id);
 
-                        var deleteurl = '{{ route('brand.destroy', ':id') }}';
+                        var deleteurl = '{{ route('InvPurchase.destroy', ':id') }}';
                         deleteurl = deleteurl.replace(':id', value.id);
 
                         var row = `<tr role="row" class="odd"><td>` + (key + 1) + `</td><td>` + value

@@ -118,4 +118,10 @@ class TaxController extends Controller
 
         return response()->json(array('result' => "success", 'data' => $datas));
     }
+    public function changeStatus(Request $request)
+    {
+        $tax = Tax::find($request->id)->update(['tax_status' => $request->status]);
+
+        return response()->json(['success'=>'Status Changed successfully.']);
+    }
 }

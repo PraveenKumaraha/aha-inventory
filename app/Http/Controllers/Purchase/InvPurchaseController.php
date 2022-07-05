@@ -26,10 +26,13 @@ class InvPurchaseController extends Controller
      */
     public function index()
     {
+        $models = Purchase::select('purchases.id as purchaseId','transactions.date','transactions.reference_no')
+        ->leftjoin('transactions','transactions.id','=','purchases.transaction_id')        
+        ->whereNull('purchases.deleted_at')->orderby('purchases.id', 'desc')
+        ->get();
+      
 
-
-
-        return view('Purchase.index');
+        return view('Purchase.index', compact('models'));
     }
 
     /**
@@ -85,7 +88,7 @@ class InvPurchaseController extends Controller
         $typeId = $transactiontype->id;
         $orderNo = $transactiontype->o_no;
         $date = $request->date;
-        $referenceNo = "PU/2022/" . $orderNo;
+        $referenceNo = "PU2021" . $orderNo;
         $supplierId = $request->supplier;
         $userId = Auth::user()->id;
         $itemCount = count($request->item_id);
@@ -108,9 +111,6 @@ class InvPurchaseController extends Controller
             $transactionModel->save();
             Log::info('Purchase>Store Inside transactionModel ' . " => " . json_encode($transactionModel));
             if ($transactionModel) {
-                $transactiontype->o_no= $orderNo+1;
-                $transactiontype->save();
-
                 $purchaseModel = new Purchase();
                 $purchaseModel->supplier_id = $supplierId;
                 $purchaseModel->transaction_id = $transactionModel->id;
@@ -137,14 +137,6 @@ class InvPurchaseController extends Controller
                     $purchaseItemModel->status = "1";
                     Log::info('Purchase>Store Inside for in purchase Item ');
                     $purchaseItemModel->save();
-
-                    if ($purchaseItemModel) {
-                        $manageStockModel = ManageStock::where('item_id', $items[$i])->first();                       
-                        $totalStock = ($manageStockModel->stock + $quantity[$i]);
-                        $manageStockModel->stock = $totalStock;
-                        $manageStockModel->save();
-                    }
-        
                 }
 
                 
@@ -153,7 +145,29 @@ class InvPurchaseController extends Controller
 
             return $e->getMessage();
         }
-        return response()->json(['success' => 'done','referenceNo'=>$transactionModel->reference_no]);
+
+        // foreach ($request->input('product_name') as $key => $value) {
+
+        //     $model = new InvPurchase();
+
+        //     $model->supplier = $request->get('supplier_name');
+        //     $model->customer_name = $request->get('customer_name');
+        //     $model->gstin = $request->get('gstin');
+        //     $model->date = $request->get('date');
+        //     $model->product = $request->get('product_name');
+        //     $model->rate = $request->get('rate');
+        //     $model->qty = $request->get('qty');
+        //     $model->tax = $request->get('tax');
+        //     $model->disc = $request->get('disc');
+        //     $model->total = $request->get('total');
+
+        //     dd($model);
+
+        //     $model->save();
+        // }
+
+
+        return response()->json(['success' => 'done']);
     }
 
     /**
@@ -175,18 +189,12 @@ class InvPurchaseController extends Controller
      */
     public function edit($id)
     {
+        $model = Purchase::select('transactions.date','transactions.reference_no','transactions.supplier_id')
+        ->leftjoin('transactions','transactions.id','=','purchases.transaction_id')
+        ->where('transactions.id', $id)->first();
 
-        $model = Purchase::select('purchases.*', 'categories.category_name as categoryName', 'brands.brand_name as brandName', 'units.name as unitName')
-            ->leftjoin('inventory_items', 'inventory_items.id', '=', 'purchases.item_id')
-            ->leftjoin('units', 'units.id', '=', 'inventory_items.unit_id')
-            ->leftjoin('brands', 'brands.id', '=', 'inventory_items.brand_id')
-            ->leftjoin('categories', 'categories.id', '=', 'inventory_items.category_id')
-            ->where('purchases.id', $id)->first();
-
-        $pdtproductIds = InventoryItem::select('product_name', 'id')->where('status', 1)->get();
-        $pdtsupplierIds = Supplier::select('supplier_id', 'id')->where('supplier_status', 1)->get();
-
-        return view('inventory.Purchase.Add Purchase.edit', compact('model', 'pdtproductIds', 'pdtsupplierIds'));
+        dd($model);
+        return view('Purchase.edit', compact('model'));
     }
 
     /**
@@ -198,31 +206,7 @@ class InvPurchaseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try {
-            $model = Purchase::where('id', $id)->first();
-            $oldQuantity = $model->quantity;
-            $model->supplier_id = $request->supplier_id;
-            $model->item_id = $request->item_id;
-            $model->quantity = $request->quantity;
-            $model->barcode = $request->barcode;
-            $model->status = "1";
-            $model->save();
-
-            if ($model) {
-                $manageStockModel = ManageStock::where('item_id', $request->item_id)->first();
-                $totalStock = ($manageStockModel->stock + $request->quantity) - $oldQuantity;
-                $manageStockModel->stock = $totalStock;
-                $manageStockModel->save();
-            }
-
-
-            return redirect()
-                ->route('purchase.index')
-                ->withStatus('Purchase Successfully Updated');
-        } catch (\Exception $e) {
-
-            return $e->getMessage();
-        }
+        
     }
 
     /**

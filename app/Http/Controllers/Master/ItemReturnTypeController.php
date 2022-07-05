@@ -126,5 +126,12 @@ class ItemReturnTypeController extends Controller
 
         return response()->json(array('result' => "success", 'data' => $datas));
     }
+    public function changeStatus(Request $request)
+    {
+
+        $brand = ItemReturnType::find($request->id)->update(['status' => $request->status]);
+
+        return response()->json(['success'=>'Status changed successfully.']);
+    }
 }
 

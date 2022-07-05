@@ -161,8 +161,8 @@ input:checked + .slider:before {
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $model->brand_name }}</td>
                                         <td><label class="switch">
-                                            <input type="checkbox" onchange="changeStatus(event.target,'{{$model->id}}')"  data-v="{{$model->brand_status}}" data-id="{{$model->id}}"
-                                            <?php 
+                                            <input type="checkbox" onchange="changeStatus(event.target,'{{$model->id}}')"
+                                                                                       <?php 
                                             if($model->brand_status == "1"){echo"checked";}else{ echo "unchecked";}
                                             ?>><span class="slider round"></span></label>
                                         </td>
