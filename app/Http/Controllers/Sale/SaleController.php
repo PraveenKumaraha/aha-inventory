@@ -6,8 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Sale;
 use Illuminate\Http\Request;
 use App\InventoryItem;
+use App\ManageStock;
 use Illuminate\Support\Facades\Validator;
 use App\Tax;
+use App\Transaction;
+use App\TransactionType;
+use Auth;
+use Illuminate\Support\Facades\Log;
+use App\SaleItem;
 
 class SaleController extends Controller
 {
@@ -43,56 +49,136 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [];
 
-        foreach($request->input('product_name') as $key => $value) {
-            $rules["cname.{$key}"] = 'required';
-            $rules["cnumber.{$key}"] = 'required';
-            $rules["gstin.{$key}"] = 'required';
-            $rules["date.{$key}"] = 'required';
-            $rules["product_name.{$key}"] = 'required';
-            $rules["rate.{$key}"] = 'required';
-            $rules["qty.{$key}"] = 'required';
-            $rules["tax.{$key}"] = 'required';
-            $rules["disc.{$key}"] = 'required';
-            $rules["total.{$key}"] = 'required';
-        }
+        dd($request->all());
 
 
-        $validator = Validator::make($request->all(), $rules);
+        Log::info('Sale>Store Inside ' . " => " . json_encode($request->all()));
+    //     $rules = [];
+
+    //     foreach($request->input('product_name') as $key => $value) {
+    //         $rules["cname.{$key}"] = 'required';
+    //         $rules["cnumber.{$key}"] = 'required';
+    //         $rules["gstin.{$key}"] = 'required';
+    //         $rules["date.{$key}"] = 'required';
+    //         $rules["product_name.{$key}"] = 'required';
+    //         $rules["rate.{$key}"] = 'required';
+    //         $rules["qty.{$key}"] = 'required';
+    //         $rules["tax.{$key}"] = 'required';
+    //         $rules["disc.{$key}"] = 'required';
+    //         $rules["total.{$key}"] = 'required';
+    //     }
 
 
-        if ($validator) {
+    //     $validator = Validator::make($request->all(), $rules);
 
 
-            foreach($request->input('product_name') as $key => $value) {
+    //     if ($validator) {
 
-                $model=new sale();
 
-                $model->cname = $request->get('cname');
-                $model->cnumber = $request->get('cnumber');
-                $model->gstin = $request->get('gstin');
-                $model->date = $request->get('date');
-                $model->product = $request->get('product_name');
-                $model->rate = $request->get('rate');
-                $model->qty = $request->get('qty');
-                $model->tax =$request->get('tax');
-                $model->disc =$request->get('disc');
-                $model->total =$request->get('total');
+    //         foreach($request->input('product_name') as $key => $value) {
 
-                dd($model);
+    //             $model=new sale();
 
-                $model->save();
+    //             $model->cname = $request->get('cname');
+    //             $model->cnumber = $request->get('cnumber');
+    //             $model->gstin = $request->get('gstin');
+    //             $model->date = $request->get('date');
+    //             $model->product = $request->get('product_name');
+    //             $model->rate = $request->get('rate');
+    //             $model->qty = $request->get('qty');
+    //             $model->tax =$request->get('tax');
+    //             $model->disc =$request->get('disc');
+    //             $model->total =$request->get('total');
+
+    //             dd($model);
+
+    //             $model->save();
+    //         }
+
+
+    //         return response()->json(['success'=>'done']);
+    //     }
+    //     else{
+
+    //     return response()->json(['error'=>$validator->errors()->all()]);
+    // }
+    // }
+
+    $type = "income";
+    $transactiontype = TransactionType::where('transaction_type_name', 'sale')->first();
+    $typeId = $transactiontype->id;
+    $orderNo = $transactiontype->o_no;
+    $date = $request->date;
+    $referenceNo = "PU/2022/" . $orderNo;
+    $userId = Auth::user()->id;
+    $itemCount = count($request->item_id);
+    $items = $request->item_id;
+    $quantity = $request->quantity;
+    $rate = $request->rate;
+    $tax = $request->tax;
+    $discount = $request->discount;
+    $total = $request->total;
+
+
+    try {
+        $transactionModel = new Transaction();
+        $transactionModel->type = $type;
+        $transactionModel->transaction_type_id = $typeId;
+        $transactionModel->date = $date;
+        $transactionModel->reference_no = $referenceNo;
+        $transactionModel->user_id = $userId;
+        $transactionModel->save();
+        Log::info('Sale>Store Inside transactionModel ' . " => " . json_encode($transactionModel));
+        if ($transactionModel) {
+            $transactiontype->o_no= $orderNo+1;
+            $transactiontype->save();
+
+            $saleModel = new Sale();
+
+            $saleModel->transaction_id = $transactionModel->id;
+            $saleModel->save();
+            Log::info('Sale>Store Inside saleModel ' . " => " . json_encode($saleModel));
+            for ($i = 0; $i < $itemCount; $i++) {
+                Log::info('Sale>Store Inside for in purchase Item loop');
+                $saleItemModel = new SaleItem();
+                Log::info('Sale>Store Inside for in sale Item $saleModel->id'.$saleModel->id);
+                $saleItemModel->purchase_id = $saleModel->id;
+                Log::info('Sale>Store Inside for in sale Item $items[$i]'.$items[$i]);
+                $saleItemModel->item_id = $items[$i];
+                Log::info('Sale>Store Inside for in sale Item .$quantity[$i]'.$quantity[$i]);
+                $saleItemModel->quantity = $quantity[$i];
+                Log::info('Sale>Store Inside for in sale Item $rate[$i]'.$rate[$i]);
+                $saleItemModel->rate = $rate[$i];
+                Log::info('Sale>Store Inside for in sale Item $tax[$i]'.$tax[$i]);
+               $saleItemModel->tax_id = $tax[$i];
+               Log::info('Sale>Store Inside for in sale Item $discount[$i]'.$discount[$i]);
+                $saleItemModel->discount_id = $discount[$i];
+                Log::info('Sale>Store Inside for in sale Item  $total[$i]'. $total[$i]);
+                $saleItemModel->final_amount = $total[$i];
+                Log::info('Sale>Store Inside for in sale Item status');
+                $saleItemModel->status = "1";
+                Log::info('Sale>Store Inside for in sale Item ');
+                $saleItemModel->save();
+
+                if ($saleItemModel) {
+                    $manageStockModel = ManageStock::where('item_id', $items[$i])->first();
+                    $totalStock = ($manageStockModel->stock + $quantity[$i]);
+                    $manageStockModel->stock = $totalStock;
+                    $manageStockModel->save();
+                }
+
             }
 
 
-            return response()->json(['success'=>'done']);
         }
-        else{
+    } catch (\Exception $e) {
 
-        return response()->json(['error'=>$validator->errors()->all()]);
+        return $e->getMessage();
     }
-    }
+    return response()->json(['success' => 'done','referenceNo'=>$transactionModel->reference_no]);
+}
+
 
     /**
      * Display the specified resource.

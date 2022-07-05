@@ -36,7 +36,7 @@
                             <div class="col-xl-12 order-xl-1">
 
                                 <div class="card-body">
-                                    <form method="POST" action="{{ route('sale.store') }}" autocomplete="off">
+                                    <form method="POST"  autocomplete="off">
                                         @csrf
                                         <div class="card-header">
                                             <div class="row align-items-center">
@@ -219,6 +219,94 @@
 	$(".back").on("click", function() {
 		var url = "{{ route('sale.index') }}";
 		window.location.href = url;
+	});
+
+    var item_id = "";
+	$('#create').validate({
+		errorElement: 'span', //default input error message container
+		errorClass: 'help-block', // default input error message class
+		focusInvalid: false, // do not focus the last invalid input
+		rules: {
+
+			cname: {
+				required: true
+			}
+		},
+
+
+		messages: {
+			cname: {
+				required: "Customer Name is required."
+			},
+
+		},
+
+		invalidHandler: function(event, validator) {
+			//display error alert on form submit
+			$('.alert-danger', $('.login-form')).show();
+		},
+
+		highlight: function(element) { // hightlight error inputs
+			$(element).closest('.form-group').addClass('has-error'); // set error class to the control group
+		},
+
+		success: function(label) {
+			label.closest('.form-group').removeClass('has-error');
+			label.remove();
+		},
+
+		submitHandler: function(form) {
+			var purchaseData = {
+				cname: $('select[name="cname"]').val(),
+				cnumber: $('input[name=cnumber]').val(),
+				gstIn: $('input[name=gstin]').val(),
+				date: $('input[name=date]').val(),
+				_token: '{{ csrf_token() }}',
+				item_id: $('.item-table').find('select[name="product_name[]"]').map(function() {
+					return this.value;
+				}).get(),
+				quantity: $('.item-table').find('input[name="qty[]"]').map(function() {
+					return this.value;
+				}).get(),
+				rate: $('.item-table').find('input[name="rate[]"]').map(function() {
+					return this.value;
+				}).get(),
+				tax: $('.item-table').find('select[name="tax[]"]').map(function() {
+					return this.value;
+				}).get(),
+				discount: $('.item-table').find('input[name="disc[]"]').map(function() {
+					return this.value;
+				}).get(),
+				total: $('.item-table').find('input[name="total[]"]').map(function() {
+					return this.value;
+				}).get(),
+
+			}
+
+			console.log(purchaseData);
+
+			$.ajax({
+				url: 'store',
+				type: 'post',
+				data: purchaseData,
+				success: function(data, textStatus, jqXHR) {
+
+					var datas = data;
+					if (datas.success == "done") {
+						var referenceNo = datas.referenceNo;
+						$('.referenceNo').html("");
+						$('.referenceNo').html(referenceNo);
+
+						alert("Successfully completed");
+					}
+
+
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					//alert("New Request Failed " +textStatus);
+				}
+			});
+		}
 	});
 
         // var add_button = $(".add_field");
