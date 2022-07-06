@@ -129,4 +129,11 @@ class SupplierController extends Controller
 
         return response()->json(array('result' => "success", 'data' => $datas));
     }
+    public function changeStatus(Request $request)
+    {
+       
+        $brand = Supplier::find($request->id)->update(['supplier_status' => $request->status]);
+
+        return response()->json(['success'=>'Status changed successfully.']);
+    }
 }

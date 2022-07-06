@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('changeUnitStatus','Master\UnitController@changeStatus');
     Route::post('changeTaxStatus','Master\TaxController@changeStatus');
     Route::post('changeItemReturnTypeStatus','Master\ItemReturnTypeController@changeStatus');
+    Route::post('changeSupplierStatus', 'SupplierController@changeStatus');
     Route::resource('gender', 'GenderController');
     Route::resource('bloodGroup', 'BloodGroupController');
     Route::resource('Country', 'CountryController');/**Master -> Brand& Category */
