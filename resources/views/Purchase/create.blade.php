@@ -288,7 +288,7 @@
 			});
 		}
 	});
-</script>
+</script> 
 <script src="{{ asset('assets') }}/js/inventory/purchase.js"></script>
 
 @endpush

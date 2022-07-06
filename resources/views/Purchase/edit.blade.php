@@ -120,7 +120,7 @@
 										</td>
 
 										<td>
-											<input type="number" name="disc[]" id="disc<?php echo $i+1;?>" class="form-control" value="<?php echo($purchaseItems[$i]->discount_amount);?>">
+											<input type="number" name="disc[]" id="disc<?php echo $i+1;?>" class="form-control" value="<?php echo($purchaseItems[$i]->discount_amount);?>"> 
 										</td>
 
 										<td>

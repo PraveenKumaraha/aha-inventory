@@ -100,7 +100,7 @@
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{ $model->reference_no }}</td>
-                                <td>{{ $model->date }}</td>
+                                <td>{{ $model->date }}</td> 
 
                                 <td class="td-actions">
                                     <a href="{{ url('InvPurchase/'.$model->purchaseId.'/edit') }}"" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit Product">
