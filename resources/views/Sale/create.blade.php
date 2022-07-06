@@ -36,7 +36,7 @@
                             <div class="col-xl-12 order-xl-1">
 
                                 <div class="card-body">
-                                    <form method="POST"  autocomplete="off">
+                                    <form id='create' action="" enctype="multipart/form-data" method="POST" accept-charset="utf-8" class="create needs-validation" novalidate autocomplete="off">
                                         @csrf
                                         <div class="card-header">
                                             <div class="row align-items-center">
@@ -217,7 +217,7 @@
 	}
 
 	$(".back").on("click", function() {
-		var url = "{{ route('sale.index') }}";
+		var url = "{{ route('InvSale.index') }}";
 		window.location.href = url;
 	});
 
@@ -256,8 +256,8 @@
 		},
 
 		submitHandler: function(form) {
-			var purchaseData = {
-				cname: $('select[name="cname"]').val(),
+			var saleData = {
+				cname: $('input[name="cname"]').val(),
 				cnumber: $('input[name=cnumber]').val(),
 				gstIn: $('input[name=gstin]').val(),
 				date: $('input[name=date]').val(),
@@ -283,12 +283,12 @@
 
 			}
 
-			console.log(purchaseData);
+
 
 			$.ajax({
 				url: 'store',
 				type: 'post',
-				data: purchaseData,
+				data: saleData,
 				success: function(data, textStatus, jqXHR) {
 
 					var datas = data;

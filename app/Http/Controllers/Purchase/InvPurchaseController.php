@@ -188,10 +188,12 @@ class InvPurchaseController extends Controller
      */
     public function edit($id)
     {
+
         $model = Purchase::select("purchases.id", "transactions.reference_no", "transactions.supplier_id", "transactions.date")
             ->leftjoin('transactions', 'transactions.id', '=', 'purchases.transaction_id')
-            ->where('transactions.id', $id)
+            ->where('purchases.id', $id)
             ->first();
+
         $purchaseItems = PurchaseItem::where('purchase_id', $id)->get();
 
         $pdtproductIds = InventoryItem::select('product_id', 'product_name', 'id', 'a_price')->get();
@@ -231,8 +233,8 @@ class InvPurchaseController extends Controller
             $transactionModel->date = $date;
             $transactionModel->save();
             if ($transactionModel) {
-               
-                $purchaseModel->supplier_id = $supplierId;               
+
+                $purchaseModel->supplier_id = $supplierId;
                 $purchaseModel->save();
                 Log::info('Purchase>Store Inside purchaseModel ' . " => " . json_encode($purchaseModel));
                 for ($i = 0; $i < $itemCount; $i++) {
@@ -260,7 +262,7 @@ class InvPurchaseController extends Controller
                     Log::info('Purchase>Store Inside for in purchase Item ');
                     $purchaseItemModel->save();
                 }
-               
+
             }
         } catch (\Exception $e) {
 

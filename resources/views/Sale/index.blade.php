@@ -35,7 +35,7 @@
          .activeSplitterDiv {
              border: 2px solid blue !important;
          }
-         
+
 
      </style>
      <div class="card">
@@ -127,7 +127,7 @@
                              <input type="text" id="search" placeholder="Type to search" autocomplete="off">
                          </div>
                          <div class="col-4 text-right">
-                            <a href="{{ route('sale.create') }}" class="btn btn-sm btn-primary">Create Sale</a>
+                            <a href="{{ route('InvSale.create') }}" class="btn btn-sm btn-primary">Create Sale</a>
                         </div>
                      </div>
                  </div>
@@ -214,10 +214,10 @@
                      var Result = response.data;
                      $(".table tbody").html("");
                      $.each(Result, function(key, value) {
-                         var editurl = '{{ route('brand.edit', ':id') }}';
+                         var editurl = '{{ route('InvSale.edit', ':id') }}';
                          editurl = editurl.replace(':id', value.id);
 
-                         var deleteurl = '{{ route('brand.destroy', ':id') }}';
+                         var deleteurl = '{{ route('InvSale.destroy', ':id') }}';
                          deleteurl = deleteurl.replace(':id', value.id);
 
                          var row = `<tr role="row" class="odd"><td>` + (key + 1) + `</td><td>` + value

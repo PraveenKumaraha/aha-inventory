@@ -21,7 +21,8 @@ Route::get('/', 'HomeController@index')->name('home')->middleware('auth');
 
 Route::group(['middleware' => 'auth'], function () {
     include_once('purchase.php');
-    
+    include_once('sale.php');
+
 
     Route::resource('brand', 'Master\BrandController');
     Route::post('changeBrandStatus','Master\BrandController@changeStatus');
@@ -40,7 +41,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('supplier','SupplierController');
     Route::resource('purchase','Purchase\PurchaseController');
     Route::resource('returnPurchase','Purchase\ReturnPurchaseController');
-    Route::resource('sale','Sale\SaleController');
+    
     Route::resource('returnsale','Sale\ReturnSaleController');
 
     // Route::resource('report','Purchase\ReportPurchaseController');
@@ -53,7 +54,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('tax','Master\TaxController');
     Route::resource('itemReturnType','Master\ItemReturnTypeController');
     Route::resource('transactionType','TransactionTypeController');
-    
+
 Route::resource('addinv','AddInvController');
 
     Route::post('/getBrandSplitedData', 'Master\BrandController@getBrandSplitedData')->name('getBrandSplitedData');
