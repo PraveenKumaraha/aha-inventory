@@ -183,7 +183,7 @@ class InventoryItemController extends Controller
     public function changeStatus(Request $request)
     {
        
-        $brand = InventoryItem::find($request->id)->update(['status' => $request->status]);
+        $inventoryItem = InventoryItem::find($request->id)->update(['status' => $request->status]);
 
         return response()->json(['success'=>'Status changed successfully.']);
     }

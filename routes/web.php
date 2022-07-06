@@ -21,6 +21,7 @@ Route::get('/', 'HomeController@index')->name('home')->middleware('auth');
 
 Route::group(['middleware' => 'auth'], function () {
     include_once('purchase.php');
+    
 
     Route::resource('brand', 'Master\BrandController');
     Route::post('changeBrandStatus','Master\BrandController@changeStatus');
@@ -30,6 +31,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('changeItemReturnTypeStatus','Master\ItemReturnTypeController@changeStatus');
     Route::post('changeSupplierStatus', 'SupplierController@changeStatus');
     Route::post('changeinventoryItemStatus','Inventory\InventoryItemController@changeStatus');
+    Route::post('changeTransactionTypeStatus','TransactionTypeController@changeStatus');
     Route::resource('gender', 'GenderController');
     Route::resource('bloodGroup', 'BloodGroupController');
     Route::resource('Country', 'CountryController');/**Master -> Brand& Category */

@@ -34,10 +34,10 @@
 
                         <div class="pl-lg-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input-name">Generate NO</label>
-                                <input type="text" name="gen_no" id="input-name"
+                                <label class="form-control-label" for="input-name">Gen Name</label>
+                                <input type="text" name="gen_name" id="input-name"
                                     class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}"
-                                    placeholder="{{ __('Name') }}" value="{{ old('name', $model->gen_no) }}" required
+                                    placeholder="{{ __('Name') }}" value="{{ old('name', $model->gen_name) }}" required
                                     autofocus>
                                 @include('alerts.feedback', ['field' => 'name'])
                             </div>
@@ -45,10 +45,10 @@
 
                         <div class="pl-lg-4">
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input-name">Generate Name</label>
-                                <input type="text" name="gen_name" id="input-name"
+                                <label class="form-control-label" for="input-name">Gen NO</label>
+                                <input type="number" name="gen_no" id="input-name"
                                     class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}"
-                                    placeholder="{{ __('Name') }}" value="{{ old('name', $model->gen_name) }}" required
+                                    placeholder="{{ __('Name') }}" value="{{ old('name', $model->gen_no) }}" required
                                     autofocus>
                                 @include('alerts.feedback', ['field' => 'name'])
                             </div>
