@@ -10,7 +10,7 @@ class InventoryItem extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'product_name', 'product_category_id', ''
+        'product_name', 'product_category_id','status', ''
     ];  
 
     public function categories()

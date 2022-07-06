@@ -29,6 +29,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('changeTaxStatus','Master\TaxController@changeStatus');
     Route::post('changeItemReturnTypeStatus','Master\ItemReturnTypeController@changeStatus');
     Route::post('changeSupplierStatus', 'SupplierController@changeStatus');
+    Route::post('changeinventoryItemStatus','Inventory\InventoryItemController@changeStatus');
     Route::resource('gender', 'GenderController');
     Route::resource('bloodGroup', 'BloodGroupController');
     Route::resource('Country', 'CountryController');/**Master -> Brand& Category */
