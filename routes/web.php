@@ -33,6 +33,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('changeSupplierStatus', 'SupplierController@changeStatus');
     Route::post('changeinventoryItemStatus','Inventory\InventoryItemController@changeStatus');
     Route::post('changeTransactionTypeStatus','TransactionTypeController@changeStatus');
+    Route::post('changeOtherCrDrTypeStatus','OtherCrDrController@changeStatus');
     Route::resource('gender', 'GenderController');
     Route::resource('bloodGroup', 'BloodGroupController');
     Route::resource('Country', 'CountryController');/**Master -> Brand& Category */
@@ -54,6 +55,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('tax','Master\TaxController');
     Route::resource('itemReturnType','Master\ItemReturnTypeController');
     Route::resource('transactionType','TransactionTypeController');
+    Route::resource('otherCrDr','OtherCrDrController'); 
 
 Route::resource('addinv','AddInvController');
 
@@ -63,6 +65,7 @@ Route::resource('addinv','AddInvController');
     Route::post('/getInventoryItemSplitedData', 'Inventory\InventoryItemController@getInventoryItemSplitedData')->name('getInventoryItemSplitedData');
     Route::post('/getPurchaseSplitedData', 'Purchase\PurchaseController@getPurchaseSplitedData')->name('getPurchaseSplitedData');
     Route::post('/getItemReturnTypeData', 'Master\ItemReturnTypeController@getItemReturnTypeData')->name('getItemReturnTypeData');
+    Route::post('/getOtherCrDrTypeData', 'OtherCrDrController@getOtherCrDrTypeData')->name('getOtherCrDrTypeData');
 
     Route::post('/getTaxSplitedData', 'Master\TaxController@getTaxSplitedData')->name('getTaxSplitedData');
     Route::post('/getTransactionTypeSplitedData', 'TransactionTypeController@getTransactionTypeSplitedData')->name('getTransactionTypeSplitedData');

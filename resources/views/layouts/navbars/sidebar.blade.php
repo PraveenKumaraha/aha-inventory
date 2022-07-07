@@ -235,6 +235,12 @@
                     <p>Sale</p>
                 </a>
             </li>
+            <li @if ($pageSlug=='othercrdr' ) class="active " @endif>
+                <a href="{{ route('otherCrDr.index') }}">
+                    <i class="tim-icons icon-single-02"></i>
+                    <p>Other Cr/Dr</p>
+                </a>
+            </li>
 
 
             <!-- <li>
