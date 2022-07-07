@@ -210,6 +210,12 @@
 
 			supplier: {
 				required: true
+			},
+			customerNO: {
+				required: true
+			},
+			gstin: {
+				required: true
 			}
 		},
 
@@ -218,7 +224,12 @@
 			supplier: {
 				required: "supplier Name is required."
 			},
-
+			customerNO: {
+				required: "customer Name is required."
+			},
+			gstin: {
+				required: "Gstin Name is required."
+			}
 		},
 
 		invalidHandler: function(event, validator) {
