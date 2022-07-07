@@ -70,11 +70,11 @@
 							</div>
 							<div class="form-row">
 								<label class=" col-form-label1" for="name">GSTIN:</label>
-								<input type="text" class="form-control col-sm-2" name="gstin" id="name" />
+								<input type="text" class="form-control col-sm-2" name="gstin" id="gstin" />
 								<!-- </div>
 							<div class="form-row"> -->
 								<label class=" col-form-label12" for="name">Date:</label>
-								<input type="date" class="form-control col-sm-2" name="date" id="name" />
+								<input type="date" class="form-control col-sm-2" name="date" id="date" />
 							</div>
 						</div>
 						<table class="table table-bordered item-table" id="productTable">
@@ -216,6 +216,9 @@
 			},
 			gstin: {
 				required: true
+			},
+			date: {
+				required :true
 			}
 		},
 
@@ -229,6 +232,9 @@
 			},
 			gstin: {
 				required: "Gstin Name is required."
+			},
+			date: {
+				required: "Date is required."
 			}
 		},
 
