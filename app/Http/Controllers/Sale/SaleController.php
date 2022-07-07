@@ -50,7 +50,7 @@ class SaleController extends Controller
     public function store(Request $request)
     {
 
-        dd($request->all());
+    
 
 
         Log::info('Sale>Store Inside ' . " => " . json_encode($request->all()));
@@ -105,12 +105,13 @@ class SaleController extends Controller
     // }
     // }
 
-    $type = "income";
+    $type = "outgoing";
     $transactiontype = TransactionType::where('transaction_type_name', 'sale')->first();
     $typeId = $transactiontype->id;
-    $orderNo = $transactiontype->o_no;
+    $orderName = $transactiontype->gen_name;
+    $orderNo = $transactiontype->gen_no;
     $date = $request->date;
-    $referenceNo = "PU/2022/" . $orderNo;
+    $referenceNo = $orderName."/2022/" . $orderNo;
     $userId = Auth::user()->id;
     $itemCount = count($request->item_id);
     $items = $request->item_id;
@@ -119,31 +120,37 @@ class SaleController extends Controller
     $tax = $request->tax;
     $discount = $request->discount;
     $total = $request->total;
-
+    $customername= $request->cname;
+    $customerNo = $request->cnumber;
+    $gst = $request->gstIn;
 
     try {
         $transactionModel = new Transaction();
         $transactionModel->type = $type;
         $transactionModel->transaction_type_id = $typeId;
+        $transactionModel->customer_name = $customername;
+        $transactionModel->gst = $gst;
         $transactionModel->date = $date;
         $transactionModel->reference_no = $referenceNo;
         $transactionModel->user_id = $userId;
         $transactionModel->save();
+       
         Log::info('Sale>Store Inside transactionModel ' . " => " . json_encode($transactionModel));
         if ($transactionModel) {
-            $transactiontype->o_no= $orderNo+1;
+            $transactiontype->gen_no= $orderNo+1;
             $transactiontype->save();
 
             $saleModel = new Sale();
 
             $saleModel->transaction_id = $transactionModel->id;
+            $saleModel->status =1; 
             $saleModel->save();
             Log::info('Sale>Store Inside saleModel ' . " => " . json_encode($saleModel));
             for ($i = 0; $i < $itemCount; $i++) {
                 Log::info('Sale>Store Inside for in purchase Item loop');
                 $saleItemModel = new SaleItem();
                 Log::info('Sale>Store Inside for in sale Item $saleModel->id'.$saleModel->id);
-                $saleItemModel->purchase_id = $saleModel->id;
+                $saleItemModel->sales_id = $saleModel->id;
                 Log::info('Sale>Store Inside for in sale Item $items[$i]'.$items[$i]);
                 $saleItemModel->item_id = $items[$i];
                 Log::info('Sale>Store Inside for in sale Item .$quantity[$i]'.$quantity[$i]);
@@ -155,7 +162,7 @@ class SaleController extends Controller
                Log::info('Sale>Store Inside for in sale Item $discount[$i]'.$discount[$i]);
                 $saleItemModel->discount_id = $discount[$i];
                 Log::info('Sale>Store Inside for in sale Item  $total[$i]'. $total[$i]);
-                $saleItemModel->final_amount = $total[$i];
+                $saleItemModel->total_amount = $total[$i];
                 Log::info('Sale>Store Inside for in sale Item status');
                 $saleItemModel->status = "1";
                 Log::info('Sale>Store Inside for in sale Item ');
@@ -163,7 +170,7 @@ class SaleController extends Controller
 
                 if ($saleItemModel) {
                     $manageStockModel = ManageStock::where('item_id', $items[$i])->first();
-                    $totalStock = ($manageStockModel->stock + $quantity[$i]);
+                    $totalStock = ($manageStockModel->stock - $quantity[$i]);
                     $manageStockModel->stock = $totalStock;
                     $manageStockModel->save();
                 }
