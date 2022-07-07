@@ -90,7 +90,7 @@
                                                 <select class="form-control	select2 productName1" style="width:150px;height:80px!important" id="productName1" name="product_name[]" onchange="getProductData(1)" required>
                                                     <option value="" selected="selected" disabled>
                                                         Select Product</option>
-                                                    <?php foreach ($pdtproductIds as $row) { ?> <option value="<?php echo $row['id']; ?>" a_price="<?php echo $row['a_price']; ?>"><?php echo $row['product_id']; ?> |
+                                                    <?php foreach ($pdtproductIds as $row) { ?> <option value="<?php echo $row['id']; ?>" s_price="<?php echo $row['s_price']; ?>"><?php echo $row['product_id']; ?> |
                                                             <?php echo $row['product_name']; ?></option>
                                                     <?php } ?>
                                                 </select>
@@ -167,7 +167,7 @@
                 '<select class="form-control select2" style="width: 100%;" id="productName' + count +
                 '" name="product_name[]" onchange="getProductData(' + count + ')">' +
                 '<option  value="" selected="selected" disabled>Select Product</option>' +
-                <?php foreach ($pdtproductIds as $row) { ?> '<option value="<?php echo $row['id']; ?>" a_price="<?php echo $row['a_price']; ?>"><?php echo $row['product_id']; ?> | <?php echo $row['product_name']; ?></option>' +
+                <?php foreach ($pdtproductIds as $row) { ?> '<option value="<?php echo $row['id']; ?>" s_price="<?php echo $row['s_price']; ?>"><?php echo $row['product_id']; ?> | <?php echo $row['product_name']; ?></option>' +
                 <?php } ?> + '</select>' +
                 '</div>' +
                 '</td>';
@@ -202,7 +202,7 @@
 
     function onSelectProduct1(row) {
 
-        var actPriceValue = $('option:selected', row).attr('a_price');
+        var actPriceValue = $('option:selected', row).attr('s_price');
         console.log(actPriceValue);
         var $row = row.closest('tr');
         $('.rate').val();

@@ -7,7 +7,7 @@ $(document).ready(function() {
     if (rowId) {
 
        var productId = $("#productName" + rowId).val();
-       var actualPrice = $("#productName" + rowId).find("option:selected").attr('a_price');
+       var actualPrice = $("#productName" + rowId).find("option:selected").attr('s_price');
        $("#rate" + rowId).val("");
        $("#rate" + rowId).val(actualPrice);
        $("#quantity" + rowId).val("");
@@ -45,7 +45,7 @@ $(document).ready(function() {
  function getTaxData(row = null) {
     var productId = $("#productName" + row).val();
     if (productId) {
-       var actualPrice = $("#productName" + row).find("option:selected").attr('a_price');
+       var actualPrice = $("#productName" + row).find("option:selected").attr('s_price');
        var quantity = $("#quantity" + row).val();
        var rate =$("#rate" + row).val();
        var price = Number(rate) * Number(quantity);
@@ -76,7 +76,7 @@ $(document).ready(function() {
  function getQtyData(row = null) {
     var productId = $("#productName" + row).val();
     if (productId)  {
-       var actualPrice = $("#productName" + row).find("option:selected").attr('a_price');
+       var actualPrice = $("#productName" + row).find("option:selected").attr('s_price');
        var quantity = $("#quantity" + row).val();
        var price = Number(actualPrice) * Number(quantity);
        $("#total" + row).val("");
@@ -98,7 +98,7 @@ $(document).ready(function() {
  function  getRateData(row = null) {
     var productId = $("#productName" + row).val();
     if(productId) {
-       var actualPrice = $("#productName" + row).find("option:selected").attr('a_price');
+       var actualPrice = $("#productName" + row).find("option:selected").attr('s_price');
        var quantity = $("#quantity" + row).val();
        var rate =$("#rate" + row).val();
 

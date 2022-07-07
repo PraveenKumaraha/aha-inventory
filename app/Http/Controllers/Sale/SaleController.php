@@ -35,7 +35,7 @@ class SaleController extends Controller
     public function create()
     {
 
-        $pdtproductIds = InventoryItem::select('product_id','product_name','a_price', 'id')->get();
+        $pdtproductIds = InventoryItem::select('product_id','product_name','s_price', 'id')->get();
         $pdttaxids = Tax::select('tax_name', 'tax_value', 'id')->get();
 
         return view('sale.create',compact('pdtproductIds','pdttaxids'));
@@ -50,7 +50,7 @@ class SaleController extends Controller
     public function store(Request $request)
     {
 
-    
+
 
 
         Log::info('Sale>Store Inside ' . " => " . json_encode($request->all()));
@@ -134,7 +134,7 @@ class SaleController extends Controller
         $transactionModel->reference_no = $referenceNo;
         $transactionModel->user_id = $userId;
         $transactionModel->save();
-       
+
         Log::info('Sale>Store Inside transactionModel ' . " => " . json_encode($transactionModel));
         if ($transactionModel) {
             $transactiontype->gen_no= $orderNo+1;
@@ -143,7 +143,7 @@ class SaleController extends Controller
             $saleModel = new Sale();
 
             $saleModel->transaction_id = $transactionModel->id;
-            $saleModel->status =1; 
+            $saleModel->status =1;
             $saleModel->save();
             Log::info('Sale>Store Inside saleModel ' . " => " . json_encode($saleModel));
             for ($i = 0; $i < $itemCount; $i++) {
