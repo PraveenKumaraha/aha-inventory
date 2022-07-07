@@ -230,7 +230,7 @@
             </li>
 
             <li @if ($pageSlug=='sale' ) class="active " @endif>
-                <a href="{{ route('sale.index') }}">
+                <a href="{{ route('InvSale.index') }}">
                     <i class="tim-icons icon-single-02"></i>
                     <p>Sale</p>
                 </a>
