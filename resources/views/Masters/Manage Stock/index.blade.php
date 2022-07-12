@@ -210,13 +210,11 @@
 
                 $(".table tbody tr ").html("");
                 $.each(Result, function(key, value) {
-                    var editurl = '{{ route('
-                    brand.edit ', ': id ') }}';
-                    editurl = editurl.replace(':id', value.id);
+                    var editurl = '{{ route('managestock.edit', ':id') }}';
+                        editurl = editurl.replace(':id', value.id);
 
-                    var deleteurl = '{{ route('
-                    brand.destroy ', ': id ') }}';
-                    deleteurl = deleteurl.replace(':id', value.id);
+                        var deleteurl = '{{ route('managestock.destroy', ':id') }}';
+                        deleteurl = deleteurl.replace(':id', value.id);
                     var stock = value.stock;
                     var limit = value.limit;
                     var badge = "";
