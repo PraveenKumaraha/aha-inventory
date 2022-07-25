@@ -108,6 +108,7 @@ class InvPurchaseController extends Controller
             $transactionModel->supplier_id = $supplierId;
             $transactionModel->date = $date;
             $transactionModel->reference_no = $referenceNo;
+            $transactionModel->gst = $request->gstIn;
             $transactionModel->user_id = $userId;
             $transactionModel->save();
             Log::info('Purchase>Store Inside transactionModel ' . " => " . json_encode($transactionModel));
@@ -166,7 +167,7 @@ class InvPurchaseController extends Controller
         // }
 
 
-        return response()->json(['success' => 'done','referenceNo'=> $transactionModel->reference_no]);
+        return response()->json(['success' => 'done', 'referenceNo' => $transactionModel->reference_no]);
     }
 
     /**
@@ -227,8 +228,13 @@ class InvPurchaseController extends Controller
         $total = $request->total;
         $purchaseModel = Purchase::where('id', $id)->first();
 
+        $jobCardItems = ($items) ? $items : null;
+        $removeItems = $this->removeItems($id, $items);
+
+
         try {
             $transactionModel = Transaction::where('id', $purchaseModel->transaction_id)->first();
+
             $transactionModel->supplier_id = $supplierId;
             $transactionModel->date = $date;
             $transactionModel->save();
@@ -239,8 +245,8 @@ class InvPurchaseController extends Controller
                 Log::info('Purchase>Store Inside purchaseModel ' . " => " . json_encode($purchaseModel));
                 for ($i = 0; $i < $itemCount; $i++) {
                     Log::info('Purchase>Store Inside for in purchase Item loop');
-                    $purchaseItemModel = PurchaseItem::where('item_id',$items[$i])->where('purchase_id',$id)->first();
-                    if($purchaseItemModel ==""){
+                    $purchaseItemModel = PurchaseItem::where('item_id', $items[$i])->where('purchase_id', $id)->first();
+                    if ($purchaseItemModel == "") {
                         $purchaseItemModel = new PurchaseItem();
                     }
                     Log::info('Purchase>Store Inside for in purchase Item $purchaseModel->id' . $purchaseModel->id);
@@ -262,13 +268,29 @@ class InvPurchaseController extends Controller
                     Log::info('Purchase>Store Inside for in purchase Item ');
                     $purchaseItemModel->save();
                 }
-
             }
         } catch (\Exception $e) {
 
             return $e->getMessage();
         }
-        return response()->json(['success' => 'done','referenceNo'=> $transactionModel->reference_no]);
+        return response()->json(['success' => 'done', 'referenceNo' => $transactionModel->reference_no]);
+    }
+
+    public function removeItems($id, $jobCardItems)
+    {
+
+        $query = PurchaseItem::where('purchase_id', $id);
+
+        // unselected item array
+        if ($jobCardItems) {
+            $query->whereNotIn('item_id', $jobCardItems);
+        }
+
+        $query->delete();
+
+        return [
+            'message' => "Success"
+        ];
     }
 
     /**

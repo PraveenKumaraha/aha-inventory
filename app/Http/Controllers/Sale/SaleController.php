@@ -24,7 +24,11 @@ class SaleController extends Controller
      */
     public function index()
     {
-        return view('Sale.index');
+        $models = Sale::select('sales.id as saleId', 'transactions.date', 'transactions.reference_no')
+        ->leftjoin('transactions', 'transactions.id', '=', 'sales.transaction_id')
+        ->whereNull('sales.deleted_at')->orderby('sales.id', 'desc')
+        ->get();
+        return view('Sale.index', compact('models'));
     }
 
     /**
