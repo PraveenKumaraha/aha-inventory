@@ -138,30 +138,34 @@
                          <table class="table tablesorter " id="">
                              <thead class=" text-primary">
                                  <th scope="col">S.No</th>
-                                 <th scope="col">Product Name</th>
-                                 <th scope="col">Product ID</th>
-                                 <th scope="col">Quantity</th>
-                                 <th scope="col">Price₹</th>
-                                 <th scope="col">CGST</th>
-                                 <th scope="col">SGST</th>
-                                 <th scope="col">Discount</th>
-                                 <th scope="col">Total Price</th>
+                                 <th scope="col">Sale No</th>
+                                 <th scope="col">Date</th>
+                                 <th scope="col">Action</th>
+                                 
 
                              </thead>
-                             {{-- <tbody>
+                        <tbody>
                             @foreach ($models as $model)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
-                                <td>{{ $model->product_name }}</td>
-                                <td>{{ $model->categoryName }}</td>
-                                <td>{{ $model->brandName }}</td>
-                                <td>{{ $model->stock }}{{ $model->unitName }}</td>
-                                <td>@if ($model->limit >= $model->stock)<span class="badge badge-success">Suffiecient</span>
-                                    @else<span class="badge badge-danger">In-Suffiecient</span>@endif</td>
-                                <td><a href=""><span class="badge badge-primary">Order</span></a></td>
+                                <td>{{ $model->reference_no }}</td>                                
+                                <td>{{ $model->date }}</td>   
+                                
+                                <td class="td-actions">
+                                    <a href="{{ url('InvSale/'.$model->saleId.'/edit') }}"" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Edit Product">
+                                        <i class="tim-icons icon-pencil"></i>
+                                    </a>
+                                    <form action="{{ url('InvSale/{InvSale}', $model->id) }}" method="post" class="d-inline">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="button" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Delete Product" onclick="confirm('Are you sure you want to remove this product? The records that contain it will continue to exist.') ? this.parentElement.submit() : ''">
+                                            <i class="tim-icons icon-simple-remove"></i>
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                             @endforeach
-                        </tbody> --}}
+                        </tbody> 
                          </table>
                      </div>
                  </div>
@@ -238,4 +242,4 @@
              });
          }
      </script>
- @endsection --}}
+ @endsection 

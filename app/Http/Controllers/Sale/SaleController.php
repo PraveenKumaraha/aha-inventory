@@ -53,10 +53,6 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
-
-
-
-
         Log::info('Sale>Store Inside ' . " => " . json_encode($request->all()));
     //     $rules = [];
 
@@ -109,6 +105,8 @@ class SaleController extends Controller
     // }
     // }
 
+
+
     $type = "outgoing";
     $transactiontype = TransactionType::where('transaction_type_name', 'sale')->first();
     $typeId = $transactiontype->id;
@@ -145,12 +143,14 @@ class SaleController extends Controller
             $transactiontype->save();
 
             $saleModel = new Sale();
-
+            $saleModel->user_id = 1;
+            $saleModel->client_id = 1;
             $saleModel->transaction_id = $transactionModel->id;
             $saleModel->status =1;
             $saleModel->save();
             Log::info('Sale>Store Inside saleModel ' . " => " . json_encode($saleModel));
             for ($i = 0; $i < $itemCount; $i++) {
+              
                 Log::info('Sale>Store Inside for in purchase Item loop');
                 $saleItemModel = new SaleItem();
                 Log::info('Sale>Store Inside for in sale Item $saleModel->id'.$saleModel->id);
@@ -173,10 +173,14 @@ class SaleController extends Controller
                 $saleItemModel->save();
 
                 if ($saleItemModel) {
+
                     $manageStockModel = ManageStock::where('item_id', $items[$i])->first();
+                  
                     $totalStock = ($manageStockModel->stock - $quantity[$i]);
                     $manageStockModel->stock = $totalStock;
                     $manageStockModel->save();
+
+                  
                 }
 
             }
@@ -208,9 +212,9 @@ class SaleController extends Controller
      * @param  \App\Sale  $sale
      * @return \Illuminate\Http\Response
      */
-    public function edit(Sale $sale)
+    public function edit($id)
     {
-        //
+        return view('sale.edit');
     }
 
     /**

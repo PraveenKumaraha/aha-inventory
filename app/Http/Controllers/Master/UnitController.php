@@ -46,6 +46,7 @@ class UnitController extends Controller
         $model->name=$request->name;
         $model->unit_status="1";
         $model->unit_active = "1";
+        $model->status = "1";
         $model->save();
         return redirect()
         ->route('unit.index')
