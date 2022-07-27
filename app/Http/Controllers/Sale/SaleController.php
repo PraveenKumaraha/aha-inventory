@@ -214,7 +214,15 @@ class SaleController extends Controller
      */
     public function edit($id)
     {
-        return view('sale.edit');
+
+        $model = Sale::select("sales.id", "transactions.reference_no", "transactions.supplier_id", "transactions.date")
+            ->leftjoin('transactions', 'transactions.id', '=', 'sales.transaction_id')
+            ->first();
+
+            $pdtproductIds = InventoryItem::select('product_id', 'product_name', 'id', 'a_price')->get();
+            $pdttaxids = Tax::select('tax_name', 'tax_value', 'id')->get();
+
+        return view('sale.edit', compact('model','pdtproductIds','pdttaxids'));
     }
 
     /**
