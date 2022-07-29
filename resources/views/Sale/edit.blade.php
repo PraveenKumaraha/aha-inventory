@@ -17,6 +17,9 @@
         padding-right: 40px;
     }
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <div class="container-fluid mt--7">
     <div class="row">
         <div class="col-xl-12 order-xl-1">
@@ -32,8 +35,8 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form method="post" action="{{ route('InvSale.update', $model->id) }}" autocomplete="off">
-                        @csrf
+                <form id='create' action="" enctype="multipart/form-data" method="POST" accept-charset="utf-8" class="create needs-validation" novalidate autocomplete="off">
+	                    @csrf
                         @method('put')
                         <div class="row">
                             <div class="col-xl-12 order-xl-1">
@@ -69,12 +72,12 @@
                                                 <input type="text" class="form-control col-sm-2" name="cname" id="cname" value="{{$model->customer_name }}" />
                                                 <span id="error_cname" class="has-error"></span>
                                                 <label class=" col-form-label" for="name">Customer Number:</label>
-                                                <input type="text" class="form-control col-sm-2" name="cnumber" id="name" value="{{$model->cnumber}}" required />
+                                                <input type="text" class="form-control col-sm-2" name="cnumber" id="name" value="{{$model->customer_no}}" required />
                                             </div>
 
                                             <div class="form-row">
                                                 <label class=" col-form-label1" for="name">GSTIN:</label>
-                                                <input type="text" class="form-control col-sm-2" name="gstin" id="gstin" value="{{$model->gstin}}" required />
+                                                <input type="text" class="form-control col-sm-2" name="gstin" id="gstin" value="{{$model->gst}}" required />
 
                                                 <label class=" col-form-label12" for="name">Date:</label>
                                                 <input type="date" class="form-control col-sm-2" name="date" id="date" value="{{$model->date}}" />
@@ -101,7 +104,7 @@
                                                                     <select class="form-control	select2 productName1" style="width:150px;height:80px!important" id="productName1" name="product_name[]" onchange="getProductData(1)" required>
                                                                         <option value="0">
                                                                             Select Product</option>
-                                                                        <?php foreach ($pdtproductIds as $row) { ?> <option value="<?php echo $row['id']; ?>" <?php echo($row['id'] == $saleItems[$i]->item_id) ? "selected " : "" ?>s_price="<?php echo $row['s_price']; ?>"><?php echo $row['product_id']; ?> |
+                                                                        <?php foreach ($pdtproductIds as $row) { ?> <option value="<?php echo $row['id']; ?>" <?php echo ($row['id'] == $saleItems[$i]->item_id) ? "selected " : "" ?>s_price="<?php echo $row['s_price']; ?>"><?php echo $row['product_id']; ?> |
                                                                                 <?php echo $row['product_name']; ?></option>
                                                                         <?php } ?>
                                                                     </select>
@@ -111,25 +114,23 @@
                                                                 <input type="number" name="qty[]" id="quantity<?php echo $i + 1; ?>" min="1" class="form-control quantity<?php echo $i + 1; ?>" onkeyup="getQtyData(<?php echo $i + 1; ?>)" value="<?php echo ($saleItems[$i]->quantity); ?>">
                                                             </td>
                                                             <td>
-                                                                <input type="text" name="rate[]" id="rate1" class="form-control" onchange="getRateData(1)">
+                                                                <input type="text" name="rate[]" id="rate<?php echo $i + 1; ?>" class="form-control" onchange="getRateData(<?php echo $i + 1; ?>)" value="<?php echo ($saleItems[$i]->rate); ?>">
                                                             </td>
                                                             <td data-select2-id="1">
                                                                 <div class="form-group">
-                                                                    <select class="form-control	select2" style="width:150px;height:80px!important" id="tax1" name="tax[]" onchange="getTaxData(1)" required>
-                                                                        <option value="0" selected="selected" disabled>
-                                                                            Select Tax</option>
-                                                                        <?php foreach ($pdttaxids as $row) { ?> <option value="<?php echo $row['id']; ?>" taxValue="<?php echo $row['tax_value']; ?>"><?php echo $row['tax_name']; ?>
-                                                                            </option>
+                                                                    <select class="form-control	select2 tax<?php echo $i + 1; ?>" style="width:150px;height:80px!important" id="tax<?php echo $i + 1; ?>" name="tax[]" onchange="getTaxData(<?php echo $i + 1; ?>)">
+                                                                        <option value="">Select Tax</option>
+                                                                        <?php foreach ($pdttaxids as $row) { ?> <option value="<?php echo ($row["id"]); ?>" <?php echo ($row["id"] == $saleItems[$i]->tax_id) ?  'selected' : ''; ?> taxValue="<?php echo ($row["tax_value"]); ?>"><?php echo ($row["tax_name"]); ?></option>
                                                                         <?php } ?>
                                                                     </select>
                                                                 </div>
                                                             </td>
                                                             <td>
-                                                                <input type="text" name="disc[]" id="disc1" value="0" class="form-control">
+                                                                <input type="text" name="disc[]" id="disc<?php echo $i + 1; ?>" value="<?php echo ($saleItems[$i]->discount_id); ?>" class="form-control">
                                                             </td>
 
                                                             <td>
-                                                                <input type="text" name="total[]" id="total1" class="form-control">
+                                                                <input type="text" name="total[]" id="total<?php echo $i + 1; ?>" class="form-control" value="<?php echo ($saleItems[$i]->total_amount); ?>">
                                                             </td>
                                                             <td>
 
@@ -219,15 +220,15 @@
         focusInvalid: false, // do not focus the last invalid input
         rules: {
 
-            supplier: {
+            cname: {
                 required: true
             }
         },
 
 
         messages: {
-            supplier: {
-                required: "supplier Name is required."
+            cname: {
+                required: "C Name is required."
             },
 
         },
@@ -247,8 +248,10 @@
         },
 
         submitHandler: function(form) {
+           
+          
             var salesData = {
-                customerNO: $('input[name=customerNO]').val(),
+                customerNO:$('input[name=cnumber]').val(),
                 gstIn: $('input[name=gstin]').val(),
                 date: $('input[name=date]').val(),
                 _token: '{{ csrf_token() }}',
@@ -273,12 +276,11 @@
 
             }
 
-            console.log(purchaseData);
-
+           
             $.ajax({
                 url: "update",
                 type: 'post',
-                data: purchaseData,
+                data: salesData,
                 success: function(data, textStatus, jqXHR) {
 
                     var datas = data;
