@@ -94,48 +94,49 @@
                                             <tbody>
                                                 <div class="col-sm-12 rowInvoice1">
 
-                                                    <?php for ($i = 0; $i < count($saleItems); $i++) ?>
-                                                    <tr class="<?php echo $i + 1; ?>" id="row<?php echo $i + 1; ?>">
-                                                        <td data-select2-id="1">
-                                                            <div class="form-group">
-                                                                <select class="form-control	select2 productName1" style="width:150px;height:80px!important" id="productName1" name="product_name[]" onchange="getProductData(1)" required>
-                                                                    <option value="" selected="selected" disabled>
-                                                                        Select Product</option>
-                                                                    <?php foreach ($pdtproductIds as $row) { ?> <option value="<?php echo $row['id']; ?>" s_price="<?php echo $row['s_price']; ?>"><?php echo $row['product_id']; ?> |
-                                                                            <?php echo $row['product_name']; ?></option>
-                                                                    <?php } ?>
-                                                                </select>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <input type="number" name="qty[]" id="quantity<?php echo $i + 1; ?>" min="1" class="form-control quantity<?php echo $i + 1; ?>" onkeyup="getQtyData(<?php echo $i + 1; ?>)" value="<?php echo ($saleItems[$i]->quantity); ?>">
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" name="rate[]" id="rate1" class="form-control" onchange="getRateData(1)">
-                                                        </td>
-                                                        <td data-select2-id="1">
-                                                            <div class="form-group">
-                                                                <select class="form-control	select2" style="width:150px;height:80px!important" id="tax1" name="tax[]" onchange="getTaxData(1)" required>
-                                                                    <option value="0" selected="selected" disabled>
-                                                                        Select Tax</option>
-                                                                    <?php foreach ($pdttaxids as $row) { ?> <option value="<?php echo $row['id']; ?>" taxValue="<?php echo $row['tax_value']; ?>"><?php echo $row['tax_name']; ?>
-                                                                        </option>
-                                                                    <?php } ?>
-                                                                </select>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" name="disc[]" id="disc1" value="0" class="form-control">
-                                                        </td>
+                                                    <?php for ($i = 0; $i < count($saleItems); $i++) { ?>
+                                                        <tr class="<?php echo $i + 1; ?>" id="row<?php echo $i + 1; ?>">
+                                                            <td data-select2-id="1">
+                                                                <div class="form-group">
+                                                                    <select class="form-control	select2 productName1" style="width:150px;height:80px!important" id="productName1" name="product_name[]" onchange="getProductData(1)" required>
+                                                                        <option value="0">
+                                                                            Select Product</option>
+                                                                        <?php foreach ($pdtproductIds as $row) { ?> <option value="<?php echo $row['id']; ?>" <?php echo($row['id'] == $saleItems[$i]->item_id) ? "selected " : "" ?>s_price="<?php echo $row['s_price']; ?>"><?php echo $row['product_id']; ?> |
+                                                                                <?php echo $row['product_name']; ?></option>
+                                                                        <?php } ?>
+                                                                    </select>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <input type="number" name="qty[]" id="quantity<?php echo $i + 1; ?>" min="1" class="form-control quantity<?php echo $i + 1; ?>" onkeyup="getQtyData(<?php echo $i + 1; ?>)" value="<?php echo ($saleItems[$i]->quantity); ?>">
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" name="rate[]" id="rate1" class="form-control" onchange="getRateData(1)">
+                                                            </td>
+                                                            <td data-select2-id="1">
+                                                                <div class="form-group">
+                                                                    <select class="form-control	select2" style="width:150px;height:80px!important" id="tax1" name="tax[]" onchange="getTaxData(1)" required>
+                                                                        <option value="0" selected="selected" disabled>
+                                                                            Select Tax</option>
+                                                                        <?php foreach ($pdttaxids as $row) { ?> <option value="<?php echo $row['id']; ?>" taxValue="<?php echo $row['tax_value']; ?>"><?php echo $row['tax_name']; ?>
+                                                                            </option>
+                                                                        <?php } ?>
+                                                                    </select>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" name="disc[]" id="disc1" value="0" class="form-control">
+                                                            </td>
 
-                                                        <td>
-                                                            <input type="text" name="total[]" id="total1" class="form-control">
-                                                        </td>
-                                                        <td>
+                                                            <td>
+                                                                <input type="text" name="total[]" id="total1" class="form-control">
+                                                            </td>
+                                                            <td>
 
-                                                            <a class="delete" title="Delete" data-toggle="tooltip" onclick="removeProductRow(1)"><i class="material-icons" style="color:red">&#xE872;</i></a>
-                                                        </td>
-                                                    </tr>
+                                                                <a class="delete" title="Delete" data-toggle="tooltip" onclick="removeProductRow(1)"><i class="material-icons" style="color:red">&#xE872;</i></a>
+                                                            </td>
+                                                        </tr>
+                                                    <?php } ?>
                                                 </div>
                                             </tbody>
                                         </table>
