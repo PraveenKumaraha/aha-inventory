@@ -268,7 +268,7 @@ class SaleController extends Controller
                 Log::info('Sale>Store Inside saleModel '. "=>". json_encode($saleModel));
                 for ($i = 0; $i < $itemCount; $i++) {
                     Log::info('Sale>Store Inside for in sale Item loop');
-                    $saleItemModel = SaleItem::where('item_id', $items[$i])->where('sale_id', $id)->first();
+                    $saleItemModel = SaleItem::where('item_id', $items[$i])->where('sales_id', $id)->first();
                     if ($saleItemModel == "") {
                         $saleItemModel = new SaleItem();
                     }
@@ -320,8 +320,39 @@ class SaleController extends Controller
      * @param  \App\Sale  $sale
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Sale $sale)
+    public function destroy($id)
     {
-        //
+        $model = Sale::where('id', $id)->first();
+        $model->delete_at = date('Y-m-d H:i:s');
+
+        $model->save();
+        return redirect()->route('sale.index');
+    }
+
+    public function getSaleSplitedData(Request $request)
+    {
+        $models = Sale::select("sales.id", "transactions.reference_no", "transactions.customer_name", "transactions.date", "transactions.gst", "transactions.customer_no")
+        ->leftjoin('transactions', 'transactions.id', '=', 'sales.transaction_id')
+        ->whereNull('sales.deleted_at')->orderby('sales.id', 'desc');
+       
+
+       
+        if ($request->type == "activeData") {
+            $models->where('sales.status', 1);
+        } else if ($request->type == "inActiveData") {
+            $models->where('sales.status', 0);
+        }
+        $dates = $models->get();
+
+        return response()->json(array('result' => "success", 'data' => $dates));
+    }
+    public function getItemData(Request $request)
+    {
+        $search = $request->searchTerm;
+
+        $datas = InventoryItem::where('product_name', 'like', '%' . $search . '%')
+           ->select('product_name', 'id')->get();
+
+        return response()->json(array('data' => $datas));
     }
 }
