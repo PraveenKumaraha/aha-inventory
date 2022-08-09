@@ -279,7 +279,7 @@
 				}).get(),
 
 			}
-
+	
 			console.log(purchaseData);
 
 			$.ajax({

@@ -187,7 +187,7 @@ class SaleController extends Controller
 
             return $e->getMessage();
         }
-        return response()->json(['success' => 'done', 'referenceNo' => $transactionModel->reference_no]);
+        return response()->json(['success' => 'done', 'referenceNo' => $transactionModel->reference_no, 'id' => $saleModel->id]);
     }
 
 
@@ -237,10 +237,10 @@ class SaleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+
         $date = $request->date;
         $customername = $request->cname;
-        
+
         $itemCount = count($request->item_id);
         $items = $request->item_id;
         $quantity = $request->quantity;
@@ -260,15 +260,16 @@ class SaleController extends Controller
             $transactionModel->customer_name = $customername;
             $transactionModel->date = $date;
             $transactionModel->update();
-           
+
             if ($transactionModel) {
 
-                $saleModel->customer_name = $customername;
+                $saleModel->client_id = $customername;
                 $saleModel->save();
-                Log::info('Sale>Store Inside saleModel '. "=>". json_encode($saleModel));
+                Log::info('Sale>Store Inside saleModel ' . "=>" . json_encode($saleModel));
                 for ($i = 0; $i < $itemCount; $i++) {
                     Log::info('Sale>Store Inside for in sale Item loop');
                     $saleItemModel = SaleItem::where('item_id', $items[$i])->where('sales_id', $id)->first();
+                    $oldStock = ($saleItemModel) ? $saleItemModel->quantity : 0;
                     if ($saleItemModel == "") {
                         $saleItemModel = new SaleItem();
                     }
@@ -290,8 +291,21 @@ class SaleController extends Controller
                     $saleItemModel->status = "1";
                     Log::info('Sale>Store Inside for in sale Item ');
                     $saleItemModel->update();
+                    if ($oldStock) {
+                        if ($oldStock != $quantity[$i]) {
+                            $managestock = ManageStock::where('id', $items[$i])->first();
+                            $laststock = $managestock->stock + $oldStock;
+                            $currentstock = $laststock - $quantity[$i];
+                            $managestock->stock = $currentstock;
+                            $managestock->save();
+                        }
+                    } else {
+                        $managestock = ManageStock::where('id', $items[$i])->first();
+                        $stock = $managestock->stock - $quantity[$i];
+                        $managestock->stock = $stock;
+                        $managestock->save();
+                    }
                 }
-                
             }
         } catch (\Exception $e) {
 
@@ -301,7 +315,7 @@ class SaleController extends Controller
     }
     public function removeItems($id, $jobCardItems)
     {
-        $query = Sale::where('sale_id', $id);
+        $query = SaleItem::where('sales_id', $id);
 
         if ($jobCardItems) {
             $query->whereNotIn('item_id', $jobCardItems);
@@ -332,11 +346,11 @@ class SaleController extends Controller
     public function getSaleSplitedData(Request $request)
     {
         $models = Sale::select("sales.id", "transactions.reference_no", "transactions.customer_name", "transactions.date", "transactions.gst", "transactions.customer_no")
-        ->leftjoin('transactions', 'transactions.id', '=', 'sales.transaction_id')
-        ->whereNull('sales.deleted_at')->orderby('sales.id', 'desc');
-       
+            ->leftjoin('transactions', 'transactions.id', '=', 'sales.transaction_id')
+            ->whereNull('sales.deleted_at')->orderby('sales.id', 'desc');
 
-       
+
+
         if ($request->type == "activeData") {
             $models->where('sales.status', 1);
         } else if ($request->type == "inActiveData") {
@@ -351,7 +365,7 @@ class SaleController extends Controller
         $search = $request->searchTerm;
 
         $datas = InventoryItem::where('product_name', 'like', '%' . $search . '%')
-           ->select('product_name', 'id')->get();
+            ->select('product_name', 'id')->get();
 
         return response()->json(array('data' => $datas));
     }

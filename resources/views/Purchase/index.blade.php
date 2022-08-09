@@ -29,7 +29,7 @@
     </style>
     <div class="card">
         <div class="card-header text-center font-weight-bold text-white" style="background-color: #5e72e4;">
-            Brand
+            Purchase
         </div>
         <div class="card-body">
 

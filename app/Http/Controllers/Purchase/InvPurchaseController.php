@@ -59,6 +59,7 @@ class InvPurchaseController extends Controller
      */
     public function store(Request $request)
     {
+        //dd("store");
 
         Log::info('Purchase>Store Inside ' . " => " . json_encode($request->all()));
 
@@ -113,6 +114,9 @@ class InvPurchaseController extends Controller
             $transactionModel->save();
             Log::info('Purchase>Store Inside transactionModel ' . " => " . json_encode($transactionModel));
             if ($transactionModel) {
+                $transactiontype->gen_no = $orderNo + 1;
+                $transactiontype->save();
+
                 $purchaseModel = new Purchase();
                 $purchaseModel->supplier_id = $supplierId;
                 $purchaseModel->transaction_id = $transactionModel->id;
@@ -139,6 +143,11 @@ class InvPurchaseController extends Controller
                     $purchaseItemModel->status = "1";
                     Log::info('Purchase>Store Inside for in purchase Item ');
                     $purchaseItemModel->save();
+
+                    $managestock = ManageStock::where('id', $items[$i])->first();
+                    $stock = $managestock->stock + $quantity[$i];
+                    $managestock->stock = $stock;
+                    $managestock->save();
                 }
             }
         } catch (\Exception $e) {
@@ -240,12 +249,14 @@ class InvPurchaseController extends Controller
             $transactionModel->save();
             if ($transactionModel) {
 
+
                 $purchaseModel->supplier_id = $supplierId;
                 $purchaseModel->save();
                 Log::info('Purchase>Store Inside purchaseModel ' . " => " . json_encode($purchaseModel));
                 for ($i = 0; $i < $itemCount; $i++) {
                     Log::info('Purchase>Store Inside for in purchase Item loop');
                     $purchaseItemModel = PurchaseItem::where('item_id', $items[$i])->where('purchase_id', $id)->first();
+                    $oldStock = ($purchaseItemModel) ? $purchaseItemModel->quantity : 0;
                     if ($purchaseItemModel == "") {
                         $purchaseItemModel = new PurchaseItem();
                     }
@@ -267,6 +278,20 @@ class InvPurchaseController extends Controller
                     $purchaseItemModel->status = "1";
                     Log::info('Purchase>Store Inside for in purchase Item ');
                     $purchaseItemModel->save();
+                    if ($oldStock) {
+                        if ($oldStock != $quantity[$i]) {
+                            $managestock = ManageStock::where('id', $items[$i])->first();
+                            $laststock = $managestock->stock - $oldStock;
+                            $currentstock = $laststock + $quantity[$i];
+                            $managestock->stock = $currentstock;
+                            $managestock->save();
+                        }
+                    } else {
+                        $managestock = ManageStock::where('id', $items[$i])->first();
+                        $stock = $managestock->stock + $quantity[$i];
+                        $managestock->stock = $stock;
+                        $managestock->save();
+                    }
                 }
             }
         } catch (\Exception $e) {

@@ -104,7 +104,7 @@
                                         </td>
                                         <td data-select2-id="1">
                                             <div class="form-group">
-                                                <select class="form-control	select2" style="width:150px;height:80px!important" id="tax1" name="tax[]" onchange="getTaxData(1)"required>
+                                                <select class="form-control	select2" style="width:150px;height:80px!important" id="tax1" name="tax[]" onchange="getTaxData(1)">
                                                     <option value="0" selected="selected" disabled>
                                                         Select Tax</option>
                                                     <?php foreach ($pdttaxids as $row) { ?> <option value="<?php echo $row['id']; ?>" taxValue="<?php echo $row['tax_value']; ?>"><?php echo $row['tax_name']; ?>
